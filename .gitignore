@@ -18,3 +18,5 @@ obj/
 _ReSharper*/
 *.dll
 Packages/
+default.graphdb/*
+default.grapghdb/*

@@ -16,6 +16,8 @@ namespace Reco.Model
         public float c4 { get; set; }
         public float c5 { get; set; }
 
+        public int quality { get; set; }
+
     }
 
     public class User
@@ -26,7 +28,7 @@ namespace Reco.Model
         public float l3 { get; set; }
         public float l4 { get; set; }
         public float l5 { get; set; }
-
+        public float quality { get; set; }
     }
 
 

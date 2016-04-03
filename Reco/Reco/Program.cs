@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Statistics;
 
 namespace Reco
 {
@@ -14,12 +17,115 @@ namespace Reco
             const int productCount = 300;
             var repo = new Repository();
             GenerateGraph(repo, userCount, productCount);
+            GeneratePredictions(repo);
+            
+
+            //evauate MEA, RMSE
+            //get rating relationships where predictedRating is not null
+            var ratingsForEvaluation = repo.GetRatingsForEvaluation();
+            var badPredictions = ratingsForEvaluation.Count(x => Helpers.Modulo(x.Item1, x.Item2) > 2);
+            var mae = Helpers.CalculateMAE(ratingsForEvaluation);
+            var rmse = Helpers.CalculateRMSE(ratingsForEvaluation);
         }
 
+        public static void GeneratePredictions(Repository repo)
+        {
+            var users = repo.getAllUsers();
+            foreach (var u in users)
+            {
+                var ratings = repo.GetUsersRatings(u.iduser);
+                foreach (var rat in ratings)
+                {
+                    var prod = rat.Item2;
+                    //get trustees in that category who have rated this item (trust, rating)
+                    var trustRating = repo.GetTrusteesWhoHaveRatedThisProduct(u.iduser, prod.category, prod.idproduct);
+                    if (trustRating.Count > 0)
+                    {
+                        var predictedRating = Math.Round(Helpers.WeightedAverage(trustRating), 4);
+                        predictedRating = predictedRating > 5 ? 5 : predictedRating;
+                        predictedRating = predictedRating < 1 ? 1 : predictedRating;
+                        repo.CreatePredictedRating(u.iduser, prod.idproduct, predictedRating);
+                    }
+
+                }
+                //get list of ratings and foreach
+
+                //get trustees who have rated this item (trust, rating)
+                //and calculate weighted average
+            }
+        }
         private static void GenerateGraph(Repository repo, int userCount, int productCount)
         {
             repo.CreateUsers(userCount);
             repo.CreateProducts(productCount);
+            //generate ratings
+            //each user gives a random amount of ratings to random items (imporvement - bias towards what he likes!!)
+            var users = repo.getAllUsers();
+
+            foreach (var u in users)
+            {
+                var trustCount = (int)Normal.Sample(new Random(u.iduser), 10, 9);
+                var ratingsCount = (int)Normal.Sample(new Random(u.iduser), 30, 27);
+                //connect to users (create trust)
+
+                var trustees = repo.PickRandomUsers(trustCount, userCount, u.iduser);
+                var category = new Random().Next(1, 5);
+                double trust = 0;
+                
+                foreach (var trustee in trustees)
+                {
+                    switch (category)
+                    {
+                        case 1:
+                            trust = 1 - Helpers.Modulo(trustee.l1, u.l1); 
+                            break;
+                        case 2:
+                            trust = 1 - Helpers.Modulo(trustee.l2, u.l2);
+                            break;                              
+                        case 3:                                 
+                            trust = 1 - Helpers.Modulo(trustee.l3, u.l3);
+                            break;                             
+                        case 4:                                 
+                            trust = 1 - Helpers.Modulo(trustee.l4, u.l4);
+                            break;                              
+                        case 5:                                 
+                            trust = 1 - Helpers.Modulo(trustee.l5, u.l5);
+                            break;
+                        default:
+                            break;
+                    }
+                    repo.CreateTrust(u.iduser, trustee.iduser, category, Math.Round(trust,4));
+                }
+                //connect to products (generate ratings)
+                var prods = repo.PickRandomProducts(ratingsCount, productCount);
+                var rndU = new Random(u.iduser);
+                foreach (var prod in prods)
+                {
+                    var quotient = (int)Normal.Sample(rndU, 7, 4);
+                    //var rating = Math.Round(quotient * Math.Pow(u.l1 * prod.c1 + u.l2 * prod.c2 + u.l3 * prod.c3 + u.l4 * prod.c4 + u.l5 * prod.c5, 0.5));
+                    var userParams = new List<double>();
+                    userParams.Add(u.l1);
+                    userParams.Add(u.l2);
+                    userParams.Add(u.l3);
+                    userParams.Add(u.l4);
+                    userParams.Add(u.l5);
+
+                    var prodParams = new List<double>();
+                    prodParams.Add(prod.c1);
+                    prodParams.Add(prod.c2);
+                    prodParams.Add(prod.c3);
+                    prodParams.Add(prod.c4);
+                    prodParams.Add(prod.c5);
+                    var corr = Helpers.Positive(Correlation.Pearson(userParams, prodParams));
+                    var rating = quotient * Math.Sqrt(corr) + u.quality * prod.quality;
+                    rating = rating > 5 ? 5 : rating;
+                    rating = rating < 1 ? 1 : rating;
+                    repo.CreateRating(u.iduser, prod.idproduct, (int)Math.Round(rating));
+                }
+                
+            }
+
+            
         }
 
 
@@ -203,5 +309,5 @@ namespace Reco
         //            }
         //        }
         //    }
-        }
+    }
 }

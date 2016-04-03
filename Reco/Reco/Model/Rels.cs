@@ -16,7 +16,8 @@ namespace Reco.Model
         {
             get { return "Rated"; }
         }
-        public int rating { get; set; }
+        public int Rating { get; set; }
+        public double PredictedRating { get; set; }
     }
 
 
