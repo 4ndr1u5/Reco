@@ -1,0 +1,20 @@
+generate products with a feature set
+genereate users ith preferences
+
+sugeneruoto dataseto parametrai:
+
+sugeneruoto dataseto charakteristikos
+useriu skaicius
+produktu skaicius
+kategoriju skaicius
+vidutinis reitingas kiekvienoje kategorijoje ir std nuokrypis
+vidutinis reitingu skaicius pas naudotoja 
+vidutinis patiketiniu skaicius pas naudotoja
+
+propagavimas pablogina prognoze bet padidina galimu rekomendaciju skaicius
+palyginti kaip pasikeite elementai, kurie buvo rekomenduoti sample useriams pries ir po propagavimo
+palyginti propagavimo metodus (paprastas vs tidal trust)
+
+SRICIU panasumas:
+sriciu panasumas gali buti nustatytas is sriciu parametru, naudojamu generuojant dataseta
+taip pat galima nustatyti ir naudojant mano metoda - palyginti

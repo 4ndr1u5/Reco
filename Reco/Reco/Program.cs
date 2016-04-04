@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Statistics;
+using Reco.Model;
 
 namespace Reco
 {
@@ -17,20 +18,85 @@ namespace Reco
             const int productCount = 300;
             var repo = new Repository();
             GenerateGraph(repo, userCount, productCount);
-            GeneratePredictions(repo);
-            
-
+            var usersProds1 = GeneratePredictions(repo, 0);
+            var ratingsForEval = repo.GetRatingsForEvaluation(0);
+            var mae1 = Helpers.CalculateMAE(ratingsForEval);
+            var rmse1 = Helpers.CalculateRMSE(ratingsForEval);
+            GeneratePropagatedTrust(repo);
+            var usersProds2 = GeneratePredictions(repo, 1);
+            ratingsForEval = repo.GetRatingsForEvaluation(1);
+            var mae2 = Helpers.CalculateMAE(ratingsForEval);
+            var rmse2 = Helpers.CalculateRMSE(ratingsForEval);
+            var domainSims = EvaluateDomainSimilarities(repo);
             //evauate MEA, RMSE
             //get rating relationships where predictedRating is not null
-            var ratingsForEvaluation = repo.GetRatingsForEvaluation();
+            var ratingsForEvaluation = repo.GetRatingsForEvaluation(1);
             var badPredictions = ratingsForEvaluation.Count(x => Helpers.Modulo(x.Item1, x.Item2) > 2);
-            var mae = Helpers.CalculateMAE(ratingsForEvaluation);
-            var rmse = Helpers.CalculateRMSE(ratingsForEvaluation);
         }
 
-        public static void GeneratePredictions(Repository repo)
+
+        public static List<Tuple<int, int, double>> EvaluateDomainSimilarities(Repository repo)
+        {
+            var result = new List<Tuple<int, int, double>>();
+            for (var c1 = 1; c1 <= 5; c1++)
+            {
+                for (var c2 = 1; c2 <= 5; c2++)
+                {
+                    if (c1 != c2)
+                    {
+                        var trustsForTwoCategories = repo.GetTrustsForTwoCategories(c1, c2);
+                        var trust1 = trustsForTwoCategories.Select(x => x.Item1).ToList();
+                        var trust2 = trustsForTwoCategories.Select(x => x.Item2).ToList();
+                        var domsim = new Tuple<int, int, double>(c1, c2, Correlation.Pearson(trust1, trust2));
+                        result.Add(domsim);
+                    }
+                }
+            }
+            return result;
+        }
+        public static void GeneratePropagatedTrust(Repository repo)
         {
             var users = repo.getAllUsers();
+
+            foreach (var u1 in users)
+            {
+                foreach (var u2 in users)
+                {
+                    if (u1 != u2)
+                    {
+
+                        try
+                        {
+                            for (var c = 1; c <= 5; c++)
+                            {
+                                var newTrust = 1.0;
+                                var path = repo.GetShortestPaths(u1.iduser, u2.iduser, c).FirstOrDefault();
+
+                                if (path != null && path.Relationships.Count() > 1)
+                                {
+                                    foreach (var rel in path.Relationships)
+                                    {
+                                        newTrust = Math.Round(newTrust*rel.TrustValue, 4);
+                                    }
+                                    repo.SaveTrust(u1.iduser, u2.iduser, c, "ShortestPath", newTrust);
+                                }
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Exception");
+                        }
+
+                    }
+                }
+            }
+        }
+
+        public static List<Tuple<User, Product>> GeneratePredictions(Repository repo, int step)
+        {
+            var users = repo.getAllUsers();
+            var ratingsEvaluated = new List<Tuple<User, Product>>();
             foreach (var u in users)
             {
                 var ratings = repo.GetUsersRatings(u.iduser);
@@ -44,15 +110,18 @@ namespace Reco
                         var predictedRating = Math.Round(Helpers.WeightedAverage(trustRating), 4);
                         predictedRating = predictedRating > 5 ? 5 : predictedRating;
                         predictedRating = predictedRating < 1 ? 1 : predictedRating;
-                        repo.CreatePredictedRating(u.iduser, prod.idproduct, predictedRating);
+                        repo.CreatePredictedRating(u.iduser, prod.idproduct, predictedRating, step);
+                        ratingsEvaluated.Add(new Tuple<User, Product>(u, prod));
                     }
 
                 }
+                
                 //get list of ratings and foreach
 
                 //get trustees who have rated this item (trust, rating)
                 //and calculate weighted average
             }
+            return ratingsEvaluated;
         }
         private static void GenerateGraph(Repository repo, int userCount, int productCount)
         {
@@ -117,7 +186,7 @@ namespace Reco
                     prodParams.Add(prod.c4);
                     prodParams.Add(prod.c5);
                     var corr = Helpers.Positive(Correlation.Pearson(userParams, prodParams));
-                    var rating = quotient * Math.Sqrt(corr) + u.quality * prod.quality;
+                    var rating = quotient * Math.Sqrt(corr) + 0.5 * u.quality * prod.quality;
                     rating = rating > 5 ? 5 : rating;
                     rating = rating < 1 ? 1 : rating;
                     repo.CreateRating(u.iduser, prod.idproduct, (int)Math.Round(rating));

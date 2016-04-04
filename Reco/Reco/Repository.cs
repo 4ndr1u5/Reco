@@ -149,7 +149,7 @@ namespace Reco
         {
             var pathsQuery =
                 client.Cypher
-                    .Match("p = shortestPath((u:User)-[t:Trusts*..5]-(v:User)) WHERE(u.iduser = " + u1 +
+                    .Match("p = shortestPath((u:User)-[t:Trusts*..3]-(v:User)) WHERE(u.iduser = " + u1 +
                            ") AND(v.iduser =  " + u2 + ") AND all(x IN rels(p) WHERE x.Category =  " + cid + ")")
                     //.Match("p = shortestPath((u:User)-[t:Trusts*..5]-(v:User))")
                     //.Where((User u) => u.iduser == u1)
@@ -166,17 +166,20 @@ namespace Reco
             return res;
         }
 
-        public void SaveTrust(int u1, int u2, string method, double value)
+        public void SaveTrust(int u1, int u2, int cat, string method, double value)
         {
             //var trust = new Trust () { TrustValue = value, Method = method };
             try
             {
                 client.Cypher
-                    .Match("(user1:User {iduser:" + u1 + "}),  (user2:User {iduser:" + u2 + "})")
-                    .Create("user1-[:Trusts {TrustValue:{tv},Method:{meth}}]->user2")
+                    .Match("(user1:User {iduser:{u1}}),  (user2:User {iduser:{u2}})")
+                    .Create("user1-[:Trusts {TrustValue:{tv},Method:{meth},Category:{cat}}]->user2")
                     //.WithParam("iduser1", new { iduser = similarityData.Item1.iduser})
                     //.WithParam("iduser2", new { iduser = similarityData.Item2})
+                    .WithParam("u1", u1)
+                    .WithParam("u2", u2)
                     .WithParam("tv", value)
+                    .WithParam("cat", cat)
                     .WithParam("meth", method)
                     .ExecuteWithoutResults();
             }
@@ -342,14 +345,15 @@ namespace Reco
                 .ExecuteWithoutResults();
         }
 
-        public void CreatePredictedRating(int uid, int pid, double rating)
+        public void CreatePredictedRating(int uid, int pid, double rating, int step)
         {
             client.Cypher.Match("(u:User)-[r:Rated]->(p:Product)")
                 .Where((User u) => u.iduser == uid)
                 .AndWhere((Product p) => p.idproduct == pid)
-                .Set("r.PredictedRating = {rating}")
+                .Set("r.PredictedRating = {rating}, r.Step = {step}")
                 //.Create("(u)-[r:Rated{PredictedRating:{rating}}]->(p)")
                 .WithParam("rating", rating)
+                .WithParam("step", step)
                 .ExecuteWithoutResults();
         }
 
@@ -402,13 +406,26 @@ namespace Reco
             return result.ToList();
         }
 
-        public List<Tuple<int, double>> GetRatingsForEvaluation()
+        public List<Tuple<int, double>> GetRatingsForEvaluation(int step)
         {
             var query =
                 client.Cypher
-                    .Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRating)")
+                    .Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRating) and r.Step = {step}")
+                    .WithParam("step", step)
                     .Return((r) => new Tuple<int, double>(r.As<Rated>().Rating, r.As<Rated>().PredictedRating));
             var result = query.Results;
+            return result.ToList();
+        }
+
+        public List<Tuple<double, double>>  GetTrustsForTwoCategories(int c1, int c2)
+        {
+             var query =
+                client.Cypher
+                    .Match("(u:User)-[t1:Trusts]->(v:User), (u:User)-[t2:Trusts]->(v:User)")
+                    .Where((Trust t1)=>t1.Category==c1)
+                    .AndWhere((Trust t2) => t2.Category == c2)
+                    .Return((t1, t2) => new Tuple<double, double>(t1.As<Trust>().TrustValue, t2.As<Trust>().TrustValue));
+        var result = query.Results;
             return result.ToList();
         }
     } 
