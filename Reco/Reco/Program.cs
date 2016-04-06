@@ -17,16 +17,34 @@ namespace Reco
             const int userCount = 100;
             const int productCount = 300;
             var repo = new Repository();
-            GenerateGraph(repo, userCount, productCount);
-            var usersProds1 = GeneratePredictions(repo, 0);
-            var ratingsForEval = repo.GetRatingsForEvaluation(0);
-            var mae1 = Helpers.CalculateMAE(ratingsForEval);
-            var rmse1 = Helpers.CalculateRMSE(ratingsForEval);
-            GeneratePropagatedTrust(repo);
-            var usersProds2 = GeneratePredictions(repo, 1);
-            ratingsForEval = repo.GetRatingsForEvaluation(1);
-            var mae2 = Helpers.CalculateMAE(ratingsForEval);
-            var rmse2 = Helpers.CalculateRMSE(ratingsForEval);
+            var reuseSameGraph = false;
+            if (!reuseSameGraph)
+            {
+                //generate graph (step 1)
+                GenerateGraph(repo, userCount, productCount);
+                //generate predictions for rated items
+                var usersProds1 = GeneratePredictions(repo, 0);
+                //evaluate
+                var ratingsForEval = repo.GetRatingsForEvaluation(0);
+                var mae1 = Helpers.CalculateMAE(ratingsForEval);
+                var rmse1 = Helpers.CalculateRMSE(ratingsForEval);
+                // check domain similarities before propagation
+                var domainSimsBefore = EvaluateDomainSimilarities(repo);
+                //generate graph (step 2)
+                GeneratePropagatedTrust(repo);
+                //generate predictions
+                var usersProds2 = GeneratePredictions(repo, 1);
+                //evaluate
+                ratingsForEval = repo.GetRatingsForEvaluation(1);
+                var mae2 = Helpers.CalculateMAE(ratingsForEval);
+                var rmse2 = Helpers.CalculateRMSE(ratingsForEval);
+            }
+           
+            
+            
+            
+            
+            
             var domainSims = EvaluateDomainSimilarities(repo);
             //evauate MEA, RMSE
             //get rating relationships where predictedRating is not null
@@ -130,7 +148,8 @@ namespace Reco
             //generate ratings
             //each user gives a random amount of ratings to random items (imporvement - bias towards what he likes!!)
             var users = repo.getAllUsers();
-
+            var rndCat = new Random();
+            var rndCatNumber = new Random();
             foreach (var u in users)
             {
                 var trustCount = (int)Normal.Sample(new Random(u.iduser), 10, 9);
@@ -138,32 +157,48 @@ namespace Reco
                 //connect to users (create trust)
 
                 var trustees = repo.PickRandomUsers(trustCount, userCount, u.iduser);
-                var category = new Random().Next(1, 5);
+               
+
                 double trust = 0;
                 
                 foreach (var trustee in trustees)
                 {
-                    switch (category)
+                    //tam kad vienas useris galetu tureti pasitikejima kitu keliose kateforijos
+                    var categories = new List<int>();
+                    var numberofcats = rndCatNumber.Next(0, 4);
+                    for (var i = 0; i <= numberofcats; i++)
                     {
-                        case 1:
-                            trust = 1 - Helpers.Modulo(trustee.l1, u.l1); 
-                            break;
-                        case 2:
-                            trust = 1 - Helpers.Modulo(trustee.l2, u.l2);
-                            break;                              
-                        case 3:                                 
-                            trust = 1 - Helpers.Modulo(trustee.l3, u.l3);
-                            break;                             
-                        case 4:                                 
-                            trust = 1 - Helpers.Modulo(trustee.l4, u.l4);
-                            break;                              
-                        case 5:                                 
-                            trust = 1 - Helpers.Modulo(trustee.l5, u.l5);
-                            break;
-                        default:
-                            break;
+                        var category = rndCat.Next(1, 6);
+                        categories.Add(category);
                     }
-                    repo.CreateTrust(u.iduser, trustee.iduser, category, Math.Round(trust,4));
+                    categories = categories.Distinct().ToList();
+                    foreach (var category in categories)
+                    {
+                        switch (category)
+                        {
+                            case 1:
+                                trust = 1 - Helpers.Modulo(trustee.l1, u.l1);
+                                break;
+                            case 2:
+                                trust = 1 - Helpers.Modulo(trustee.l2, u.l2);
+                                break;
+                            case 3:
+                                trust = 1 - Helpers.Modulo(trustee.l3, u.l3);
+                                break;
+                            case 4:
+                                trust = 1 - Helpers.Modulo(trustee.l4, u.l4);
+                                break;
+                            case 5:
+                                trust = 1 - Helpers.Modulo(trustee.l5, u.l5);
+                                break;
+                            default:
+                                break;
+                        }
+                        repo.CreateTrust(u.iduser, trustee.iduser, category, Math.Round(trust, 4));
+                    }
+                    
+
+
                 }
                 //connect to products (generate ratings)
                 var prods = repo.PickRandomProducts(ratingsCount, productCount);

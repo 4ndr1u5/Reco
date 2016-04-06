@@ -30,6 +30,19 @@ namespace Reco
             return x;
         }
 
+        public static double BetweenZeroAndOne(double x)
+        {
+            if (x < 0)
+            {
+                x = 0;
+            }
+            else if (x > 1)
+            {
+                x = 1;
+            }
+            return x;
+        }
+
         public static double Positive(double x)
         {
             return (x + 1.0)/2;

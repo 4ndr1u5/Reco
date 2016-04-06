@@ -208,7 +208,8 @@ namespace Reco
                 var l3 = Math.Round(n3/sum, 4);
                 var l4 = Math.Round(n4/sum, 4);
                 var l5 = Math.Round(n5/sum, 4);
-                var quality = Normal.Sample(new Random(), 0.5, 0.5);
+                var quality = new Random().NextDouble();
+                //var quality = Normal.Sample(new Random(), 0.5, 0.5);
                 quality = quality > 1 ? 1 : quality;
                 quality = quality <0 ? 0 : quality;
                 client
@@ -239,49 +240,58 @@ namespace Reco
                 switch (cat)
                 {
                     case 1:
-                        w1 = 0.7;
+                        w1 = 0.55;
                         w2 = 0.2;
-                        w3 = 0;
+                        w3 = 0.05;
                         w4 = 0.1;
                         w5 = 0.1;
                         break;
                     case 2:
                         w1 = 0.2;
                         w2 = 0.6;
-                        w3 = 0;
-                        w4 = 0.1;
+                        w3 = 0.05;
+                        w4 = 0.05;
                         w5 = 0.1;
                         break;
                     case 3:
                         w1 = 0.2;
-                        w2 = 0;
-                        w3 = 0.5;
+                        w2 = 0.05;
+                        w3 = 0.35;
                         w4 = 0.2;
-                        w5 = 0.1;
+                        w5 = 0.2;
                         break;
                     case 4:
                         w1 = 0.2;
-                        w2 = 0;
-                        w3 = 0;
-                        w4 = 0.8;
+                        w2 = 0.05;
+                        w3 = 0.1;
+                        w4 = 0.65;
                         w5 = 0;
                         break;
                     case 5:
                         w1 = 0.3;
                         w2 = 0.1;
-                        w3 = 0;
-                        w4 = 0;
-                        w5 = 0.6;
+                        w3 = 0.05;
+                        w4 = 0.05;
+                        w5 = 0.5;
                         break;
                     default:
                         break;
                 }
+                //jeigu produktas is tam tikros kategorijos jis turetu buti tikrai su daugiausia tos kategorijos pozymio
+                //o ne tik truputi ir tai nebutinai
                 var rnd = new Random(i);
-                var n1 = rnd.NextDouble()*w1;
-                var n2 = rnd.NextDouble()*w2;
-                var n3 = rnd.NextDouble()*w3;
-                var n4 = rnd.NextDouble()*w4;
-                var n5 = rnd.NextDouble()*w5;
+                //variantas su svoriais - sudas nes komedija gali buti is daugiau siaubo nei komedijos - per didele random dydzio itaka
+                //var n1 = rnd.NextDouble()*w1;
+                //var n2 = rnd.NextDouble()*w2;
+                //var n3 = rnd.NextDouble()*w3;
+                //var n4 = rnd.NextDouble()*w4;
+                //var n5 = rnd.NextDouble()*w5;
+                var n1 = Helpers.BetweenZeroAndOne(Normal.Sample(rnd, w1, 0.3));
+                var n2 = Helpers.BetweenZeroAndOne(Normal.Sample(rnd, w2, 0.3));
+                var n3 = Helpers.BetweenZeroAndOne(Normal.Sample(rnd, w3, 0.3));
+                var n4 = Helpers.BetweenZeroAndOne(Normal.Sample(rnd, w4, 0.3));
+                var n5 = Helpers.BetweenZeroAndOne(Normal.Sample(rnd, w5, 0.3));
+
                 var sum = n1 + n2 + n3 + n4 + n5;
                 var c1 = Math.Round(n1/sum, 4);
                 var c2 = Math.Round(n2/sum, 4);
