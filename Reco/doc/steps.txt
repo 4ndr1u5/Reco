@@ -18,3 +18,36 @@ palyginti propagavimo metodus (paprastas vs tidal trust)
 SRICIU panasumas:
 sriciu panasumas gali buti nustatytas is sriciu parametru, naudojamu generuojant dataseta
 taip pat galima nustatyti ir naudojant mano metoda - palyginti
+
+
+-------------------------------
+Duomenu generavimas
+1. Kategorijos
+2. Produktai
+3. Naudotojai
+4. Pasitikėjimai
+5. Reitingai
+
+Propagavimas
+1. TidalTrust
+2. Daugyba
+
+Bazinis metodas
+1. Prognozės naudojant pasitikėjimą
+2. Prognozės naudojant normalizuotą pasitikėjimą
+
+
+Sričių panšumo metodas
+1. Globalus panašumas iš generavimo parametrų
+2. Globalus panašumas taikant Pyrsono koreliaciją
+3. Lokalus (naudotojo lygmens) taikant Pyrsono koreliaciją
+4. Visų metodų tarpusavio palyginimas
+5. Sričių panašumo metodo rezultatų taikymas su ir be propagavimo metodais
+
+Pasitikėjimo prognozavimas taikant mašininį mokymą
+1. Tiesinė regresija (turėtų veikti, kai visi patikėtiniai yra vienodi)
+2. Kitas metodas - kai nevienodi?...
+
+Vaizdiniai rezultatai
+1. Grafikas - padengimas-tikslumas (y - kiek el. prognozuota, tikslumas, x - metodai)
+2. Grafikas - tikslumas-generavimas (y - tikslumas, linijų tipai - metodai, x -)

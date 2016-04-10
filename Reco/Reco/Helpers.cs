@@ -21,6 +21,18 @@ namespace Reco
             }
         }
 
+        public static double Div(double x, double y)
+        {
+            if (x > y)
+            {
+                return Math.Round(y/x,4);
+            }
+            else
+            {
+                return Math.Round(x / y, 4);
+            }
+        }
+
         public static double Floor(double x)
         {
             if (x < 0)
@@ -58,20 +70,31 @@ namespace Reco
             }
             return factors.Sum();
         }
-
-        public static double CalculateMAE(List<Tuple<int, double>> input)
+        // MAE - mean average error
+        // MAE = sqrt 1/|T| sum |r*_ui -r_ui|
+        // MAUE - mean average user error
+        // RMSE - root mean squared error
+        // RMSE = sqrt 1/|T| sum (r*_ui -r_ui|)^2
+        public static double CalculateMAE(List<Tuple<int, double, int>> input)
         {
-            // MAE - mean average error
-            // MAE = sqrt 1/|T| sum |r*_ui -r_ui|
-            // MAUE - mean average user error
-            // RMSE - root mean squared error
-            // RMSE = sqrt 1/|T| sum (r*_ui -r_ui|)^2
+    
             var sum = input.Select(x => Modulo(x.Item1, x.Item2)).Sum();
             var factor = input.Count;
             return Math.Sqrt(sum/factor);
         }
+        public static double CalculateMAUE(List<Tuple<int, double, int>> input)
+        {
+            var grouped = input.GroupBy(x => x.Item3).ToList();
+            var list = new List<double>();
+            foreach (var userRatings in grouped)
+            {
+                var element = CalculateMAE(userRatings.ToList());
+                list.Add(element);
+            }
+            return list.Average();
+        }
 
-        public static double CalculateRMSE(List<Tuple<int, double>> input)
+        public static double CalculateRMSE(List<Tuple<int, double, int>> input)
         {
             // MAE - mean average error
             // MAE = sqrt 1/|T| sum |r*_ui -r_ui|

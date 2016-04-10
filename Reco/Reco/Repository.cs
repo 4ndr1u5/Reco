@@ -117,6 +117,22 @@ namespace Reco
             return PickProducts(uniquepids);
         }
 
+        public IEnumerable<Product> PickRandomProducts(int number, int max, int category, Random rnd)
+        {
+
+            //MATCH(a) -[:LEADS_TO]->(t)
+            //RETURN a, rand() as r
+            //ORDER BY r
+
+            var randProds =
+                client.Cypher.Match("(p:Product)")
+                .Where((Product p) => p.category == category)
+                    .Return(p => p.As<Product>()).Results
+                    .OrderBy(x => rnd.Next()).Take(number).ToList();
+
+            return randProds;
+        }
+
 
         public IEnumerable<Product> GetProductsRatedByUser(int uid)
         {
@@ -193,10 +209,10 @@ namespace Reco
         public void CreateUsers(int number)
         {
             //var rnd = new Random();
-
+            var rnd = new Random();
             for (var i = 1; i <= number; i++)
             {
-                var rnd = new Random(i);
+                
                 var n1 = rnd.NextDouble();
                 var n2 = rnd.NextDouble();
                 var n3 = rnd.NextDouble();
@@ -231,7 +247,7 @@ namespace Reco
 
             for (var i = 1; i <= number; i++)
             {
-                var cat = new Random().Next(1, 5);
+                var cat = new Random().Next(1, 6);
                 double w1 = 0;
                 double w2 = 0;
                 double w3 = 0;
@@ -298,8 +314,8 @@ namespace Reco
                 var c3 = Math.Round(n3/sum, 4);
                 var c4 = Math.Round(n4/sum, 4);
                 var c5 = Math.Round(n5/sum, 4);
-                var quality = (int)Math.Round(Normal.Sample(new Random(), 4, 2));
-                quality = quality > 5 ? 5 : quality;
+                var quality = Math.Round(Normal.Sample(new Random(), 0.6, 0.4));
+                quality = quality > 1 ? 1 : quality;
                 quality = quality < 1 ? 1 : quality;
                 client
                     .Cypher
@@ -345,7 +361,7 @@ namespace Reco
                 .ExecuteWithoutResults();
         }
 
-        public void CreateRating(int uid, int pid, int rating)
+        public void CreateRating(int uid, int pid, int rating, bool actual)
         {
             client.Cypher.Match("(u:User), (p:Product)")
                 .Where((User u) => u.iduser == uid)
@@ -416,13 +432,13 @@ namespace Reco
             return result.ToList();
         }
 
-        public List<Tuple<int, double>> GetRatingsForEvaluation(int step)
+        public List<Tuple<int, double, int>> GetRatingsForEvaluation(int step)
         {
             var query =
                 client.Cypher
-                    .Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRating) and r.Step = {step}")
-                    .WithParam("step", step)
-                    .Return((r) => new Tuple<int, double>(r.As<Rated>().Rating, r.As<Rated>().PredictedRating));
+                    .Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRating)")
+                    //.WithParam("step", step)
+                    .Return((r, u) => new Tuple<int, double, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRating, u.As<User>().iduser));
             var result = query.Results;
             return result.ToList();
         }

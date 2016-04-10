@@ -12,21 +12,32 @@ namespace Reco
 {
     class Program
     {
+
+        const int userCount = 100;
+        const int productCount = 300;
+
         static void Main(string[] args)
         {
-            const int userCount = 100;
-            const int productCount = 300;
+            
             var repo = new Repository();
             var reuseSameGraph = false;
             if (!reuseSameGraph)
             {
-                //generate graph (step 1)
+
+                // generate graph modes (step 1)
                 GenerateGraph(repo, userCount, productCount);
+                // generate actual ratings (true)
+                GenerateRatings(repo, true, 30, 27);
+                // generate hidden ratings for trust evaluation (false)
+                //GenerateRatings(repo, false, 30, 0);
+                GenerateTrust(repo);
                 //generate predictions for rated items
                 var usersProds1 = GeneratePredictions(repo, 0);
+
                 //evaluate
                 var ratingsForEval = repo.GetRatingsForEvaluation(0);
                 var mae1 = Helpers.CalculateMAE(ratingsForEval);
+                var maue1 = Helpers.CalculateMAUE(ratingsForEval);
                 var rmse1 = Helpers.CalculateRMSE(ratingsForEval);
                 // check domain similarities before propagation
                 var domainSimsBefore = EvaluateDomainSimilarities(repo);
@@ -37,6 +48,7 @@ namespace Reco
                 //evaluate
                 ratingsForEval = repo.GetRatingsForEvaluation(1);
                 var mae2 = Helpers.CalculateMAE(ratingsForEval);
+                var maue2 = Helpers.CalculateMAUE(ratingsForEval);
                 var rmse2 = Helpers.CalculateRMSE(ratingsForEval);
             }
            
@@ -128,8 +140,13 @@ namespace Reco
                         var predictedRating = Math.Round(Helpers.WeightedAverage(trustRating), 4);
                         predictedRating = predictedRating > 5 ? 5 : predictedRating;
                         predictedRating = predictedRating < 1 ? 1 : predictedRating;
-                        repo.CreatePredictedRating(u.iduser, prod.idproduct, predictedRating, step);
-                        ratingsEvaluated.Add(new Tuple<User, Product>(u, prod));
+                        if(predictedRating>1 && predictedRating < 5)
+                        {
+                            Console.WriteLine("For user {0} item {1} predicted {2}", u.iduser, prod.idproduct, predictedRating);
+                            repo.CreatePredictedRating(u.iduser, prod.idproduct, predictedRating, step);
+                            ratingsEvaluated.Add(new Tuple<User, Product>(u, prod));
+                        }
+                        
                     }
 
                 }
@@ -147,22 +164,178 @@ namespace Reco
             repo.CreateProducts(productCount);
             //generate ratings
             //each user gives a random amount of ratings to random items (imporvement - bias towards what he likes!!)
+            //var users = repo.getAllUsers();
+            //var rndCat = new Random();
+            //var rndCatNumber = new Random();
+            //foreach (var u in users)
+            //{
+            //    var trustCount = (int)Normal.Sample(new Random(u.iduser), 10, 9);
+            //    var ratingsCount = (int)Normal.Sample(new Random(u.iduser), 30, 27);
+            //    //connect to users (create trust)
+
+            //    var trustees = repo.PickRandomUsers(trustCount, userCount, u.iduser);
+               
+
+            //    double trust = 0;
+                
+            //    foreach (var trustee in trustees)
+            //    {
+            //        //tam kad vienas useris galetu tureti pasitikejima kitu keliose kateforijos
+            //        var categories = new List<int>();
+            //        var numberofcats = rndCatNumber.Next(0, 4);
+            //        for (var i = 0; i <= numberofcats; i++)
+            //        {
+            //            var category = rndCat.Next(1, 6);
+            //            categories.Add(category);
+            //        }
+            //        categories = categories.Distinct().ToList();
+            //        foreach (var category in categories)
+            //        {
+            //            switch (category)
+            //            {
+            //                case 1:
+            //                    trust = 1 - Helpers.Div(trustee.l1, u.l1);
+            //                    break;
+            //                case 2:
+            //                    trust = 1 - Helpers.Div(trustee.l2, u.l2);
+            //                    break;
+            //                case 3:
+            //                    trust = 1 - Helpers.Div(trustee.l3, u.l3);
+            //                    break;
+            //                case 4:
+            //                    trust = 1 - Helpers.Div(trustee.l4, u.l4);
+            //                    break;
+            //                case 5:
+            //                    trust = 1 - Helpers.Div(trustee.l5, u.l5);
+            //                    break;
+            //                default:
+            //                    break;
+            //            }
+            //            repo.CreateTrust(u.iduser, trustee.iduser, category, Math.Round(trust, 4));
+            //        }
+                    
+
+
+            //    }
+                ////connect to products (generate ratings)
+                //var prods = repo.PickRandomProducts(ratingsCount, productCount);
+                //var rndU = new Random(u.iduser);
+                //var rndCoef = new Random();
+                //foreach (var prod in prods)
+                //{
+                //    var quotient = (int)Normal.Sample(rndU, 7, 4);
+                //    //var rating = Math.Round(quotient * Math.Pow(u.l1 * prod.c1 + u.l2 * prod.c2 + u.l3 * prod.c3 + u.l4 * prod.c4 + u.l5 * prod.c5, 0.5));
+                //    var userParams = new List<double>();
+                //    userParams.Add(u.l1);
+                //    userParams.Add(u.l2);
+                //    userParams.Add(u.l3);
+                //    userParams.Add(u.l4);
+                //    userParams.Add(u.l5);
+
+                //    var prodParams = new List<double>();
+                //    prodParams.Add(prod.c1);
+                //    prodParams.Add(prod.c2);
+                //    prodParams.Add(prod.c3);
+                //    prodParams.Add(prod.c4);
+                //    prodParams.Add(prod.c5);
+                //    var corr = Helpers.Positive(Correlation.Pearson(userParams, prodParams));
+                //    //var rating = quotient * Math.Sqrt(corr) + 0.5 * u.quality * prod.quality;
+                //    var coeff = rndCoef.NextDouble();
+
+                //    var rating = 5*(coeff * Math.Sqrt(corr) + (1- coeff) * u.quality*prod.quality);
+                //    rating = rating > 5 ? 5 : rating;
+                //    rating = rating < 1 ? 1 : rating;
+                //    repo.CreateRating(u.iduser, prod.idproduct, (int)Math.Round(rating));
+                //}
+                
+            //}
+
+            
+        }
+
+        private static void GenerateRatings(Repository repo, bool actual, int mean, int dev)
+        {
+            var users = repo.getAllUsers();
+            foreach (var u in users)
+            {
+                var ratingsCount = (int) Normal.Sample(new Random(u.iduser), mean, dev);
+                var prods = repo.PickRandomProducts(ratingsCount, productCount);
+                var rndU = new Random(u.iduser);
+                var rndCoef = new Random();
+                foreach (var prod in prods)
+                {
+                    //var rating = Math.Round(quotient * Math.Pow(u.l1 * prod.c1 + u.l2 * prod.c2 + u.l3 * prod.c3 + u.l4 * prod.c4 + u.l5 * prod.c5, 0.5));
+                    //var userParams = new List<double>();
+                    //userParams.Add(u.l1);
+                    //userParams.Add(u.l2);
+                    //userParams.Add(u.l3);
+                    //userParams.Add(u.l4);
+                    //userParams.Add(u.l5);
+
+                    //var prodParams = new List<double>();
+                    //prodParams.Add(prod.c1);
+                    //prodParams.Add(prod.c2);
+                    //prodParams.Add(prod.c3);
+                    //prodParams.Add(prod.c4);
+                    //prodParams.Add(prod.c5);
+                    //var corr = Helpers.Positive(Correlation.Pearson(userParams, prodParams));
+                    ////var rating = quotient * Math.Sqrt(corr) + 0.5 * u.quality * prod.quality;
+                    //var coeff = rndCoef.NextDouble();
+
+                    //var rating = 5*(coeff*Math.Sqrt(corr) + (1 - coeff)*u.quality*prod.quality);
+                    //rating = rating > 5 ? 5 : rating;
+                    //rating = rating < 1 ? 1 : rating;
+                    var rating = CreateRating(u, prod, rndCoef);
+                    Console.WriteLine("User {0} rated item {1} by {2}", u.iduser, prod.idproduct, rating);
+                    repo.CreateRating(u.iduser, prod.idproduct, (int) Math.Round(rating), actual);
+                }
+            }
+        }
+
+        public static double CreateRating(User u, Product prod, Random rndCoef)
+        {
+            var userParams = new List<double>();
+            userParams.Add(u.l1);
+            userParams.Add(u.l2);
+            userParams.Add(u.l3);
+            userParams.Add(u.l4);
+            userParams.Add(u.l5);
+
+            var prodParams = new List<double>();
+            prodParams.Add(prod.c1);
+            prodParams.Add(prod.c2);
+            prodParams.Add(prod.c3);
+            prodParams.Add(prod.c4);
+            prodParams.Add(prod.c5);
+            var corr = Helpers.Positive(Correlation.Pearson(userParams, prodParams));
+            //var rating = quotient * Math.Sqrt(corr) + 0.5 * u.quality * prod.quality;
+            var coeff = rndCoef.NextDouble();
+
+            var rating = 5 * (coeff * Math.Sqrt(corr) + (1 - coeff) * u.quality * prod.quality);
+            rating = rating > 5 ? 5 : rating;
+            rating = rating < 1 ? 1 : rating;
+
+            return rating;
+        }
+
+        private static void GenerateTrust(Repository repo)
+        {
             var users = repo.getAllUsers();
             var rndCat = new Random();
             var rndCatNumber = new Random();
             foreach (var u in users)
             {
-                var trustCount = (int)Normal.Sample(new Random(u.iduser), 10, 9);
-                var ratingsCount = (int)Normal.Sample(new Random(u.iduser), 30, 27);
-                //connect to users (create trust)
-
+                var trustCount = (int) Normal.Sample(new Random(u.iduser), 10, 9);
                 var trustees = repo.PickRandomUsers(trustCount, userCount, u.iduser);
-               
-
                 double trust = 0;
-                
+
                 foreach (var trustee in trustees)
                 {
+                    // pick n items in selected category and evaluate them
+                    // get the ratings and calculate similarity
+                    //then there is no need for simulated ratings
+
+
                     //tam kad vienas useris galetu tureti pasitikejima kitu keliose kateforijos
                     var categories = new List<int>();
                     var numberofcats = rndCatNumber.Next(0, 4);
@@ -174,244 +347,38 @@ namespace Reco
                     categories = categories.Distinct().ToList();
                     foreach (var category in categories)
                     {
-                        switch (category)
+                        // evaluare n items for user and trustee in this category
+                        //pick random items
+                        var items = repo.PickRandomProducts(12, productCount, category, rndCat);
+                        if (items.Count() == 12)
                         {
-                            case 1:
-                                trust = 1 - Helpers.Modulo(trustee.l1, u.l1);
-                                break;
-                            case 2:
-                                trust = 1 - Helpers.Modulo(trustee.l2, u.l2);
-                                break;
-                            case 3:
-                                trust = 1 - Helpers.Modulo(trustee.l3, u.l3);
-                                break;
-                            case 4:
-                                trust = 1 - Helpers.Modulo(trustee.l4, u.l4);
-                                break;
-                            case 5:
-                                trust = 1 - Helpers.Modulo(trustee.l5, u.l5);
-                                break;
-                            default:
-                                break;
+                            //get rating for thse items
+                            var userRatings = new List<double>();
+                            var trusteeRatings = new List<double>();
+                            foreach (var item in items)
+                            {
+                                var userRating = CreateRating(u, item, rndCat);
+                                var trusteeRating = CreateRating(trustee, item, rndCat);
+
+                                userRatings.Add(userRating);
+                                trusteeRatings.Add(trusteeRating);
+                            }
+                            trust = Correlation.Pearson(userRatings, trusteeRatings);
+                            var positiveTrust = Math.Round(Helpers.Positive(trust), 4);
+                            Console.WriteLine("User {0} trusts user {1} by {2}", u.iduser, trustee.iduser, positiveTrust);
+                            repo.CreateTrust(u.iduser, trustee.iduser, category, positiveTrust);
                         }
-                        repo.CreateTrust(u.iduser, trustee.iduser, category, Math.Round(trust, 4));
                     }
-                    
 
 
-                }
-                //connect to products (generate ratings)
-                var prods = repo.PickRandomProducts(ratingsCount, productCount);
-                var rndU = new Random(u.iduser);
-                foreach (var prod in prods)
-                {
-                    var quotient = (int)Normal.Sample(rndU, 7, 4);
-                    //var rating = Math.Round(quotient * Math.Pow(u.l1 * prod.c1 + u.l2 * prod.c2 + u.l3 * prod.c3 + u.l4 * prod.c4 + u.l5 * prod.c5, 0.5));
-                    var userParams = new List<double>();
-                    userParams.Add(u.l1);
-                    userParams.Add(u.l2);
-                    userParams.Add(u.l3);
-                    userParams.Add(u.l4);
-                    userParams.Add(u.l5);
-
-                    var prodParams = new List<double>();
-                    prodParams.Add(prod.c1);
-                    prodParams.Add(prod.c2);
-                    prodParams.Add(prod.c3);
-                    prodParams.Add(prod.c4);
-                    prodParams.Add(prod.c5);
-                    var corr = Helpers.Positive(Correlation.Pearson(userParams, prodParams));
-                    var rating = quotient * Math.Sqrt(corr) + 0.5 * u.quality * prod.quality;
-                    rating = rating > 5 ? 5 : rating;
-                    rating = rating < 1 ? 1 : rating;
-                    repo.CreateRating(u.iduser, prod.idproduct, (int)Math.Round(rating));
-                }
-                
+            }
             }
 
-            
         }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //private static List<double> TestGraphCoverage(Repository repo, int userCount)
-        //{
-        //    var testUsers = repo.PickRandomUsers(10, userCount);
-        //    var result = new List<List<int>>();
-        //    foreach (var user in testUsers)
-        //    {
-        //        var userResult = new List<int>();
-        //        var productsOfUser = repo.GetProductsRatedByUser(user.iduser);
-        //        foreach (var prod in productsOfUser)
-        //        {
-        //            var number = repo.GetNumberOfTrusteesWhoHaveRatedThisProduct(user.iduser, prod.idproduct);
-        //            userResult.Add(number);
-        //        }
-        //        result.Add(userResult);
-        //    }
-
-        //    //evaluate results
-        //    var resultAvg = new List<double>();
-        //    foreach (var subresult in result.Where(x => x.Count > 0))
-        //    {
-        //        var avg = subresult.Average();
-        //        resultAvg.Add(avg);
-        //    }
-        //    return resultAvg;
-        //}
-
-        //private static void GenerateGraph(Repository repo, int userCount, int productcount, int categoryCount, int maxTrusts, int maxRatings)
-        //{
-        //    //var userCount = 100;
-        //    //var productcount = 100;
-        //    //var categoryCount = 5;
-
-        //    //generate users
-        //    repo.CreateUsers(userCount);
-        //    repo.CreateProducts(productcount);
-        //    repo.CreateCategories(categoryCount);
-
-        //    var products = repo.getAllProducts();
-        //    var cats = repo.getAllCategories();
-
-
-        //    foreach (var p in products)
-        //    {
-        //        foreach (var c in cats)
-        //        {
-        //            repo.AssignProdToCat(p.idproduct, c.idcategory);
-        //        }
-
-        //    }
-
-        //    var users = repo.getAllUsers();
-
-        //    //var maxTrusts = 10;
-        //    //var maxRatings = 10;
-        //    var tr = 0;
-        //    var pr = 0;
-
-        //    foreach (var u in users)
-        //    {
-        //        if (tr > maxTrusts)
-        //        {
-        //            tr = 0;
-        //        }
-        //        if (pr > maxRatings)
-        //        {
-        //            pr = 0;
-        //        }
-        //        //connect to users (create trust)
-
-        //        var rndTrust = new Random();
-        //        //var rndUserIds = new Random();
-        //        //var uids = new List<int>();
-        //        //for (var i = 0; i < tr; i++)
-        //        //{
-        //        //    uids.Add(rndUserIds.Next(1, userCount));
-        //        //}
-        //        var trustees = repo.PickRandomUsers(tr, userCount);
-        //        var rndCat = new Random();
-        //        foreach (var trustee in trustees)
-        //        {
-        //            repo.CreateTrust(u.iduser, trustee.iduser, rndCat.Next(1, categoryCount), rndTrust.NextDouble());
-        //        }
-        //        //connect to products (generate ratings)
-        //        var rndRating = new Random();
-
-
-        //        //var rndProdIds = new Random();
-        //        //var pids = new List<int>();
-        //        //for (var i = 0; i < pr; i++)
-        //        //{
-        //        //    pids.Add(rndProdIds.Next(1, productcount));
-        //        //}
-
-        //        var prods = repo.PickRandomProducts(pr, productcount);
-        //        foreach (var prod in prods)
-        //        {
-        //            repo.CreateRating(u.iduser, prod.idproduct, rndRating.Next(1, 5));
-        //        }
-
-        //        tr++;
-        //        pr++;
-        //    }
-
-        //}
-
-        //private static void PropagateTrusts(Repository repository, int categorycount)
-        //{
-        //    //var topusers = repository.getTopUsers();
-        //    var users = repository.getAllUsers();
-
-        //    foreach (var u1 in users)
-        //    {
-        //        foreach (var u2 in users)
-        //        {
-        //            if (u1 != u2)
-        //            {
-
-        //                try
-        //                {
-        //                    for (var c = 1; c <= categorycount; c++)
-        //                    {
-        //                        var newTrust = 1.0;
-        //                        var path = repository.GetShortestPaths(u1.iduser, u2.iduser, c).FirstOrDefault();
-        //                        var allPositive = true;
-
-        //                        if (path != null && path.Relationships.Count() > 1)
-        //                        {
-        //                            foreach (var rel in path.Relationships)
-        //                            {
-        //                                if (rel.TrustValue < 0) allPositive = false;
-        //                            }
-        //                            if (allPositive)
-        //                            {
-        //                                foreach (var rel in path.Relationships)
-        //                                {
-        //                                    newTrust = Math.Round(newTrust * rel.TrustValue, 4);
-        //                                }
-        //                                repository.SaveTrust(u1.iduser, u2.iduser, "ShortestPath", newTrust);
-
-        //                            }
-
-        //                        }
-        //                    }
-
-        //                }
-        //                catch (Exception e)
-        //                {
-        //                    Console.WriteLine("Exception");
-        //                }
-
-        //            }
-        //        }
-        //    }
+        
     }
 }
