@@ -1,0 +1,55 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\select@language {lithuanian}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.}Įvadas}{3}{section.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.}Bendradarbiavimo filtravimo (Collaborative-Filtering) metodas ir šalto starto problema}{5}{section.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.1.}Rekomendacinių sistemų apžvalga ir bendradarbiavimo filtravimo metodas}{5}{subsection.2.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2.}Reitingų normalizavimas}{7}{subsection.2.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.3.}Vartotojų panašumo apskaičiavimas}{7}{subsection.2.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {2.3.1.}Pyrsono koreliacija}{7}{subsubsection.2.3.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {2.3.2.}Apribota Pyrsono koreliacija}{8}{subsubsection.2.3.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {2.3.3.}Spearmano rango koreliacija}{8}{subsubsection.2.3.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {2.3.4.}Kosinuso panašumas}{8}{subsubsection.2.3.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {2.3.5.}Euristinis PIP panašumo matas}{8}{subsubsection.2.3.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {2.3.6.}Panašumas su svoriais}{9}{subsubsection.2.3.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.}Pasitikėjimu pagrįstos rekomendacinės sistemos}{10}{section.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.1.}Pasitikėjimo apžvalga}{10}{subsection.3.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.2.}Pasitikėjimo apskaičiavimas}{10}{subsection.3.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.2.1.}TidalTrust}{11}{subsubsection.3.2.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.2.2.}MoleTrust}{13}{subsubsection.3.2.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.2.3.}Pasitikėjimu pagrįstas svoris}{14}{subsubsection.3.2.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.}RS vertinimas}{15}{section.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.1.}RS vertinimo metodai}{15}{subsection.4.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.}RS vertinimo aspektai}{16}{subsection.4.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {4.2.1.}Patikimumas}{17}{subsubsection.4.2.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {4.2.2.}Pasitikėjimas}{17}{subsubsection.4.2.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {4.2.3.}Naujoviškumas}{17}{subsubsection.4.2.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {4.2.4.}Įžvalgumas}{18}{subsubsection.4.2.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {4.2.5.}Tvirtumas}{18}{subsubsection.4.2.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.}Išvados}{20}{section.5}

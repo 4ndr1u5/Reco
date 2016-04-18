@@ -43,7 +43,7 @@
 % \end{center}
 
 \sectionnonumnocontent{Santrauka}
-Žmonės priimdami sprendimus dažnai pasikliauja draugų ir pažįstamų rekomendacijomis. Vienas iš rekomendacinių sistemų (toliau - RS) metodų - bendradarbiavimo filtravimas (angl. collaborative filtering, toliau BF) nors ir naudoja techniką, imituojančią žmonių tarpusavio panašumą, ji negali identifikuoti, ką žmogus pažįsta, o ko ne. Socialinių tinklų duomenys užpildo šią spragą ir leidžia RS pateikti rekomendacijas atsižvelgiant ir į žmonių tarpusavio santykį. 
+Žmonės priimdami sprendimus dažnai pasikliauja draugų ir pažįstamų rekomendacijomis. Vienas iš rekomendacinių sistemų (toliau - RS) metodų - bendradarbiavimo filtravimas (angl. collaborative filtering, toliau BF) nors ir imituoja žmonių tarpusavio panašumą, negali identifikuoti, ką žmogus pažįsta, o ko ne. Socialinių tinklų duomenys užpildo šią spragą ir leidžia RS pateikti rekomendacijas atsižvelgiant ir į žmonių tarpusavio santykį. 
 \newline
 \indent
 Šiame darbe pateikta glausta rekomendacinių sistemų apžvalga, išnagrinėtas bendradarbiavimo filtravimo algoritmas, pristatyta šalto starto problema bei apžvelgtos socialinio tinklo duomenų taikymo galimybes sprendžiant šią problemą. Taip pat pasiūlyti trys nauji, socialinių tinklų duomenų panaudojimu besiremiantys metodai, kuriuos taikant galima spręsti šalto starto problemą.
@@ -57,10 +57,10 @@
 \linespread{1.5}
 \selectfont
 \indent
-Kaskart, kai kažko ieškome, tiksliai patys nežinodami, ko - susiduriame su rekomendacijos poreikiu. Iš esmės, didžioji dalis dalykų apie kuriuos žinome mums kažkada buvo viena ar kita forma pasiūlyta ar nurodyta. Taigi, didelė dalis pasaulio pažinimo proceso įvyksta rekomendacijų dėka. Rekomendacija, kaip reiškinys, gali įgyti įvairias, dažniausiai socialines, formas - informacijos galime gauti iš artimųjų arba tam tikrų atstovų (pavyzdžiui, finansų patarėjo arba konsultanto). Kita forma, apie kurią ir yra šis darbas, yra skaitmeninė - rekomendacinių sistemų (toliau - RS) generuojamos rekomendacijos skaitmeninėje erdvėje siekia palengvinti naudotojo patirtį renkantis jį dominančius elementus iš prieinamos aibės. Šios rekomendacijos gali ne tik palengvinti paieškos procesą, bet ir pasiūlyti bei sudominti naudotoją tokiais elementais, apie kuriuos naudotojas nė nenutuokė. Šis bruožas yra ypač aktualus kitai šio santykio pusei - siūlytojui (pavyzdžiui, pardavėjui) dėl akivaizdžių priežasčių - jis tampa labiau matomas, žinomesnis, galų gale jis gali gauti materialinės naudos.
+Kaskart, kai kažko ieškome, tiksliai patys nežinodami, ko - susiduriame su rekomendacijos poreikiu. Iš esmės, didžioji dalis dalykų apie kuriuos žinome, mums kažkada buvo viena ar kita forma pasiūlyta ar nurodyta. Taigi, didelė dalis pasaulio pažinimo proceso įvyksta rekomendacijų dėka. Rekomendacija, kaip reiškinys, gali įgyti įvairias, dažniausiai socialines, formas - informacijos galime gauti iš artimųjų arba tam tikrų atstovų (pavyzdžiui, finansų patarėjo arba konsultanto). Kita forma, apie kurią ir yra šis darbas, yra skaitmeninė - rekomendacinių sistemų (toliau - RS) generuojamos rekomendacijos skaitmeninėje erdvėje siekia palengvinti naudotojo patirtį renkantis jį dominančius elementus iš prieinamos aibės. Šios rekomendacijos gali ne tik palengvinti paieškos procesą, bet ir pasiūlyti bei sudominti naudotoją tokiais elementais, apie kuriuos naudotojas nė nenutuokė. Šis bruožas yra ypač aktualus kitai šio santykio pusei - siūlytojui (pavyzdžiui, pardavėjui) dėl akivaizdžių priežasčių - jis tampa labiau matomas, žinomesnis, galų gale jis gali gauti materialinės naudos.
 \newline
 \indent
-RS plačiai taikomos muzikos, kino ir elektroninės prekybos platformose. Vietoj įprastos paieškos šios sistemos siūlo elementus pasiremdamos naudotojų elgesio istorija. Vienas labiausiai naudojamų metodų - bendradarbiavimo filtravimas (angl. Collaborative Filtering, toliau - BF). Aibė sėkmingų interneto įmonių (pavyzdžiui, Amazon.com, Netflix.com, Last.fm) pritaikė BF metodus tam, kad padidinti naudotojų pasitenkinimą jų siūlomu produktu. Taikant BF daroma prielaida, kad istoriškai panašūs naudotojai išliks tokie ir ateityje. Taigi, esminė problema, kurią reikia spręsti - naudotojų panašumo vertinimas Filtravimo procesas remiasi jau turimais duomenimis, kurie dėl problemos prigimties yra labai reti - sistemoje gali būti tūkstančiai naudotojų ir elementų, tačiau kiekvienas naudotojas dažniausiai būna įvertinęs tik labai mažą visų elementų dalį, taigi panašumo įvertinimas tampa iššūkiu. Negana to, kai sistemoje atsiranda naujas naudotojas, pradžioje apie jį žinoma per mažai, kad būtų galima pateikti patikimas rekomendacijas. Ši problema dar kitaip vadinama šalto starto (angl. cold start problem). Ji yra ypač svarbi ir dėl to, kad, jeigu naujas naudotojas per pakankamai trumpą laiką neįsitikins sistemos nauda, labai tikėtina, kad jis niekada ja nebesinaudos.
+RS plačiai taikomos muzikos, kino ir elektroninės prekybos platformose. Vietoj įprastos paieškos šios sistemos siūlo elementus pasiremdamos naudotojų elgesio istorija. Vienas labiausiai naudojamų metodų - bendradarbiavimo filtravimas (angl. Collaborative Filtering, toliau - BF). Aibė sėkmingų interneto įmonių (pavyzdžiui, Amazon.com, Netflix.com, Last.fm) pritaikė BF metodus tam, kad padidinti naudotojų pasitenkinimą jų siūlomu produktu. Taikant BF daroma prielaida, kad istoriškai panašūs naudotojai išliks tokie ir ateityje. Taigi, esminė problema, kurią reikia spręsti - naudotojų panašumo vertinimas. Filtravimo procesas remiasi jau turimais duomenimis, kurie dėl problemos prigimties yra labai reti - sistemoje gali būti tūkstančiai naudotojų ir dar daugiau elementų, tačiau kiekvienas naudotojas dažniausiai būna įvertinęs tik labai mažą visų elementų dalį, taigi panašumo įvertinimas tampa iššūkiu. Negana to, kai sistemoje atsiranda naujas naudotojas, pradžioje apie jį žinoma per mažai, kad būtų galima pateikti patikimas rekomendacijas. Ši problema dar kitaip vadinama šalto starto (angl. cold start problem). Ji yra ypač svarbi ir dėl to, kad, jeigu naujas naudotojas per pakankamai trumpą laiką neįsitikins sistemos nauda, labai tikėtina, kad jis niekada ja nebesinaudos.
 \newline
 \indent
 Ieškant šios problemos sprendimo būdų buvo atlikta nemažai tyrimų apie hibridines RS. Šių hibridinių RS esmė - taikant BF panaudoti informaciją apie elementų turinį. Turiniu pagrįstas RS nagrinėja atskira šaka, apie kurią šiame darbe nebus kalbama. Nors hibridinės RS ir išsprendžia dalį problemos, tačiau turi vieną esminį trūkumą - hibridinė RS yra labai priklausoma nuo konteksto, kuriame ji naudojama, kitaip sakant, ji yra neuniversali. Be to, kai kurioms dalykinėms sritims yra labai sudėtinga apibūdinti naudotojo susidomėjimo elemento atributus, taigi neįmanoma sukurti tokios RS.
@@ -74,14 +74,14 @@ Ieškant šios problemos sprendimo būdų buvo atlikta nemažai tyrimų apie hib
 Pasitikėjimo tinklas - grafas, kurio viršūnės vaizduoja naudotojus, briaunos - santykius tarp jų, o briaunų svoriai - pasitikėjimo įverčius. Toks tinklas ir bus pamatas siūlomiems metodams, kaip spręsti šalto starto problemą, kai nepakanka duomenų naudotojų panašumui nustatyti.
 \newline
 \indent 
-Pirmame skyriuje suformuluoti bendradarbiavimo filtravimo naudotoju pagrįstu ir daiktu pagrįstu metodų apibrėžimai, pristatyta šalto starto problema ir aprašyti įvairių autorių pasiūlyti metodai šiai problemai spręsti. Tyrimai apie socialinių tinklų duomenų panaudojimą bus aptarti plačiau ir pristatyti jau atlikti darbai šia problemos sprendimo kryptimi. Antrame skyriuje toliau gilinamasi į socialinių tinklų duomenų panaudojimo galimybes siekiant panaikinti (arba sušvelninti) šalto starto problemos efektą. Sprendimo esmė yra įvertinti vieno naudotojo pasitikėjimą kitu ir tą pasitikėjimo įvertį panaudoti bendradarbiavimo filtravimo algoritme kaip panašumą arba svorį. Taigi, tam yra pasiūlytas naujas socialinių pasitikėjimo duomenų apibrėžimas ir trys nauji metodai, skirti pasitikėjimo įverčių radimui ir naudojantys tą apibrėžimą - bendrų kaimynų metodas, sričių panašumo metodas ir tiesinės regresijos taikymas pasitikėjimo įverčio radimui. Trečiame skyriuje pateikta pasiektų rezultatų santrauka ir išvados.
+Literatūros apžvalgoje suformuluoti bendradarbiavimo filtravimo naudotoju pagrįstu ir daiktu pagrįstu metodų apibrėžimai, pristatyta šalto starto problema ir aprašyti įvairių autorių pasiūlyti metodai šiai problemai spręsti. Tyrimai apie socialinių tinklų duomenų panaudojimą bus aptarti plačiau ir pristatyti jau atlikti darbai šia problemos sprendimo kryptimi. Taip pat gilinamasi į socialinių tinklų duomenų panaudojimo galimybes siekiant panaikinti (arba sušvelninti) šalto starto problemos efektą. Kitame skyriuje pristatytas būdas, kaip galima generuoti socialinių tinklų duomenis ir pasiūlyti trys nauji metodai naudojami RS su socialinių tinklų duomenimis - bendrų kaimynų metodas, atsižvelgiantis tik į ryšių egzistavimą tarp naudotojų, sričių panašumo metodas, kuris taikomas RS su kategorijomis, ir pasitikėjimo interpoliavimo metodas, kurio esmė - prognozuoti naudojo tarpusavio pasitikėjimą remiantis "paslėptais" RS duomenimis (juos naudojame generuodami RS duomenis). Trečiame skyriuje pateikta pasiektų rezultatų santrauka ir išvados.
 %Toliau bus atlikta detali rezultatų analizė ir siūlyto metodo palyginimas su kitų tyrėjų anksčiau pasiūlytais RS metodais, aptarti pristatytų metodų privalumai ir trūkumai.
 
 
 \section{Litratūros apžvalga}
-
+\subsection{Bendradarbiavimo filtravimas}
 %Vertinimas išplaukia iš konteksto
-\subsection{Bendradarbiavimo filtravimo apibrėžimas}
+\subsubsection{Bendradarbiavimo filtravimo metodas}
 Visų pirma, suformuluokime RS sprendžiamą problemą formaliai taip, kaip tai padaryta \cite{2}. Vartotojų aibė pažymėkime $U$ ir elementų aibę $I$. Be to, pažymėkime $R$ aibę sistemoje turimų reitingų ir $S$ – aibę galimų reikšmių, kurias gali įgyti reitingas (pvz. $S=[1,5]$). Taip pat, tarkime, kad vienas reitingas $r_{ui}$ gali būti priskirtas vienam elementui $i \in I$ vieno naudotojo $u \in U$. Vartotojų poaibį, kuris yra įvertinęs elementą $i$, pažymėkime $U_i$. Analogiškai, $I_u$ pažymėkime aibę elementų, kuriuos yra įvertinęs naudotojas $u$. Daiktų, kuriuos yra įvertinę abu naudotojai $u$ ir $v$, aibę $I_u \and I_v$ pažymėkime $I_{uv}$. Analogiškai, $U_{ij}$ žymi aibę naudotojų, kurie yra įvertinę tiek elementą $i$, tiek $j$. Dvi dažniausiai sutinkamos problemos – geriausios ir geriausių $N$ rekomendacijos problema. Vienas būdų spręsti šias problemas yra įvertinti funkciją $f: U \times I -> S$, kuri nuspėja reitingą $f(u,i)$. Ši funkcija tada yra naudojama naudotojo $u_a$ rekomendacijai elemento $i^*$, kuriam įvertinamas reitingas turi didžiausią reikšmę $i^*= \arg \max \limits_{j \in \frac{I}{I_u}} f(u_a,j)$. 
 RS galima modeliuoti dviem būdais:
 \begin{itemize}
@@ -113,7 +113,7 @@ Norėdami prognozuoti naudotojo $u$ reitingą elementui $i$, imame $k$ artimiaus
 \end{equation}
 Šioje formulėje naudojamas svertinis vidurkis yra dažniausiai praktikoje taikomas, paprastas ir tikslus būdas nustatyti prognozei, tačiau lieka klausimas - į kiek kaimynų reikia atsižvelgti. GroupLens sistemoje visi $U \setminus \{u\}$ laikomi kaimynais; kitose sistemose kaimynai parenkami pagal panašumo slenkstį. Tinkamas kaimynų skaičiaus parinkimas leidžia įvertinti tikslesnes prognozes, nes taip sumažinamas kaimynų su maža koreliacija keliamas triukšmas. Dar kitas būdas - atsižvelgiant į dalykinę sritį parinkti konstantą. Geriausią kaimynų parinkimo strategiją galima išsiaiškinti tiesiog paeksperimentavus su konkrečiais duomenimis, nes įprastai RS viena nuo kitos labai skiriasi tiek dėl dalykinės srities subtilybių, tiek dėl RS dalyvaujančių naudotojų.  
 
-\subsection{Šalto starto problema}
+\subsubsection{Šalto starto problema}
 Šalto starto problema susijusiu su nepakankamu duomenų kiekiu. Šią problemą galima išskirti į dvi dalis:
 \begin{itemize}
 	\item naudotojo šaltas startas
@@ -121,9 +121,9 @@ Norėdami prognozuoti naudotojo $u$ reitingą elementui $i$, imame $k$ artimiaus
 \end{itemize}
 \indent 
 Toliau bus rašoma tik apie naujo naudotojo problemą. Bendradarbiavimo filtravimu pagrįstuose metoduose, norint pateikti prasmingą rekomendaciją, visų pirma reikia suformuoti aiškų naudotojo pirmenybių vaizdą. Naujam naudotojui to padaryti faktiškai neįmanoma. Šia problemą galima spręsti visai negeneruojant rekomendacijų arba teikti rekomendacijas remiantis naudotojo profiliu - gyvenamąja vieta, amžiumi, lytimi ir panašiai. Dar kitas būdas - įvertinti trūkstamus duomenis - ir yra šio darbo esminis tyrimo objektas.
-\subsection{Naudotojų panašumo apskaičiavimas}\label{ssec:sim}
+\subsubsection{Naudotojų panašumo apskaičiavimas}\label{ssec:sim}
 Jau anksčiau buvo minėta, kad norint rasti prognozuojamą naudotojo $u$ tam tikram elementui $i$ suteikiamą reitingą, reikia žinoti svorius, kuriais matuojama kitų panašių naudotojų įtaka galutinei prognozei. Vienas šių svorių įvertinimo būdų - naudotojų panašumo išskaičiavimas iš reitingų matricos. Toliau pristatomi metodai, kurie padeda įvertinti naudotojų panašumą. Pyrsono, Spearmano koreliacija ir kosinuso panašumas detaliau aprašyti \cite{2}.
-\subsubsection{Pyrsono koreliacija}
+\subsubsubsection{Pyrsono koreliacija}
 Pyrsono koreliacija skirta statistinės koreliacijos radimui:
 \begin{equation}
 s(u,v) = \frac{\sum \limits_{i\in I_u \cap I_v }(r_{u,i}-\bar{r}_u)(r_{v,i}-\bar{r}_v)}{\sqrt{\sum\limits_{i \in I_u \cap I_v }(r_{u,i} - \bar{r}_u)^2}\sqrt{\sum\limits_{i \in I_u \cap I_v }(r_{v,i} - \bar{r}_v)^2}}
@@ -132,19 +132,19 @@ s(u,v) = \frac{\sum \limits_{i\in I_u \cap I_v }(r_{u,i}-\bar{r}_u)(r_{v,i}-\bar
 \begin{equation}
 min\{|I_u \cap I_v|, 1\}
 \end{equation}
-\subsubsection{Apribota Pyrsono koreliacija}
+\subsubsubsection{Apribota Pyrsono koreliacija}
 Kai kalbame apie šį metodą, pereiname nuo tolydinio prie kategorinio parametrų vertinimo. Be to, atsižvelgiama į nuokrypį ne nuo vidurkio, o nuo abejingumo įverčio. Jeigu turime reitingų skalę nuo 1 iki 7, tada 4 reiškia abejingumą. Pažymėkime $r_x = 4$. Tada Shardanand ir Maes pasiūlyta apribota Pyrsono koreliacija randama taip
 \begin{equation}
 s(u,v) = \frac{\sum \limits_{i\in I_u \cap I_v }(r_{u,i}-r_z)(r_{v,i}-r_z)}{\sqrt{\sum\limits_{i \in I_u \cap I_v }(r_{u,i} - r_z)^2}\sqrt{\sum\limits_{i \in I_u \cap I_v }(r_{v,i} - r_z)^2}}
 \end{equation}
-\subsubsection{Spearmano rango koreliacija}
+\subsubsubsection{Spearmano rango koreliacija}
 Spearmano rango koreliacija panaši į Pyrsono koreliaciją, vienintelis skirtumas toks, kad skaičiuojant Spearmano koreliaciją, naudotojo reitingai yra surūšiuojami didėjimo tvarka, jiems priskiriami rangai - mažiausią reikšmę turintis reitingas gauna reikšmę 1. Tokiu būdu išvengiama reitingų normalizavimo problemos. Šis metodas veikia ne itin gerai, kai yra mažas galimų reikšmių skaičius, be to skaičiavimo požiūriu reikalaujantis daugiau resursų dėl surūšiavimo žingsnio.
-\subsubsection{Kosinuso panašumas}
+\subsubsubsection{Kosinuso panašumas}
 Šis metodas skiriasi nuo ankstesnių tuo, kad yra į problemą žiūrima ne iš statistinio, o iš tiesinės algebros požiūrio taško. Vartotojai atvaizduojami kaip $|I|$ dimensijų turintys vektoriai, o panašumas apskaičiuojamas, kaip kosinuso atstumas tarp dviejų reitingo vektorių. Jis randamas sudauginant šiuos vektorius ir padalinant iš $L2$ (Euklido) normų sandaugos:
 \begin{equation}
 s(u,v) = \frac{\boldsymbol{r}_u \cdot \boldsymbol{r}_v}{||\boldsymbol{r}_u||_2 ||\boldsymbol{r}_v||_2}
 \end{equation}
-\subsubsection{Euristinis PIP panašumo matas}
+\subsubsubsection{Euristinis PIP panašumo matas}
 Euristinis panašumo matas pasiūlytas \cite{7} kreipia dėmesį į šalto starto problemą. Dažniausias šalto starto problemos sprendimo būdas - naudoti hibridines RS, kurios naujiems naudotojams rekomendacijas pateikia naudodamos turinio informaciją ir tik surinkus pakankamai duomenų apie naudotoją, įjungiamas BF režimas. Ši panašumo metrika atsižvelgia į šalto starto problemą panašumą apskaičiuodama remdamasi trimis faktoriais - panašumu, poveikiu, populiarumu.
 \begin{equation}
 s(u_i, u_j)= \sum \limits_{k \in C, j}\boldmath{PIP}(r_{i,k}, r_{j,k})
@@ -154,7 +154,7 @@ s(u_i, u_j)= \sum \limits_{k \in C, j}\boldmath{PIP}(r_{i,k}, r_{j,k})
 PIP(r_1,r_2) = Proximity(r_1,r_2) \times Impact(r_1,r_2) \times Popularity(r_1,r_2)
 \end{equation}
 Detalesnis aprašymas, kaip randamos šios reikšmės yra \cite{7}.
-\subsubsection{Panašumas su svoriais}
+\subsubsubsection{Panašumas su svoriais}
 \cite{13} Said pastebėjo, kad dažniausiai naudojami panašumo matai (Pyrsono koreliacija, kosinuso panašumas) turi tokį trūkumą, kad jie neatsižvelgia į bendrai įvertintų elementų populiarumą - bendrai įvertinti populiarūs (įvertinti daugelio naudotojų) elementai vertinamam panašumui turėtų daryti mažesnę įtaką negu retai vertinami. Šį trūkumą siūloma spręsti panašumo matuose įvedant populiarumo svorius.
 \newline
 \indent
@@ -179,6 +179,7 @@ w_i^{s,lin} = 1 - \frac{|U_i|}{|R|}
 Šaltinyje \cite{13} parodyta, kad šis metodas geriausiai veikia vartotojams "po šalto starto" (angl. post cold start users), kai reitingų skaičius yra tarp 20 ir 80, kitiems rėžiams rezultatai buvo labai panašūs į tuos, kurie buvo gauti naudojant Pyrsono koreliaciją be svorių.  
 
 \subsection{Socialiniai tinklai ir pasitikėjimu pagrįstos rekomendacinės sistemos}
+\subsubsection{Socialiniai tinklai ir pasitikėjimo sąvoka}
 % reikia gražiai įpinti šitą gabalą čia.
 Socialinis tinklas - virtuali bendruomenė, kurios nariai bendrauja ir dalinasi tarpusavyje informacija. Žmonės tokiose bendruomenėse būna susiję - arba abipusiu (draugų), arba vienpusiu (pasekėjų) ryšių.
 %Šiame tyrime, mus domina abipusis ryšys.
@@ -196,7 +197,7 @@ Nors gali pasirodyti, kad nepasitikėjimas ir pasitikėjimas yra du dalykai prie
 \newline
 \indent
 Josang \cite{18} kalba apie subjektyvią logiką (angl. subjective logic), kurioje, nepasitikėjimas yra traktuojamas kaip atskiras nuo pasitikėjimo dydis. Šios teorijos branduolys - subjektyvios nuomonės (angl. subejctive opinions), kurios užrašomos taip: $w_{x}^{A} = (b,d,u,a)$, kur $b$, $d$ ir $u$ apibūdina pasitikėjimą, nepasitikėjimą ir neužtikrintumą. Pastebima, kad $b,d,u \in [0,1]$ ir $b+d+u=1$. Parametras $a \in [0,1]$ nurodo, kokį svorį nustatant tikėtiną nuomonės įvertį (angl. opinion's probability expectation value) turi neužtikrintumas - $E(w_x^A)=b+au$. Šis modelis turi tikslius apibrėžimus ir formules, jomis galima manipulioti ir gauti analitiškai pagrindžiamus rezultatus, pavyzdžiui paaiškinti populiarumo bangas. 
-\subsection{Pasitikėjimo apskaičiavimas}\label{ssec:trust}
+\subsubsection{Pasitikėjimo apskaičiavimas}\label{ssec:trust}
 Pasitikėjimo tinkle dauguma naudotojų vienas kito nepažįsta. Nepaisant to, reikia nustatyti sąryšius tarp jų. Tam yra naudojamos pasitikėjimo metrikos, kurios remdamosi naudotojų santykiais nustato, kiek vienas naudotojas pasitiki kitu. Pasitikėjimo metrikos skyla į dvi klases.
 \begin{itemize}
 	\item Lokalios metrikos įvertina pasitikėjimą kiekvienam naudotojui individualiai - dėl to jos gali būti tikslesnės ir reikalauja daugiau skaičiavimo resursų. Toliau bus pristatyti lokalių metrikų pavyzdžiai - TidalTrust, MoleTrust.
@@ -205,7 +206,7 @@ Pasitikėjimo tinkle dauguma naudotojų vienas kito nepažįsta. Nepaisant to, r
 Kaip minėta, pasitikėjimo skaičiavimui svarbi tranzityvumo prielaida, tačiau, ji teisinga tik tame pačiame kontekste - jeigu $a$ pasitiki $b$ kai kalbama apie automobilius, o $b$ pasitiki $c$ sodininkystės klausimais, nieko negalėsime pasakyti apie $a$ pasitikėjimą $c$ kompiuterijos žiniomis.
 
 
-\subsubsection{TidalTrust}
+\subsubsubsection{TidalTrust}
 Ši formulė yra esminė Golbeck rekomendacijos algoritme. Algoritmo autoriai šią formulę išvedė atlikdami eilę eksperimentų, kurių metu jie ignoruodami tiesioginį naudotojo $a$ pasitikėjimą naudotoju $c$ tyrinėjo kelius, jungiančius šiuos du naudotojus. Lygindami taikant išskaidymą (angl. propagation) gautus įverčius su tikromis pasitikėjimo reikšmėmis jie pastebėjo, kad: 
 \begin{itemize}
 	\item trumpesni išskaidymo keliai leidžia apskaičiuoti tikslesnius pasitikėjimo įverčius
@@ -225,7 +226,7 @@ t_{a,u} = \frac{\sum\limits_{v \in WOT^{+}(a)}t_{a,v}t_{v,u}}{\sum\limits_{v \in
 \newline
 \indent
 Golbeck parodė, kad pasitikėjimu pagrįstas svertinis vidurkis kartu su TidalTrust nebūtinai visada yra pranašesnis už BF, tačiau duoda žymiai geresnius įverčius naudotojams, kurie nesutinka su vidutiniu elemento $i$ reitingu.
-\subsubsection{MoleTrust}
+\subsubsubsection{MoleTrust}
 \begin{equation}\label{eq:MOLE5}
 p_{a,i} = \bar{r_a}+\frac{\sum\limits_{u \in R^T}t_{a,u}(r_{u,i}-\bar{r_u})}{\sum\limits_{u \in R^T} t_{a,u}}
 \end{equation}
@@ -242,7 +243,7 @@ Pasitikėjimas naudotojais, esančiais atstumu didesniu nei $1$ skaičiuojamas p
 \newline
 \indent
 MoleTrust taip pat priklauso laipsniškų lokalių pasitikėjimo metrikų klasei. Algoritmo autoriai eksperimentu parodė, kad MoleTrust randa geresnius pasitikėjimo įverčius nei globalios pasitikėjimo metrikos, tokios kaip naudojamos pavyzdžiui eBay, ypač kai kalba eina apie kontroversiškus naudotojus, kuriuos dalis vertina kaip labai patikimus, o kita dalis - labai nepatikimus. Autoriai taip pat parodė, kad šis algoritmas išgauna tikslesnes prognozes naujiems naudotojams.
-\subsubsection{Pasitikėjimu pagrįstas svoris}
+\subsubsubsection{Pasitikėjimu pagrįstas svoris}
 Šis metodas pristatytas \cite{12} naudoja vartotojo ir tiekėjo sąvokas. Reitingo prognozė skaičiuojama panašiai kaip \eqref{eq:1}:
 \begin{equation}
 c(i) = \bar{c}+\frac{\sum \limits_{p \in P(i)} (p(i) - \bar{p}) w(c,p,i)}{\sum \limits_{p \in P(i)} |w(c,p,i)|}
@@ -257,9 +258,10 @@ trust(p,i)=\frac{|\{(c_k, i_k) \in CorrectSet(p): i_k = i\}|}{|\{(c_k,i_k) \in R
 \end{equation}
 Šis reiškinys rodo, kokia dalis naudotojo $p$ rekomendacijų būna teisinga. Taip randamas pasitikėjimas vadinamas profilio lygio pasitikėjimu (angl. profile-level trust).
 
-\section{Tyrimo objektas ir siūlomi metodai}
+
+\section{Pasitikėjimu pagrįstos rekomendacinės sistemos modeliavimas ir siūlomi metodai}
 \indent
-Šio darbo tyrimo objektas - naujos Web 2.0 tinklinių programų kartos atstovė - socialinė RS. Šios RS generuoja prognozes (rekomendacijas) apie jiems galinčius patikti elementus iš tam tikros, paprastai labai didelės aibės, remdamosis tarpusavio naudotojų santykiu. Sihna ir Swearingen \cite{19} palygino RS ir draugų suteiktas rekomendacijas ir parodė, kad žmonės labiau pasitiki rekomendacijomis gautomis iš pažįstamų žmonių nei iš sistemos, veikiančios juodos dėžės principu. Šis tyrimo rezultatas kartu su žinojimu, kad socialiniai tinklai vis populiarėja, o besinaudojančiųjų skaičius perkopia milijardą, lemia vis didesnį susidomėjimą pasitikėjimu pagrįstomis RS.
+Šio darbo tyrimo objektas - naujos tinklinių programų kartos atstovė - socialinė RS. Ji generuoja prognozes (rekomendacijas) apie nuadotojams galinčius patikti elementus iš tam tikros, paprastai labai didelės aibės, remdamosis tarpusavio naudotojų santykiu. Sihna ir Swearingen \cite{19} palygino RS ir draugų suteiktas rekomendacijas ir parodė, kad žmonės labiau pasitiki rekomendacijomis gautomis iš pažįstamų žmonių nei iš sistemos, veikiančios juodos dėžės (angl. black box) principu. Šis tyrimo rezultatas kartu su žinojimu, kad socialiniai tinklai vis populiarėja, o besinaudojančiųjų skaičius perkopia milijardą, lemia vis didesnį susidomėjimą pasitikėjimu pagrįstomis RS.
 \newline
 \indent 
 Tokiose sistemose naudotojas gauna rekomendaciją elemento, turinčio aukštą įvertinimą naudotojo WOT - pasitikėjimo tinkle (angl. web of trust). Pagrindiniai tokių sistemų įrankiai yra agregavimo (angl. aggregation) ir propagavimo (angl. propagation) operatoriai. Propagavimo operatorius taiko pasitikėjimo tranzityvumo prielaidą - jeigu naudotojas $u_1$ pasitiki naudotoju $u_2$, o $u_2$ pasitiki $u_3$, tai $u_1$ pasitiki $u_3$. Agregavimo operatorius apjungia kelis pasitikėjimo įverčius į vieną.
@@ -268,9 +270,8 @@ Tokiose sistemose naudotojas gauna rekomendaciją elemento, turinčio aukštą �
 Tikimybiniu požiūriu pasitikėjimas gali įgyti tik dvi reikšmes - arba kitu naudotoju galima pasitikėti (su tikimybe $p$), arba ne. Kitas, labiau įtikinantis ir panašesnis į realybę, yra laipsniškas požiūris, teigiantis, kad galima pasitikėti arba nepasitikėti tik iš dalies. Šiuo požiūriu pasitikėjimas nėra vertinamas kaip tikimybė, didesnė reikšmė tiesiog reiškia didesnį pasitikėjimą. Čia galima pastebėti ir analogiją su realiu gyvenimu - vienais žmonėmis pasitikime daugiau, kitais mažiau.
 \newline
 \indent
-Tranzityvumo prielaida yra teisinga tik tame pačiame kontekste - jeigu $u_1$ pasitiki $u_2$ kai kalbama apie automobilius, o $u_2$ pasitiki $u_3$ sodininkystės klausimais, nieko negalėsime pasakyti apie $u_1$ pasitikėjimą $u_3$ kompiuterijos žiniomis. Šis pastebėjimas veda prie metodų, pristatytų kitame skyriuje.
-
-\subsection{Tyrimo aplinkos modeliavimas}
+Tranzityvumo prielaida yra teisinga tik tame pačiame kontekste (toliau - srityje). Jeigu $u_1$ pasitiki $u_2$ kai kalbama apie automobilius, o $u_2$ pasitiki $u_3$ sodininkystės klausimais, nieko negalėsime pasakyti apie $u_1$ pasitikėjimą $u_3$ kompiuterijos žiniomis. 
+\newline
 \indent
 Šiame darbe siūlomi metodai remiasi nauju duomenų aplinkos interpretavimu. Iki šiol buvo kalbėta apie sistemas, kuriose naudotojai turi kitiems naudotojams priskyrę tam tikrus skaitinius pasitikėjimo įverčius. Šiame darbe siūloma praplėsti šį apibrėžimą iki bendresnio atvejo, kuriame galimos kelios pasitikėjimo sritys, taigi vienas naudotojas kitam gali priskirti kelis įverčius pagal pasitikėjimo sritis, kitaip tariant, vienas vartotojas kitam priskiria pasitikėjimo vektorių. Taip pat, tinklo dalyviai gali būti tarpusavyje susiję ir be išreikšto pasitikėjimo įverčio, tai yra pasitikėjimas traktuojamas kaip neprivalomas esamo santykio atributas. Tada santykį tarp bet kurių $u_1$ ir $u_2$, galime užrašyti kaip $r_{u_1}({u_2})=(e_{u_1}({u_2}), \boldsymbol{t}_{u_1}({u_2})), e_{u_1}({u_2}) \in \{0,1\}, t_{u_1}^k({u_2})\in[0,1]$, kur $k=1,..,N$, o $N$ - pasitikėjimo sričių skaičius. $e$ rodo ar tinklo dalyviai turi ryšį, o $t_{u_1}({u_2})$ rodo naudotojo $u_1$ pasitikėjimą naudotoju $u_2$, kuris, kai $e=0, t_{u_1}({u_2}) = \emptyset$. Pačias pasitikėjimo sritis žymėsime $T_1, T_2..., T_N$.
 \newline
@@ -285,167 +286,40 @@ Tranzityvumo prielaida yra teisinga tik tame pačiame kontekste - jeigu $u_1$ pa
 \indent
 Kitas scenarijus yra, kai norime priskirti pasitikėjimą ne apžvalgininkui, o kitam asmeniui (pavyzdžiui, draugui). Tuomet galima tiesiog nueiti į to asmens anketą ir joje užpildyti pasitikėjimo įvertį (skalėje nuo 1 iki 5).
 \indent
-Jeigu žinomas panašumo įvertis, galima inicializuoti pasitikėjimą šiuo įverčiu ir esant progai paklausti naudotojo, ar jo pasitikėjimas naudotoju $X$ yra lygus $x/10$. Toks metodas ypač aktualus, kai kalbama apie kelių pasitikėjimo sričių RS ir norime žinoti pasitikėjimus kiekvienoje jų. Tokie duomenys reikalingi kai kuriais atvejais, pavyzdžiui norint išsiaiškinti sričių panašumą \ref{eq:areasim} arba taikant tiesinę regresiją \ref{ssec:linreg}. Šių ir kitų duomenų išgavimo būdų efektyvumo patvirtinimas arba paneigimas neįeina į šoi darbo apimtį.
-
-% Jeigu Fb turetu dislike butu idomiau
-% Šiai toks generic soc tinklas kaip fb rekomendacijoms ne pats tinkamiausias
-% Įdomesnis būtų kaip google plus, reikalaujantis daugiau naudotojo įsitraukimo į santykių palaikymą
-% ratai pagal temas, kur po atsiliepimais butu galima deti reitingus
-% arba butu galima suteikti reitinga komentarui su reitingu
-
-% Kaip islupti laipsninius pasitikėjimo duomenis kai turime tik diskrecius faktus - komentarus, like'us, draugyste
-
-
-\subsection{Bendrų kaimynų metodas}
-Ankstesniame skyrelyje pateiktas apibrėžimas leidžia kalbėti apie pasitikėjimo tinklą, net ir tada, kai nėra pasitikėjimo įverčio. Bendrų kaimynų metodas tuo ir remiasi - egzistuojančiais ryšiais, kurie nurodo, kad tinklo dalyviai apskritai yra kažkaip susiję. Nors prielaida, kad galima pasitikėti žmogumi, kuris yra kažkuriuo būdu pažįstamas, yra labai silpna, neturint jokių kitų duomenų tai yra galimybė pasiūlyti elementą, kuris buvo populiarus tinklo kaimynystėje. 
-\newline
+Jeigu žinomas panašumo įvertis $sim$, galima inicializuoti pasitikėjimą šiuo įverčiu ir esant progai paklausti naudotojo, ar jo pasitikėjimas naudotoju $v$ yra lygus $sim$. Toks metodas ypač aktualus, kai kalbama apie kelių pasitikėjimo sričių RS ir norime žinoti pasitikėjimus kiekvienoje jų. Šių ir kitų duomenų išgavimo būdų efektyvumo patvirtinimas arba paneigimas neįeina į šoi darbo apimtį.
+\subsection{RS vertinimas}
+\subsubsection{Vertinimo metrikos}
 \indent
-Šioje vietoje verta prisiminti šalto starto problemą - turime naują naudotoją, apie kurį nežinoma nieko, išskyrus jo socialinį santykį su kitais naudotojais, apie kuriuos jau yra sukauptas tam tikras kiekis informacijos. Kadangi naudotojas yra visiškai naujas, jo santykis su visais kitais sistemos vartotojas yra toks: $r_{u_1}(x) = (e_{u_1}(x), t_{u_1}(x))$, kur $e_{u_1}(x)\in \{0,1\}, t_{u_1}(x) = \emptyset, \forall x \in U$. Turint tokius duomenis, vienas galimų būdų išgauti vertingos informacijos apie naudotojo pirmenybes - taikyti bendrų kaimynų metodą. Iškart verta paminėti, kad šis metodas turi atjungtinę (angl. offline) fazę, kurios metu atliekamas duomenų apdorojimas ir sudaromas modelis. 
-\newline
-\indent
-Jeigu norime nustatyti pasitikėjimo įvertį tarp naudotojų $u_1$ ir $u_2$, kuriems $e_a(b)=1$, taikome įprastus, anksčiau aptartus pasitikėjimo propagavimo ir agregavimo operatorius. Tačiau lieka klausimas kaip elgtis atveju, kai $e_{u_1}(v)=0$, kur $v \in U$, t.y. neturime pakankamai informacijos apie naudotojų santykį, kad galėtume kažką rekomenduoti. Toliau siūlomas algoritmas remiasi bendrais kaimynais - net ir nesant tiesioginiam ryšiui tarp dviejų naudotojų, galime kalbėti apie jų santykį per kitus naudotojus. Reikia paminėti, kad bendrų ryšių neturėjimas nereiškia skirtingumo - šis metodas skirtas tik pasitikėjimo radimui; kaip buvo aptarta anksčiau informacijos neturėjimas nėra lygus nepasitikėjimui.
-\newline
-\indent
-Pirmos fazės metus sudaroma bendrų ryšių skaičiaus matrica. Ji atrodo taip: 
-
-\[
-\begin{bmatrix}
-|r(u_1)|       & |br(u_1,u_2)| & |br(u_1,u_3)| & \dots & |br(u_1, u_n)| \\
-|br(u_2,u_1)|      & |r(u_2)| & |br(u_2,u_3)| & \dots & |br(u_2,u_n)| \\
-\hdotsfor{5} \\
-|br(u_n,u_1)|       & |br(u_n,u_2)| & |br(u_n,u_3)| & \dots & |r(u_n)|
-\end{bmatrix}
-\]
-čia $r(u_n)$ žymi naudotojo $n$ "draugus", o  $br(u_m, u_n)$ - naudotojų $u_m$ ir $u_n$ bendrus "draugus". Turėdami tokią matricą ir tarpusavio pasitikėjimus, galime prognozuoti pasitikėjimą naudotojams, kurie yra visiškai nauji. Kitaip tariant, galime įvertinti $t_{u_j}(x), \forall x \in U\setminus \{u_j\}$ ir $\exists u_k : u_k \in br(u_j,u_k) \cup br(u_k,u_l), t_{u_k}(u_l) \neq \emptyset$. Tokiu atveju, pasitikėjimas "beveik" propaguoja iki norimo naudotojo, trūksta tik vieno pasitikėjimo įverčio propagavimo kelyje. Natūralu, kad turimą nepilno kelio pasitikėjimo įvertį reikia sumažinti. Norėdami sužinoti kiek - atliekame bendrų kaimynų analizę - jei santykis tarp bendrų kaimynų skaičiaus ir draugų skaičiaus didelis - mažiname nestipriai, t.y. pasitikėjimas artimas $1$, o jeigu santykis labai mažas, priešingai, pasitikėjimas artimas $0$ ir kelias yra ignoruojamas. Jis galėtų būti randamas remiantis tokia taisykle - 
-\begin{equation}\label{rule:sim}
-\frac{br(u,v)}{\min(r(u), r(v))}
-\end{equation}
-
- Idealiu atveju, jeigu du naudotojai neturi ryšio, tačiau visi jų abiejų ryšių aibė yra vienoda, ši taisyklė teigia, kad naudotojų pirmenybės yra idealiai panašios.
-\begin{figure}[ht!]
-	\centering
-	\includegraphics[width=80mm]{common_neighbors.jpg}
-	\caption{Ryšių grafo fragmentas} \label{common_neighbors}
-\end{figure}
-
-\ref{common_neighbors} pav. pavaizduotas socialinio tinklo fragmentas, kuriame žinomas tik $u_2$ pasitikėjimas $u_1$, kuris šiame pavyzdyje yra lygus $0.7$. Tarkime, kad norime įvertinti $t_{u_3}(u_1)$. Iš grafo matosi, kad $r(u_1)=4$, $r(u_3) = 7$ ir $br(u_1,u_3)=3$ ($u_1$ turi ryšį su 4 naudotojais, $u_1$ - su $7$, o šių naudotojų bendrų ryšių skaičius - $3$). Žinodami, kad $t_{u_2}(u_1) = 0.7$, galime teigti, kad $t_{u_3}(u_1)$ tikrai nebus didesnis nei $t_{u_2}(u_1)$, nes trūkstamas propagavimo kelio pasitikėjimo įvertis $t_{u_3}({u_2})$ nebus didesnis už $1$. Jį galima įvertinti jau minėta taisykle \ref{rule:sim} .
-Kitas būdas - spręsti skaitinės prognozės uždavinį. Naudojant mokymo duomenis būtų galima įvertinti sąryšį tarp bendrų ryšių skaičiaus ir pasitikėjimo įverčio. Mokymo duomenys – matrica pavidalo 
-\begin{displaymath}
-[ \boldsymbol{R_1}, \boldsymbol{R_2}, \boldsymbol{BR}, \boldsymbol{Y}]
-\end{displaymath}
-Čia $\boldsymbol{R_1}$ ir $\boldsymbol{R_2}$ - naudotojų porų, kurioms žinomas tarpusavio pasitikėjimas, ryšių skaičiaus vektorius, $\boldsymbol{BR}$ - jų bendrų ryšių skaičiaus vektorius, o $\boldsymbol{Y}$ - priklausomas žinomo pasitikėjimo įverčio tarp jų vektorius. Testuoti gautus rezultatus galima prognozuojant reitingus ir taikant prognozės tikslumo matus, aprašytus kitame skyriuje.
-
-\subsection{Sričių panašumo metodas}
-
-Šalto starto sąvoka nėra vienareikšmiškai apibrėžiama - negalime iš anksto žinoti, kiek ir kokių reikia duomenų, kad situacija tenkintų apibrėžimą ir taikomas metodas veiktų kaip tikimąsi. Aplinkoje, apie kurią dabar rašoma, naudotojas gali būti šalto starto padėtyje, kai kalbame apie vieną sritį, tačiau kitoje srityje padėtis gali būti priešinga. Kitaip tariant, jeigu norime sužinoti, koks yra $t_a^2(b)$, ir žinome, kad naudotojo $u_1$ pasitikėjimo naudotoju $u_2$ srityje $T_1$ lygis yra $0.8$, o $s^d(T_1, T_2) = 0.9$, nieko nežinodami apie naudotojų santykį $T_2$ klausimu, galime įvertinti jų tarpusavio pasitikėjimą tiesiog padauginę žinomos srities pasitikėjimo įvertį iš sričių tarpusavio panašumo įverčio.
-\newline
-\indent
-Ši idėja yra pritaikoma ne tik šalto starto atveju, kai kalbama apie naudotoją, bet ir naujos srities šalto starto atveju. Socialinius tinklus pagal pasitikėjimo sričių daugialypiškumą galima išskirti į du tipus:
+Šio tyrimo tikslas – ištirti pasiūlytų metodų efektyvumą ir tikslumą sprendžiant šalto starto problemą rekomendacinėse sistemose. Tikslumas vertinamas naudojant "išimk vieną" metodą, kurio esmė tokia - iš duomenų išimamas vienas reitingas ir tada bandoma jį prognozuoti remiantis likusiais sistemos duomenimis. Tada tikslumas matuojamas taikant vieną iš šių matavimo būdų:
 \begin{itemize}
-	\item daugiaprofilinius - juose galimos įvairios pasitikėjimo sritys - tokios, kurias galima surikiuoti pagal panašumą ir tarp pirmos bei paskutinės nėra jokio panašumo.
-	\item specializuotos - juose pasitikėjimo sritys yra gana artimos. Tokio tinklo pavyzdys galėtų būti kino mėgėjų socialinis tinklas, o sritys - įvairūs žanrai. 
+	\item Vidutinė absoliuti klaida (angl. mean absolute error) skaičiuoja visų prognozės klaidų vidurkį. Ši metrika ne visiškai atspindi RS tikslumą, nes taip pat vertina ir daug duomenų turinčius ir šalto starto naudotojus.
+	\begin{equation}
+	MAE = \sqrt{\frac{1}{|T|}\sum\limits_{(u,i)\in T} |\hat{r}_{ui} - r_{ui}|}
+	\end{equation}
+	Kadangi mažai duomenų turintiems naudotojams tikslumas gali būti mažesnis, Massa ir Avesani pasiūlė kitą metriką, kuri suvienodina vieno naudotojo reikšmę vertinant vidutinę klaidą - vidutinę absoliučią naudotojo klaidą.
+	\item Vidutinė absoliuti naudotojo klaida (angl. mean absolute user error) skaičiuojama kiekvienam naudotojui atskirai, o tada randamas tų klaidų vidurkis.
+	\item Kvadratinė vidutinė klaida (angl. root mean squared error) - viena populiariausių metrikų, panaši į vidutinę absoliučią klaidą
+	\begin{equation}
+	RMSE = \sqrt{\frac{1}{|T|}\sum\limits_{(u,i)\in T} (\hat{r}_{ui} - r_{ui})^2}
+	\end{equation}
 \end{itemize}
-Siūlomas metodas tinka abiems tipams, tačiau pirmojo tipo atveju, dėl platesnio išsibarstymo pasitikėjimo skalėje, gali būti ypač naudingas.
-\begin{figure}[ht!]
-	\centering
-	\includegraphics[width=60mm]{multiarea.jpg}
-	\caption{Ryšių grafo fragmentas} \label{multiarea}
-\end{figure}
-Tarkime, kad turime situaciją pavaizduotą grafe \ref{multiarea}, kuriame pateikti naudotojų tarpusavio pasitikėjimai ${t_1, t_2}$, ir norime žinoti, kiek $u_1$ pasitiki $u_3$ dėl $T_2$. Tiesioginio būdo nėra, nes abiejuoe galimuose keliuose - $u_1 - u_2 - u_3$ ir $u_1 - u_4 - u_3$ yra trūkstamų duomenų - pirmu atveju nežinome $t_{u_1}^2(u_2)$, antru - $t_{u_4}^2(u_3)$, tačiau matome, kad egzistuoja kelias $u_1 - u_2 - u_3$, pagal kurį galime įvertinti $t_{u_1}^1(u_3)$
-\begin{displaymath}
-t_{u_1}^1(u_3)=t_{u_1}^1(u_2) \times t_{u_2}^1(u_3) = 0.7 \times 0.9 = 0.63
-\end{displaymath}
-Žinodami, kad sričių panašumas $s^d(T_1, T_2) = 0.9$, gauname
-\begin{displaymath}
-t_{u_1}^1(u_3)=t_{u_1}^1(u_3) \times s^d(T_1, T_2) = 0.63 \times 0.9 = 0.6048
-\end{displaymath}
-Panašumą tarp sričių galime priskirti \it{ad hoc} \normalfont arba įvertinti vienu iš šių būdų:
+Kitas vertinimo kriterijus - ypač svarbus, kai kalbama apie šaltą startą - padengimas (angl. coverage). Pagrindinė mintis - palyginti reitingų, kuriuos algoritmas sugebėjo įvertinti taikant "išimk vieną" metodą, skaičių su visų sistemoje esančių reitingų skaičiumi. Toks palyginimas vadinamas reitingų padengimu. Naudotojo padenimas lygina keliems naudotojams algoritmas sugebėjo prognozuoti bent vieną reitingą su skaičiumi naudotojų, kurie yra priskyrę reitingą bent vienam elementui.
+\newline
+Vertidami metodus skyriuje apie sričių panašumą naudosime tokį vertinimo kriterijų rinkinį - $MAE$, $MAUE$, $RMSE$, retingų padengima - $RC$, naudotojų padengimą - $UC$.
+\subsubsection{Duomenų rinkinio skaidymas}
+\indent
+Tam, kad galėtume ištirti metodo efektyvumą skirtingiems naudotojų tipams. Išskiriame du įdomius naudotojų tipus:
 \begin{itemize}
-	\item Tarkime, kad turime naudotojų porų sąrašą ir jų tarpusavio pasitikėjimą (arba panašumą) pagal sritis. Tada:
-	\begin{displaymath}\label{eq:areasim}
-	s^d(T_1, T_2) = \frac{\sum \limits_{i=1}^n \frac{\min(t_{u_i}^1, t_{u_i}^2)}{\max(t_{u_i}^1, t_{u_i}^2)}}{n}
-	%s^d(T_1, T_2) = average \bigg(\frac{min(\boldsymbol{t}_1, \boldsymbol{t}_2)}{max(\boldsymbol{t}_1, \boldsymbol{t}_2)}\bigg) 
-	\end{displaymath}
-	\indent
-	Kitas būdas:
-	\begin{displaymath}\label{eq:areasim}
-	s^d(T_1, T_2) = 1-\frac{\sum \limits_{i=1}^n \big[\max(t_{u_i}^1, t_{u_i}^2)- \min(t_{u_i}^1, t_{u_i}^2)\big]}{n}
-	%s^d(T_1, T_2) = average \bigg(\frac{min(\boldsymbol{t}_1, \boldsymbol{t}_2)}{max(\boldsymbol{t}_1, \boldsymbol{t}_2)}\bigg) 
-	\end{displaymath}
-	\item Kitas būdas - taikyti vieną iš panašumo radimo metodų (Pyrsono, Spearmano koreliacija, kosinuso panašumas) turimiems pasitikėjimo (arba panašumo) duomenims. Verta pastebėti, kad šis metodas palyginus su anksčiau pasiūlytais yra griežtesnis ir grąžina mažesnį panašumą.
+	\item Šalto starto naudotojai -tie, kurie yra įvertinę 3 arba mažiau elementų.
+	\item Ryžtingi naudotojai - tie, kurie turi daugiau reitingų, tačiau jie yra pasiskirstę plačiai apie vidurkį. Tokiais laikysime naudotojus, kurių retingų standartinis nuokrypis didesnis nei $1.5$.
 \end{itemize} 
-\subsection{Pasitikėjimo apskaičiavimas pasitikėjimo sritims taikant tiesinę regresiją}\label{ssec:linreg}
-Praeitame skyrelyje pasiūlytas metodas turi stiprų loginį pagrindimą - idėja, kad žinant pasitikėjimo tam tikroje srityje įvertį ir panašumą tarp sričių, galime konservatyviai prognozuoti pasitikėjimą kitoje srityje, atrodo intuityviai suprantama. Į šią problemą galima pažvelgti ir iš statistinės perspektyvos. Norime įvertinti naudotojo $u_j$ pasitikėjimą naudotoju $u_k$ srityje $T_2$. Turime duomenis $\{(t_{u_j}^1(u_{p_1}), t_{u_j}^2(u_{p_1})),... , (t_{u_j}^1(u_{p_k}), t_{u_j}^2(u_{p_k}))\}, k \in \bar{1,N} $ ir $t_{u_i}^1(u_j)$. Kadangi nežinomas įvertis antroje pasitikėjimo srityje $T_2$, ją įvardiname kaip regresorių, o $T_1$ - predikatą.
+%predictions
+%table MAE, MAUE, RMSE/ Similarity measures
 
-\begin{figure}[ht!]
-	\centering
-	\includegraphics[width=80mm]{linreg.jpg}
-	\caption{Tiesinė regresija} \label{linreg}
-\end{figure}
-Norint įvertinti $t_{u}^i(v)$, kur $i$ - pasitikėjimo srities indeksas, reikia žinoti pasitikėjimo įverčius visoms dimensijoms (išskyrus tą, kurią norime įvertinti) tam tikram naudotojų kiekiui. Jau anksčiau buvo kalbėta apie duomenų retumo problemą - natūralu, kad ir šiuo atveju pilno duomenų rinkinio niekada neturėsime.
 
-\begin{center}
-	\captionof{table}{Naudotojo $u$ pasitikėjimas aštuoniais naudotojais keturiose pasitikėjimo srityse}
-	\begin{tabular}{ | l | l | l | l | l |}
-		\hline
-		 & $T_1$ & $T_2$ & $T_3$ & $T_4$\\ \hline
-		$\boldsymbol{t}_u(v_1)$ & 0.7 & 0.4 &  & \\ \hline
-		$\boldsymbol{t}_u(v_2)$ &  &  & 0.7 & \\ \hline
-		$\boldsymbol{t}_u(v_3)$ &  & 0.6 &  & \\ \hline
-		$\boldsymbol{t}_u(v_4)$ & 0.6 & ? & 0.4 & 0.5\\ \hline
-		$\boldsymbol{t}_u(v_5)$ & 0.8 & 0.3 &  & \\ \hline
-		$\boldsymbol{t}_u(v_6)$ &  &  & 0.9 & \\ \hline
-		$\boldsymbol{t}_u(v_7)$ &  &  &  & 0.8\\ \hline
-		$\boldsymbol{t}_u(v_8)$ & 0.9 & 0.4 &  & 0.9 \\\hline
-		\hline
-	\end{tabular}
-\end{center}
-Vienas būdų, kaip įvertintį norimą pasitikėjimą - parinkti tam tikras dimensijas, kurioms tada taikoma tiesinė regresija. 
-\begin{itemize}
-	\item nustatome mus dominantį naudotoją ($v_4$)
-	\item nustatome, kurioms sritims mus dominantis naudotojas turi pasitikėjimo įverčius.($T_1, T_3, T_4$)
-	\item atrenkame naudotojų, kurie turi pasitikėjimo įverčius mus dominančiai sričiai, aibę ($v_1$, $v_2$, $v_3$, $v_5$, $v_8$)
-	\item einame per pasitikėjimo sritis ir žiūrime, kiek naudotojų iš atrinktos aibės turi įverčius konkrečiai sričiai ($T_1$ - $4$, $T_3$ - $3$, $T_4$ - $3$)
-	\item atrenkame tuos naudotojus, kurie turi įverčius sričiai, kuri turėjo daugiausiai įverčių praeitame žingsnyje ($v_1$, $v_4$, $v_5$, $v_8$)
-	\item taikome tiesinę regresiją atrinktų naudotojų duomenimis atrinktoms sritims
-\end{itemize}
-Pavyzdyje pateiktiems duomenims, taikytume tiesinę regresiją dimensijoms $T_1$, $T_2$, o duomenų aibę sudarytų naudotojų $v_1$, $v_4$, $v_5$, $v_8$ duomenys.
-\newline
-\indent
-Šį metodą galima palyginti su anksčiau pasiūlytu sričių panašumo metodu nagrinėjant tam tikrą ribinį atvejį. Turime naudotojo $u$ ir kitų keturių naudotojų tarpusavio pasitikėjimą dviejose srityse. Duomenys tokie: 
-\begin{displaymath}
-t_{u}^1(v_1)=0; t_{u}^2(v_1)=0
-\end{displaymath}
-\begin{displaymath}
-t_{u}^1(v_2)=0; t_{u}^2(v_2)=1
-\end{displaymath}
-\begin{displaymath}
-t_{u}^1(v_3)=1; t_{u}^2(v_3)=0
-\end{displaymath}
-\begin{displaymath}
-t_{u}^1(v_4)=1; t_{u}^2(v_4)=1
-\end{displaymath}
-Tokiu atveju, sričių panašumo metodas identifikuoja, kad panašumas tarp sričių lygus 0 ir net jei žinome, kiek $u$ pasitiki naudotoju bet kurioje srityje, nieko negalime pasakyti apie pasitikėjimą kitoje. Tiesine regresija paremtas metodas esant bet kokiam pasitikėjimui vienoje srityje, teigtų, kad pasitikėjimas kitoje yra $0.5$. Taigi, abu metodai, iš esmės sako, kad jie nieko nežino - pirmas atsisako vertinti visai, kitas vertina $50 - 50$, ir abu jie yra savaip teisūs. 
-\newline
-\indent
- Šį metodą prasminga taikyti ne visada, o tik esant sąlygai, kad egzistuoja tam tikras ryšys tarp pasitikėjimo sričių. Tyrimu galima nustatyti, koks turi būti sričių panašumas, kad tiesinės regresijos taikymas būtų prasmingas. Regresijos tiesės nuolydis priklauso ir nuo paties naudotojo santykiu su pasitikėjimo sritimis. Galima iškelti tokią hipotezę: tarkime, yra 2 panašios sritys, tačiau naudotojas $u$ srityje $T_1$ jaučiasi nusimanąs labiau nei $T_2$. Tada, žmonės, kuriais jis pasitiki srityje $T_1$ labiau, turės dar didesnius pasitikėjimo įverčius srityje $T_2$, o tai reikš, kad regresijos tiesės koeficientas bus didesnis už 1. Šios hipotezės patvirtinimas arba paneigimas - psichologijos tyrimų objektas.
-
-\subsubsection{Pasitikėjimo kryptis}
-Iki šiol nebuvo akcentuota pasitikėjimo krypties sąvoka - visuose pavyzdžiuose darėme prielaidą, kad pasitikėjimas turi kryptį ir nėra abipusis. Tačiau galima išskirti du RS tipus, pagal tai, kur kryptingumas yra svarbus ir kur galima daryti prielaidą, kad $t_u(v)= t_v(u)$.
-\begin{itemize}
-	\item kryptingumas yra svarbus, tinkluose, kur pasitikėjimas reiškia pasitikėjimą kaip specialistu (pavyzdžiui, $u$ pasitiki $v$ kaip debesų kompiuterijos specialistu, tačiau pats yra naujokas šioje srityje, todėl atvirkščias teiginys negalioja)
-	\item kryptingumas nėra toks svarbus, tinkluose, kur pasitikėjimas reiškia, kiek panašūs skoniai (pavyzdžiui, $u$ patiko panašūs filmai kaip ir $v$, todėl būtų pagrįsta manyti, kad ir $v$ patiks panašūs filmai kaip ir $u$)
-\end{itemize}
-Anksčiau buvo minėta, kad pasitikėjimas turi kryptį - naudotas $u$ pasitiki naudotoju $v$ nebūtinai tiek pat, kiek $v$ pasitiki $u$. Tačiau šalto starto atveju, galima daryti prielaidą, kad $\boldsymbol{t}_u(v) = \boldsymbol{t}_v(u)$. Tada ir metodas, naudojantis tiesinę regresiją gali būti klasifikuojamas kaip sprendžiantis šalto starto problemą.
-\newline
-\indent
-Metodas, naudojantis tiesinę regresiją pagal savo esmę labiau tinka vertinti naudotojo, turinčio daug duomenų pasitikėjimą naudotoju, turinčiu mažai duomenų. Tačiau, remiantis idėja apie pasitikėjimo krypties nebuvimą, galime vertinti atvirkščiai, ir tokiu būdu spręsti šalto starto problemą.
-
-%\subsection{Vertinimas}
-%\section{Pasiekti rezultatai}
-\section{Tyrimas}
 \subsection{Bendrų kaimynų metodas}
-Dalis tyrimo (nereikalaujanti duomenų apie naudotojų tarpusavio pasitikėjimą kategorijų lygmenyje) buvo atlikta naudojant viešai prieinamą Epinions.com duomenų rinkinį. Šio duomenų rinkinio struktūra tokia:
+\subsubsection{Epinions.com duomenų rinkinys}
+Dalis tyrimo (nereikalaujanti duomenų apie naudotojų tarpusavio pasitikėjimą kategorijų lygmenyje) buvo atlikta naudojant viešai prieinamą Epinions.com duomenų rinkinį [Massa, Avesani]. Šio duomenų rinkinio struktūra tokia:
 \begin{itemize}
 	\item naudotojai
 	\begin{itemize}
@@ -464,31 +338,13 @@ Dalis tyrimo (nereikalaujanti duomenų apie naudotojų tarpusavio pasitikėjimą
 	\end{itemize}
 \end{itemize}
 \indent
-Panašumas buvo skaičiuojamas taikant šiuos panašumo matus:
-\begin{itemize}
-	\item Pyrsono koreliacija
-	\item Spearmano koreliacija
-	\item Kosinuso panašumas
-\end{itemize}
+Duomenų rinkinį sudaro 132000 naudotojų, kurie išreiškė 717667 pasitikėjimus. 85000 naudotojų turi priskirtą sau bent vieną pasitikėjimo reitingą. Sistemoje yra 1560144 elementų, naudotojai juos yra įvertinę iš viso 13668319 kartų.
+\newline
 \indent
-Šio tyrimo tikslas – ištirti pasiūlytų metodų efektyvumą ir tikslumą sprendžiant šalto starto problemą rekomendacinėse sistemose. Tikslumas vertinamas naudojant "išimk vieną" metodą, kurio esmė tokia - iš duomenų išimamas vienas reitingas ir tada bandoma jį prognozuoti remiantis likusiais sistemos duomenimis. Tada tikslumas matuojamas taikant vieną iš šių matavimo būdų:
-\begin{itemize}
-	\item Vidutinė absoliuti klaida (angl. mean absolute error)
-	\begin{equation}
-	MAE = \sqrt{\frac{1}{|T|}\sum\limits_{(u,i)\in T} |\hat{r}_{ui} - r_{ui}|}
-	\end{equation}
-	\item Vidutinė absoliuti naudotojo klaida (angl. mean absolute user error) – vidutinė absoliuti klaida skaičiuojama kiekvienam naudotojui atskirai, o tada randamas tų klaidų vidurkis.
-	\item Kvadratinė vidutinė klaida (angl. root mean squared error)
-	\begin{equation}
-	RMSE = \sqrt{\frac{1}{|T|}\sum\limits_{(u,i)\in T} (\hat{r}_{ui} - r_{ui})^2}
-	\end{equation}
-\end{itemize}
-
-%predictions
-%table MAE, MAUE, RMSE/ Similarity measures
-
+Šis duomenų rinkinys naudojamas tyrime apie bendrų kaimynų metodą, nes jame naudotojo ryšių grafas nėra visiškai atsitiktinis (jis toks yra kitame skyrejyje sugeneruotame duomenų rinkinyje). Tai svarbu, nes bendrų kaimynų metodas daro stiprią prielaidą apie tai, kad naudotojai "buriasi" apie tam tikrą interesų sritį. Plačiau apie tai bus aprašyta skyriuje apie bendrų kaimynų metodą.
+\newline
 \indent
-Siūlomų metodų rezultatai vertinami lyginant su rezultatais, gautais taikant tradicinį bendradarbiavimo filtravimo metodą. Šis metodas gali būti taikomas naudojant skirtingus panašumo matus. Tyrimas buvo atliktas prognozuojant $608603$ reitingus nuo $35685$ naudotojų. Atlikus anksčiau apibrėžtų kriterijų vertinimą, gauti tokie rezultatai.
+Naudojant Epinions.com duomenų rinkinį buvo taikomas paprastas BF metodas. Jo rezultatai pateikti lentelėje
 \begin{center}
 	\captionof{table}{Bazinio metodo taikymo rezultatai}
 	\begin{tabular}{ | l | l | l | l |}
@@ -500,17 +356,58 @@ Siūlomų metodų rezultatai vertinami lyginant su rezultatais, gautais taikant 
 		\hline
 	\end{tabular}
 \end{center}
-Taikant Pyrsono ir Spearmano koreliaciją gauti rezultatai labai panašūs, kosinuso panašumo - prastesni. Dėl šios priežasties toliau bus remiamasi tik Pyrsono koreliacija.
-\subsection{Sričių panašumo metodas}
+Ši lentelė bus naudojama kaip atskaitos taškas metodo apie sričių panašumą rezultatų vertinimui.
+\newline 
 \indent
-Šiuo metu nėra viešai prieinamo duomenų rinkinio tobulai tinkančio atliekamam tyrimui.  Kaip minėta anksčiau, turimi pasitikėjimo tarp naudotojų įverčiai lygūs $1$. Kadangi šiame tyrime norima parodyti metodo, naudojančio tolydžius duomenis efektyvumą, pasitikėjimo įverčiai tarp naudotojų proporcingai priskiriami panašumo įverčiams, gautiems taikant Pyrsono koreliaciją. Naudotojų poroms, kurioms koreliacijos dėl bendrai įvertintų elementų nebuvimo nustatyti nepavyko, pasitikėjimas prilygintas $0.4$ - panašumų vidurkiui. Verta paminėti, kad prielaida apie pasitikėjimo proporcingumą panašumui yra gana grubi. Iš tiesų, įvertinus pasitikinčių naudotojų porų panašumą, paaiškėjo, kad $16.8\%$ panašumas buvo neigiamas o vidurkis yra tik  $0.43$. Nors šis dydis naudojamas tik kaip svoris ir jo absoliuti reikšmė įtakos neturi, tai byloja apie tam tikrą naudotojų neracionalumą identifikuojant jiems patikimus naudotojus. 
+Pastebėta, kad taikant Pyrsono ir Spearmano koreliaciją gauti rezultatai labai panašūs, kosinuso panašumo - prastesni. Dėl šios priežasties toliau bus naudojama tik Pyrsono koreliacija.
+\subsubsection{Metodas}
 \indent
-Įyrimas buvo atliekamas dviem lygiais - globaliu, kuriame kalbama apie naudotojų pasitikėjimą sistemoje visose srityse ir kategorijų lygiu. Turimo epinions.com duomenų rinkinio karegorijų struktūra susideda iš xxx kategorijų, išsidėsčiusio 4-iais lygiais. (pav.) Tokia struktūra šiam tyrimui yra per smulki - būtų sunku apskaičiuoti panašumą tarp naudotojų skirtingose tokio smulkumo kategorijose. Dėl šios priežasties kategorijos buvo "suplokštintos", taigi pavyzdžiui elementas priklausęs kategorjai "Video žaidimai" buvo priskirtas kategororijai "Žaidimai" ir panašiai. Kai visi elementai buvo  priskirti vieno lygio kategorijoms, buvo apskaičiuoti panašumai tarp naudotojų atskirtose kategorijose. Tam, kad tarp naudotojų būtų įnamona rasti panašumą, reikia, kad jie pasirinktoje kategorijoje bendrai būtų įvertinę keturis ar daugiau tų pačių elementų. Atlikus tyrimą, paaiškėjo, kad tokią salyga gana sunku patenkinti dėl didelio elementų skaičiaus ir per mažo naudotojų aktyvumo vertinant elementus.
+Bendrų kaimynų metodas remiasi egzistuojančiais ryšiais, kurie nurodo, kad tinklo dalyviai apskritai yra kažkaip susiję. Nors prielaidą, kad galima pasitikėti žmogumi, kuris yra kažkuriuo būdu pažįstamas, pagrįsti gana sunku, neturint jokių kitų duomenų tai yra galimybė pasiūlyti elementą, kuris buvo populiarus naudotojo kaimynystėje. 
 \newline
 \indent
-Kaip dalis duomenų parengimo etapo gali būti vertinamas ir pagrindinių operatorių - propagavimo ir agregavimo - taikymas turimiems duomenims. Dauguma anksčiau pristatytų tyrimų apie šalto starto problemą rekomendacinėse sistemose taikant socialinių tinklų duomenis [tokie ir tokie] kalbėjo būtent apie tai, kaip padidinti reikalingų pasitikėjimo duomenų kiekį taikant propagavimo ir agregavimo operatorius. Šiuo tyrimu siekiama eiti toliau - panaudoti ankstesnius darbus kaip pagrindą. Nors Golbeck disertacijoje išsamiai aprašytas TidalTrust algoritmas atrodo teoriškai pagrįstas, igyvendinti jį praktikoje pasirodė gana sudėtinga. Šiame tyrime propaguoti pasitikėjimai buvo apskaičiuoti taikant trumpiausio kelio algoritmą, kurio esmė rasti trumpiausią pasitikėjimo kelią tarp dviejų naudotojų ir sudauginus pasitikėjimo iverčius, rasti naują įvertį. Taikant šį metodą pasitikėjimą buvo galima buvo įvertinti didžiajai daugumai naudotojų porų (dėl grafo jungumo), tačiau mus domina tik pasitikėjimai, kurie savyje turi vertiną informaciją, tai yra, nuo tam tikro slenksčio. [Tyrimas]
-\subsection{Bendrų kaimynų metodas}
-\subsubsection{Globalus bendrų kaimynų metodas}
+Šioje vietoje verta prisiminti šalto starto problemą - turime naują naudotoją, apie kurį nežinoma nieko, išskyrus jo socialinį santykį su kitais naudotojais, apie kuriuos jau yra sukauptas tam tikras kiekis informacijos. Kadangi naudotojas yra visiškai naujas, jo santykis su visais kitais sistemos vartotojas aprašomas taip: $r_{u_1}(x) = (e_{u_1}(x), t_{u_1}(x))$, kur $e_{u_1}(x)\in \{0,1\}, t_{u_1}(x) = \emptyset, \forall x \in U$. Turint tokius duomenis, vienas galimų būdų išgauti vertingos informacijos apie naudotojo pirmenybes - taikyti bendrų kaimynų metodą. Verta paminėti, kad šis metodas turi atjungtinę (angl. offline) fazę, kurios metu atliekamas duomenų apdorojimas ir sudaromas modelis. 
+\newline
+\indent
+Jeigu norime nustatyti pasitikėjimo įvertį tarp naudotojų $u$ ir $v$, kuriems $e_u(v)=1$, taikome įprastus, anksčiau aptartus pasitikėjimo propagavimo ir agregavimo operatorius. Tačiau lieka klausimas kaip elgtis atveju, kai $e_{u}(v)=0$, kur $v \in U$, t.y. neturime pakankamai informacijos apie naudotojų santykį, kad galėtume kažką rekomenduoti. Toliau siūlomas algoritmas remiasi bendrais kaimynais - net ir nesant tiesioginiam ryšiui tarp dviejų naudotojų, galime kalbėti apie jų santykį per kitus naudotojus. Reikia paminėti, kad bendrų ryšių neturėjimas nereiškia skirtingumo - šis metodas skirtas tik pasitikėjimo radimui; kaip buvo aptarta anksčiau informacijos neturėjimas nėra lygus nepasitikėjimui.
+\newline
+\indent
+Pirmos fazės metus sudaroma bendrų ryšių skaičiaus matrica. Ji atrodo taip: 
+
+\[
+\begin{bmatrix}
+|r(u_1)|       & |br(u_1,u_2)| & |br(u_1,u_3)| & \dots & |br(u_1, u_n)| \\
+|br(u_2,u_1)|      & |r(u_2)| & |br(u_2,u_3)| & \dots & |br(u_2,u_n)| \\
+\hdotsfor{5} \\
+|br(u_n,u_1)|       & |br(u_n,u_2)| & |br(u_n,u_3)| & \dots & |r(u_n)|
+\end{bmatrix}
+\]
+čia $r(u_n)$ žymi naudotojo $u_n$ ryšius, o  $br(u_m, u_n)$ - naudotojų $u_m$ ir $u_n$ bendrus ryšius. Turėdami tokią matricą ir tarpusavio pasitikėjimus, galime prognozuoti pasitikėjimą naudotojams, kurie yra visiškai nauji. Kitaip tariant, galime įvertinti $t_{u_j}(x), \forall x \in U\setminus \{u_j\}$ ir $\exists u_k : u_k \in br(u_j,u_k) \cup br(u_k,u_l), t_{u_k}(u_l) \neq \emptyset$. Tokiu atveju, pasitikėjimas "beveik" propaguoja iki norimo naudotojo, trūksta tik vieno pasitikėjimo įverčio propagavimo kelyje. Natūralu, kad turimą nepilno kelio pasitikėjimo įvertį reikia sumažinti. Norėdami sužinoti kiek - atliekame bendrų kaimynų analizę - jei santykis tarp bendrų kaimynų skaičiaus ir ryšių skaičiaus didelis - mažiname nestipriai, t.y. pasitikėjimas artimas $1$, o jeigu santykis labai mažas, priešingai, pasitikėjimas artimas $0$ ir kelias yra ignoruojamas. Jis galėtų būti randamas remiantis tokia taisykle - 
+\begin{equation}\label{rule:sim}
+\frac{br(u,v)}{\min(r(u), r(v))}
+\end{equation}
+
+Idealiu atveju, jeigu du naudotojai neturi tarpusavio ryšio ir jų abiejų ryšių aibė yra vienoda, ši taisyklė teigia, kad naudotojų tarpusavio pasitikėjimas lygus 1.
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=80mm]{common_neighbors.jpg}
+	\caption{Ryšių grafo fragmentas} \label{common_neighbors}
+\end{figure}
+
+\ref{common_neighbors} pav. pavaizduotas socialinio tinklo fragmentas, kuriame žinomas tik $u_2$ pasitikėjimas $u_1$, kuris šiame pavyzdyje yra lygus $0.7$. Tarkime, kad norime įvertinti $t_{u_3}(u_1)$. Iš grafo matosi, kad $r(u_1)=4$, $r(u_3) = 7$ ir $br(u_1,u_3)=3$ ($u_1$ turi ryšį su 4 naudotojais, $u_1$ - su $7$, o šių naudotojų bendrų ryšių skaičius - $3$). Žinodami, kad $t_{u_2}(u_1) = 0.7$, galime teigti, kad $t_{u_3}(u_1)$ tikrai nebus didesnis nei $t_{u_2}(u_1)$, nes trūkstamas propagavimo kelio pasitikėjimo įvertis $t_{u_3}({u_2})$ nebus didesnis už $1$. Jį galima įvertinti jau minėta taisykle \ref{rule:sim} .
+Kitas būdas - spręsti skaitinės prognozės uždavinį. Naudojant mokymo duomenis būtų galima įvertinti sąryšį tarp bendrų ryšių skaičiaus ir pasitikėjimo įverčio. Mokymo duomenys – matrica pavidalo 
+\begin{displaymath}
+[ \boldsymbol{R_1}, \boldsymbol{R_2}, \boldsymbol{BR}, \boldsymbol{Y}]
+\end{displaymath}
+Čia 
+\begin{equation}
+\boldsymbol{R_1} = \frac{\verb{ dviejų naudotojų, sujungtų pasitikėjimo ryšiu, bendrų ryšių skaičius| }}{\verb{|naudotojo, kuris pasitiki kitu naudotoju ryšių skaičius|}}
+\end{equation}
+ir 
+\begin{equation}
+\boldsymbol{R_2} = \frac{\verb{|dviejų naudotojų, sujungtų pasitikėjimo ryšiu, bendrų ryšių skaičius|}}{\verb{|naudotojo, kuriuo pasitiki kitas naudotojas ryšių skaičius|}}
+\end{equation}
+ o $\boldsymbol{Y}$ - priklausomas žinomo pasitikėjimo įverčio tarp jų vektorius. Tyrime, siekiant nustatyti $Y$ priklausomybę nuo $\boldsymbol{R}_1$ ir $\boldsymbol{R}_2$ taikoma tiesinė regresija. Rezultatai pristatyti kitame skyrelyje.
+\subsubsection{Rezultatai}
 \indent
 Metodų efektyvumą sprendžiant šalto starto problemą vienareikšmiškai įvertinti ir palyginti neįmanoma dėl to, kad kiekvienas metodas taikomas skirtingose situacijose. Bendrų kaimynų metodą prasmingiausia taikyti, kai žinomi tik naudotojo ryšiai su kitais naudotojais. Dėl to, kad ši informacija nėra išgaunama iš tikrų reitingų, šio metodo tikslumas gali būti mažesnis negu tradicinio bendradarbiavimo filtravimo.
 \newline
@@ -519,7 +416,7 @@ Taikant bendrų kaimynų metodą, yra svarbūs naudotojų ryšių ir bendrų ry�
 \begin{equation}\label{eq:CN_all}
 y = 0.046 \times r_1 + 0.021 \times r_2 + 0.406
 \end{equation}
-Akivaizdu, kad koeficientai yra gana maži. Tai gali rodyti, kad pirminė prielaida apie sąryšį tarp pasitikėjimo ir bendrų ryšių skaičiaus - naudotojo ryšių skaičiaus santykio šiems duomenims nepasitvirtino. Tačiau parinkę kitokią naudotojų imtį - tokią, apie kurią turime daugiau informacijos, šiuo atveju su didesniu bendrų ryšių skaičiumi, gauname kiek kitokį vaizdą. Parinkę naudotojų poras, kurios turi daugiau negu 150 bendrų ryšių (tokių yra 634), gauname tokią formulę:
+Akivaizdu, kad koeficientai (rodantys priklausomybę)  yra gana maži - artimi nuliui. Tai rodo, kad pirminė prielaida apie sąryšį tarp pasitikėjimo ir bendrų ryšių skaičiaus - naudotojo ryšių skaičiaus santykio šiems duomenims nepasitvirtino. Tačiau parinkę kitokią naudotojų imtį - tokią, apie kurią turime daugiau informacijos, šiuo atveju su didesniu bendrų ryšių skaičiumi, gauname kiek kitokį vaizdą. Parinkę naudotojų poras, kurios turi daugiau negu 150 bendrų ryšių (tokių yra 634), gauname tokią formulę:
 \begin{equation}\label{eq:CN_150}
 y = 0.356 \times r_1 + 0.366 \times r_2 + 0.0644
 \end{equation}
@@ -545,33 +442,33 @@ Remiantis gautomis formulėmis buvo įvertintas pasitikėjimas, o tuomet pritaik
 	\begin{tabular}{ | l | l | l | l | }
 		\hline
 		Metodas taikomas pasitikėjimui rasti & $MAE$ & $MAUE$ & $RMSE$\\ \hline
-		 Pasitikėjimas (Pyrsono koreliacija)        & 0.902 & 0.913 & 1.167  \\ \hline
-		 Pasitikėjimo prognozė taikant \ref{eq:CN_all}	  					& 0.913 & 0.905 & 1.182  \\ \hline
-		 Pasitikėjimo prognozė taikant \ref{eq:CN_150} 					& 0.8900 & 0.91329 & 1.114  \\ \hline
+		Pasitikėjimas (Pyrsono koreliacija)        & 0.902 & 0.913 & 1.167  \\ \hline
+		Pasitikėjimo prognozė taikant \ref{eq:CN_all}	  					& 0.913 & 0.905 & 1.182  \\ \hline
+		Pasitikėjimo prognozė taikant \ref{eq:CN_150} 					& 0.8900 & 0.91329 & 1.114  \\ \hline
 		\hline
 	\end{tabular}
 \end{center}
 
 Skirtumas tarp $MAE$ ir $RMSE$ rezultatų gautų taikant bendrų kaimynų metodą nuo bazinių rezultatų skiriasi nežymiai. Geriausi rezultatai pagal MAE ir RMSE gauti naudojant prognozę, sudarytą remiantis daugiausiai ryšių turinčių naudotojų imtimi. Šiek tiek didesnis $MAUE$ skirtumas. Taip yra dėl to, kad naudotojai turi nevienodą skaičių reitingų ir $MAUE$ atsižvelgia į tai. Vadinasi, bendrų kaimynų metodas sudarė prognozes mažiau reitingų turėjusiems naudotojams su mažesniu tikslumu negu bazinis bendradarbiavimo filtravimo metodas.
-
-
-%common neighbours
-%table MAE, MAUE, RMSE/ Similarity measures
-
-\subsection{Sričių panašumo metodas}
-\subsubsection{Duomenų generavimas}
+\newline
 \indent
-Anksčiau buvo minėta, kad šiuo metu nėra tokio duomenų rinkinio, tinkančio atliekamam tyrimui. Dėl šios priežasties dalis tyrimo skirta modelio sudarymui ir duomenų generavimui. Siekiama sukurti duomenų struktūrą, turinčią tokius elementus:
+Apibendrinant galima pasakyti, kad hipotezė apie pasitikėjimo priklausomybę nuo bendrų ryšių skaičiaus nepasitvirtino. Taip yra dėl to, kad modelis neatsižvelgia į tai, kad daug pasitikėjimo ryšių yra tiesiog atsitiktiniai - vienam naudotojui patiko kito naudotojo nuomonė apie vieną elementą ir jis pažymėjo, kad juo pasitiki. Tačiau galime būti tikri, kad atsiras daug elementų dėl kurių nuomonė nesutaps. Ypač tai aktualu, kai kalbame apie visai kitokius elementus, nei tas, remiantis kuriuo buvo nuspręsta pasitikėti - elementus, priklausančius kitoms kategorijoms.
+\subsection{Sričių panašumo metodas}
+
+\subsubsection{Rekomendacinės sistemos su pasitikėjimu kategorijose modeliavimas}
+\indent
+Šiuo metu nėra tokio duomenų rinkinio, tinkančio atliekamam tyrimui apie RS, kurioje elementai priklauso kategorijoms ir naudotojai išreiškia pasitikėjimą kategorijose. Dėl šios priežasties dalis tyrimo skirta RS modelio sudarymui ir duomenų generavimui. Siekiama sukurti duomenų struktūrą, turinčią tokius elementus:
 \begin{itemize}
 	\item Kategorijos
 	\item Naudotojai
 	\item Elementai (reitinguojami produktai) priklausantys kategorijoms
 	\item Naudotojo tarpusavio pasitikėjimai kategorijose (tolydi reikšmė tarp 0 ir 1)
-	\item Naudotojų reitingai priskirti elementams
+	\item Naudotojų reitingai, priskirti elementams
 \end{itemize}
 Toliau bus aprašyti kiekvieno iš elementų generavimo algoritmai.
 \subsubsubsection{Kategorijos}
-Kategojų modeliavimas - pirmas algoritmo žingsnis. Juo siekiama apibrėžti ne tik kategorijas, kurioms gali priklausyti elementai bet ir kiekvieno elemento bruožus bei kiekvieno naudotojo pirmenybes. Šiame tyrime generuojami duomenys gali būti traktuojami kaip filmų rekomendacinės sistemos duomenys. Apibrėžiame kategorijas:
+\indent
+Kategojų modeliavimas - pirmas algoritmo žingsnis. Juo siekiama apibrėžti ne tik kategorijas, kurioms gali priklausyti elementai bet ir kiekvieno elemento bruožus bei kiekvieno naudotojo pirmenybes. Dabar generuojami duomenys gali būti vertinami kaip filmų rekomendacinės sistemos duomenys. Apibrėžiame kategorijas:
 \begin{itemize}
 	\item $X_1$ - drama
 	\item $X_2$ - komedija
@@ -581,6 +478,7 @@ Kategojų modeliavimas - pirmas algoritmo žingsnis. Juo siekiama apibrėžti ne
 \end{itemize}
 Toliau apibrėžiame, kiek kiekviena iš šių kategorijų yra susijusi su kitomis. Heuristiškai sudarome matricą:
 \begin{center}
+	\captionof{table}{Kategorijų matrica SP1}
 	\begin{tabular}{||c c c c c c||} 
 		\hline
 		Kategorijos & $X_1$ & $X_2$ & $X_3$ & $X_4$ & $X_5$ \\ [0.5ex] 
@@ -601,14 +499,20 @@ Toliau apibrėžiame, kiek kiekviena iš šių kategorijų yra susijusi su kitom
 \begin{itemize}
 	\item $X_4$ (trileris) yra gryniausias žanras, tai yra, turintis daugiausiai savo kategoriją atitinkančio požymio (kadangi turi didžiausią matricos įstrižainėje esančią reikšmę)
 	\item $X_3$ (siaubo) - mažiausiai gryna kategorija (nes bruožų pasiskirstymas yra tolygiausias)
-	\item $X_4$ kategorija neturi $x_5$ bruožo (trileris neturi fantastikos)
+	\item $X_4$ kategorija neturi $x_5$ bruožo (trileris neturi fantastikos bruožų)
 \end{itemize} 
-Akivaizdu, kad šie teiginiai yra subjektyvūs. Didesnio objektyvumo galima pasiekti atliekant apklausas.
+Akivaizdu, kad šie teiginiai yra subjektyvūs. Didesnio objektyvumo galima pasiekti, pavyzdžiui, atliekant apklausas.
+\newline
+\indent
+Atkreipkite dėmesį - tai tik pavyzdys, tyrimo eigoje bus atlikta eksperimentų su RS, kurios bus apibrėžtos kitomis kategorijų matricomis. 
+\newline
+\indent
+Ši matrica bus naudojama generuojant elementus. Nuo to, kokie yra elementai priklauso tai, kaip juos vertina naudotojai, o nuo to priklauso ir tai, kaip naudotojai vertinas vienas kito patikimumą. Taigi, ši matrica - RS duomenų generavimo pagrindas.
 
 \subsubsubsection{Naudotojai}
 \indent
 Naudotojas apibrėžiamas kaip vektorius $(y_1, y_2, y_3, y_4, y_5, q)$, kur $\sum\limits_{i=1}^{5} y_i = 1$ ir $q\in[0,1]$. $y_1, y_2, y_3, y_4, y_5$ reiškia naudotojo pirmenybes - kiek svarbus jam yra tam tikras bruožas elemente.
-$q$ - kokybės parametras rodo, kiek naudotojas yra jautrus elemento kokybei. Metafora iš realaus gyvenimo - net jei žmogui apskritai nepatinka siaubo filmai, egzistuoja bent vienas kurį jis vertintų labai gerai (dėl to, kad tas filmas yra aukštos kokybės ir patinka daugumai). 
+$q$ - kokybės parametras rodo, kiek naudotojas yra jautrus elemento kokybei. Kokybės parametro motyvacija tokia - net jei žmogui apskritai nepatinka siaubo filmai, labai tikėtina, kad egzistuoja bent vienas kurį jis vertintų labai gerai (dėl to, kad tas filmas yra aukštos kokybės ir patinka daugumai žmonių). 
 \newline
 \indent 
 Praktiškai algoritmas realizuojamas taip:
@@ -618,10 +522,10 @@ Praktiškai algoritmas realizuojamas taip:
 	\item kiekvienam bruožui priskiriame reikšmę lygią pirmame žingsnyje sugeneruotai reikšmei padalintai iš visų reikšmių sumos
 	\item kokybės parametrui priskiriame atsitiktinę reikšmę tarp 0 ir 1
 \end{itemize}
-Taip užtikriname, kad naudotojai yra tikrai atsitiktiniai ir įvairūs pirmenybių prasme.
+Taip užtikriname, kad naudotojai yra tikrai atsitiktiniai ir įvairūs pirmenybių prasme - naudotojui gali patikti tiek siaubo filmai, tiek komedijos, nors tarp šių kategorijų panašumo nėra.
 \subsubsubsection{Elementai}
 \indent
-Elementas apibrėžiamas vektoriumi $(c, z_1, z_2, z_3, z_4, z_5, q)$. Čia $z_1, z_2, z_3, z_4, z_5$ rodo, kiek elementas pasižymi kiekvienu bruožu, o $q$ - kokybės parametras. $c$ - rodo, kuriai karegorijai priklauso elementas. Negalime taikyti tokio paties metodo, kaip naudotojo atveju, nes elementas priklauso vienai kategorijai, o tai reiškia, kad bruožų reikšmės negali būti visiškai atsitiktinės. Bruožų reikšmes generuojame pasinaudodami normaliuoju skirstiniu su vidurkiu lygiu reikšmei gautai iš kategorijų matricos, aprašytos skyrelyje apie kategorijas ir parinkta dispersija (tokia, kad duomenys būtų panašūs į realius - parinkus per didelę dispersiją rezultatai gaunasi labai triukšmingi). Vidurkis parenkamas taip: pažiūrėję į $c$ reikšmę atfiltruojame kategoriją (stulpelį). Tada turime vidurkių, naudojamų generuojant $z_1, z_2, z_3, z_4, z_5$, vektorių. Kokybės parametras, kaip ir naudotojo atveju, parenkamas atsitiktinai pagal normalųjį skirstinį su vidurkiu $0.6$ ir dispersija lygia $0.4$. Jei sugeneruota reikšmė didesnė už 1 arba mažesnė už 0, ji priskiriama 1 arba 0 atitinkamai.
+Elementas apibrėžiamas vektoriumi $(c, z_1, z_2, z_3, z_4, z_5, q)$. Čia $c$ nurodo, kuriai karegorijai priklauso elementas, parametrai $z_1, z_2, z_3, z_4, z_5$ rodo, kiek elementas pasižymi kiekvienu bruožu, o $q$ - kokybės parametras. Generuojant elemntus negalime taikyti tokio paties metodo, kaip naudotojo atveju, nes elementas priklauso vienai kategorijai, o tai reiškia, kad bruožų reikšmės negali būti visiškai atsitiktinės. Jas generuojame pasinaudodami normaliuoju skirstiniu su vidurkiu lygiu reikšmei gautai iš kategorijų matricos, aprašytos skyrelyje apie kategorijas ir parinkta dispersija (tokia, kad duomenys būtų panašūs į realius - parinkus per didelę dispersiją rezultatai gaunasi labai triukšmingi). Vidurkis parenkamas taip: pažiūrėję į $c$ reikšmę atfiltruojame kategoriją (stulpelį). Tada turime vidurkių, naudojamų generuojant $z_1, z_2, z_3, z_4, z_5$, vektorių. Kokybės parametras, kaip ir naudotojo atveju, parenkamas atsitiktinai pagal normalųjį skirstinį su vidurkiu $0.6$ ir dispersija lygia $0.4$. Jei sugeneruota reikšmė didesnė už 1 arba mažesnė už 0, ji priskiriama 1 arba 0 atitinkamai.
 \subsubsubsection{Reitingai}
 \indent
 Naudotojo reitingai elementams generuojami naudojant naudotojo pirmenybes ir reiklumo kokybei parametrą bei atitinkamus produkto parametrus. Siekiama, kad jų pasiskirstymas būtų kuo artimesnis tikrovei, tai jie nebūtų pasiskirstę galimų reikšmių kraštuose ir nebūtų pernelyg vienodi. Sugeneruotų duomenų charakteristikos bus pateiktos kitame skyrelyje. 
@@ -629,7 +533,7 @@ Naudotojo reitingai elementams generuojami naudojant naudotojo pirmenybes ir rei
 \indent
 Kiekvienam naudotojui parenkamas atsitiktinis įvertintų elementų skaičius naudojant atsitiktinį dydį pasiskirsčiusį pagal normalųjį skirstinį su vidurkiu 30 ir dispersija 27. Parinkta didelė dispersija užtikrina, kad duomenys bus artimesni tikriems - Epinions.com duomenų rinkinyje vieno naudotojo įvertintų elementų skaičius svyruoja nuo 0 iki 655. Kiekvienam atsitiktinai parinktam elementui generuojamas reitingas tokiu būdu:
 \begin{equation}
-	r_u(p) = 5 \times ((1-q_u) \sqrt{pos(corr(X_u,Y_p))} + q_u q_p)
+r_u(p) = 5 \times ((1-q_u) \sqrt{pos(corr(X_u,Y_p))} + q_u q_p)
 \end{equation}
 čia
 \begin{itemize}
@@ -641,7 +545,7 @@ Kiekvienam naudotojui parenkamas atsitiktinis įvertintų elementų skaičius na
 	\item $pos(x)$ - $f[-1,1] -> [0,1]$
 \end{itemize}
 \indent
-Idealiais atvejais, kai naudotojo reiklumas kokybei ir elemento kokybė lygi 1 arba naudotojo reiklumas kokybei lygus 0, tačiau elemento charakteristikos tobulai atitinka anudotojo pirmenybes, reitingas lygus 5. Tyrimo eigoje pastebėta, kad koreliacijos funkcijos įtaka pernelyg maža, todėl ji padidinama iškilia funkcija (šiuo atveju šaknis suteikia pageidaujamą efektą).
+Idealiais atvejais, kai naudotojo reiklumas kokybei ir elemento kokybė lygi 1 arba naudotojo reiklumas kokybei lygus 0, tačiau elemento charakteristikos tobulai atitinka anudotojo pirmenybes, reitingas lygus 5. Tyrimo eigoje pastebėta, kad koreliacijos funkcijos įtaka pernelyg maža, todėl ji padidinama naudojant pasirinktą iškilią funkciją (šiuo atveju šaknis suteikia pageidaujamą efektą).
 \subsubsubsection{Pasitikėjimai}
 \indent
 Pasitikėjimo reikšmės - svarbiausios prognozuojant reitingus, parodančios kokį svorį suteikti patikėtinio nuomonei apie elementą. Šiame tyrime naudotojai vieni kitais pasitiki kategorijos lygmenyje. Buvo išbandyti du pasitikėjimo reikšmių generavimo būdai.
@@ -649,7 +553,7 @@ Pasitikėjimo reikšmės - svarbiausios prognozuojant reitingus, parodančios ko
 \indent
 Taikant pirmąjį būdą pasitikėjimas tarp dviejų naudotojų tam tikroje kategorijoje generuojamas lyginant naudotojų tarpusavio pirmenybes tos kategorijos atžvilgiu. Taigi pasitikėjimas kategorijoje $X_1$ tarp naudotojų $u(0.1, 0.2, 0.2, 0.5, 0, q_u)$ ir $v(0.2, 0.2, 0.2, 0.2, 0.2, q_v$ randamas taip:
 \begin{equation}
-	t_u(v) = \frac{min(x_1^u, x_1^v)}{max(x_1^u, x_1^v)} = \frac{0.1}{0.2} = 0.5
+t_u(v) = \frac{min(x_1^u, x_1^v)}{max(x_1^u, x_1^v)} = \frac{0.1}{0.2} = 0.5
 \end{equation}
 Tokiu būdu rasti pasitikėjimai tenkina šias savybes:
 \begin{itemize}
@@ -661,40 +565,426 @@ Tolimesnis tyrimas parodė, kad šis būdas nėra pakankamai geras. Pagrindinė 
 \newline
 \indent
 Kitas būdas geresnis - jis, nors ir netiesiogiai, atsižvelgia į kategorijų matricą. Naudotojų, kurie pasitiki vienas kitu, poros ir kategorijos, kurioms generuojamas pasitikėjimas parenkami atsitiktinai, kaip ir anstesnio būdo atveju. Naudotojų porai pasitikėjimas generuojamas taip: parenkami $n$ atsitikinių elementų iš atitinkamos kategorijos ir jiems generuojami abiejų naudotojų reitingai (kaip aprašyta ankstesniame skyrelyje). Turint abiejų naudotojų reitingų vektorius, galime rasti panašumą tarp jų taikant vieną iš panašumo metrikų. Šiuo atveju, taikyta Pyrsono koreliacija. Rastas panašumas transformuojamas taip, kad priklausytų intervalui tarp 0 ir 1, o tada prilygimamas pasitikėjimui. Taikant tokį metodą atsižvelgiama į visas kategorijų charakteristikas. Tai labai svarbu tolimesniam tyrimui, ypač panašumo tarp sričių įvertinimui, kuris nagrinėjamas tolimesniuose skyriuose.
-\subsection{Metodo rezultatai}
+\subsubsubsection{Sugeneruoto duomenų rinkinio charakteristikos }
 \indent
-Sričių panašumo metodas tiriamas keliais skirtingais pjūviais:
-\begin{itemize}
-	\item naudojami tik originalūs pasitikėjimo duomenys ir originalūs kartu su išvestais (taikant propagavimą) duomenimis
-	\item naudojamas globalus panašumas tarp sričių (visiems naudotojams vienodas, randamas iš bendrų duomenų) ir individualus kiekvienam naudotojui
-\end{itemize}
-\indent
-Kitaip tariant, tas pats algoritmas įgyvendintas keturiems skirtingiems duomenų rinkiniams ir rezultatai įvertinti anksčiau pasirinktais trimis kriterijais. Atlikus tyrimą paaiškėjo, kad propagavimo duomenys padidina padengimą - galime suprognozuoti daugiau reitingų, nors dėl turimo duomenų rinkinio savybių, nauda, kurią suteikia papildomai įvertinti pasitikejimo įverčiai, nėra tokia didelė [kaip kas]. 
-\newline
-\indent 
-Antras pjūvis - šiam tyrimui įdomesnis. Kurį panašumo tarp sričių įvertį geriau naudoti priklauso nuo to, ar yra pakankamai duomenų. Mišri strategija - naudoti asmeninį naudotojo panašumo tarp kategorijų įvertį, kur įmanoma, o kur ne - naudoti globalų įvertį - šiuo atveju yra optimaliausia.
-\newline
-\indent
-Panašumas konkrečiam naudotojui $u$ tarp sričių $T_1$ ir $T_2$ randamas surenkant naudotojų, kuriais $u$ pasitiki abiejose srityse, pasitikėjimus jose į du vektorius ir ieškant panašumo tarp jų. Globali metodo versija veikia taikant tą patį duomenų surinkimo metodą visiems sistemos naudotojams ir tik tada ieškant panašumo. Globali metodo versija žymima [DS1], naudotojo [DS2], o mišri - [DS3].
-\newline
-\indent
-Reitingo prognozė kiekvienam naudotojui atliekama tokiu būdu. Žinome naudotoją ir elementą, kurio reitingą norime prognozuoti. Taip pat žinome naudotojo pasitikėjimus kitais naudotojais pagal įvairias sritis. Žinodami naudotojų tarpusavio pasitikėjimą bent vienoje srityje, galime apskaičiuoti jį ir visose likusiose srityse (jeigu taikome globalią arba mišrią strategiją).
+Norint iliustruoti tam tikrus teigius apie taikytus metodu, praverčia duomenų rinkiniai su skirtingomis chrakteristikomis. Pavyzdžiui, norėdami parodyti propagavimo metodų efektyvumą kitame skyriuje, pravers duomenų rinkinys su mažai duomenų apie pasitikėjimą (tai yra naudotojai turės mažai patikėtinių). Tam, kad būtų aišku, koks duomenų rinkinys naudotas konkrečiu atvejus, bus pateikta rinkinį apibūdinanti generavimo parametrų lentelė. 
+%parametrai - useriu skaicius, ju pasitikejimo rysiu skaiciaus skirstinys, ju ivertintu produktu skaiciaus skirstiny, produktu skaicius, kiek bendru elementu iverinama norint rasti pasitikejima, koks propagavimo metodas naudojamas, kokia sriciu panasumo matrica naudojama%
 \begin{center}
-	\captionof{table}{Sričių panašumo metodo taikymo rezultatai}
-	\begin{tabular}{ | l | l | l | l | }
+	\begin{tabular}{||c c||} 
+		
+		
+		Elementų skaičius & 300 \\
+		Naudotojų skaičius & 100 \\
+		Naudotojo ryšių skaičiaus pasiskirstymas &  N(10, 9) \\
+		Naudotojo įvertintų elementų skaičiaus pasiskirstymas & N(30,27) \\
+		Vertinamas bendrų elementų skaičius ieškant pasitikėjimo & 12 \\
+		Propagavimo metodas & Vidurkio\\
+		Kategorijų matrica & SP1 \\
+	\end{tabular}
+	
+\end{center}
+\subsubsection{Metodas}
+\indent
+Šalto starto sąvoka nėra vienareikšmiškai apibrėžiama - negalime iš anksto žinoti, kiek ir kokių reikia duomenų, kad situacija tenkintų apibrėžimą ir taikomas metodas veiktų kaip tikimąsi. Aplinkoje, apie kurią dabar rašoma, naudotojas gali būti šalto starto padėtyje, kai kalbame apie vieną sritį, tačiau kitoje srityje padėtis gali būti priešinga. Kitaip tariant, jeigu norime sužinoti, koks yra $t_u^2(v)$, ir žinome, kad naudotojo $u$ pasitikėjimo naudotoju $v$ srityje $T_1$ lygis yra $0.8$, o sričių $T_1$ ir $T_2$ panašumas $sim(T_1, T_2) = 0.9$, nieko nežinodami apie naudotojų santykį $T_2$ klausimu, galime įvertinti jų tarpusavio pasitikėjimą tiesiog padauginę žinomos srities pasitikėjimo įvertį iš sričių tarpusavio panašumo įverčio.
+\newline
+\indent
+Ši idėja yra pritaikoma ne tik šalto starto atveju, kai kalbama apie naudotoją, bet ir naujos srities šalto starto atveju. Socialinius tinklus pagal pasitikėjimo sričių daugialypiškumą galima išskirti į du tipus:
+\begin{itemize}
+	\item daugiaprofilinius - juose galimos įvairios pasitikėjimo sritys - tokios, kurias galima surikiuoti pagal panašumą ir tarp pirmos bei paskutinės nėra jokio panašumo.
+	\item specializuotos - juose pasitikėjimo sritys yra gana artimos. Tokio tinklo pavyzdys galėtų būti kino mėgėjų socialinis tinklas, o sritys - įvairūs žanrai.
+\end{itemize}
+
+Siūlomas metodas geriau veikia antrojo tipo atveju, kai sritys yra tarpuavyje panašios. Kai sritys pernelyg skirtingos, o panašumas mažas - panaudoti informaciją apie panašumą yra sudėtinga.
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=60mm]{multiarea.jpg}
+	\caption{Ryšių grafo fragmentas} \label{multiarea}
+\end{figure}
+Tarkime, kad turime situaciją pavaizduotą grafe \ref{multiarea}, kuriame pateikti naudotojų tarpusavio pasitikėjimai ${t_1, t_2}$, ir norime žinoti, kiek $u_1$ pasitiki $v$ dėl $T_2$. Tiesioginio būdo nėra, nes abiejuoe galimuose keliuose - $u_1 - u_2 - v$ ir $u_1 - u_4 - v$ yra trūkstamų duomenų - pirmu atveju nežinome $t_{u_1}^2(u_2)$, antru - $t_{u_4}^2(v)$, tačiau matome, kad egzistuoja kelias $u_1 - u_2 - v$, pagal kurį galime įvertinti $t_{u_1}^1(v)$
+\begin{displaymath}
+t_{u_1}^1(v)=t_{u_1}^1(u_2) \times t_{u_2}^1(v) = 0.7 \times 0.9 = 0.63
+\end{displaymath}
+Žinodami, kad sričių panašumas $s^d(T_1, T_2) = 0.9$, gauname
+\begin{displaymath}
+t_{u_1}^1(v)=t_{u_1}^1(v) \times s^d(T_1, T_2) = 0.63 \times 0.9 = 0.6048
+\end{displaymath}
+Panašumą tarp sričių galime priskirti \it{ad hoc} \normalfont arba įvertinti vienu iš šių būdų:
+\begin{itemize}
+	\item Tarkime, kad turime naudotojų porų sąrašą ir jų tarpusavio pasitikėjimą (arba panašumą) pagal sritis. Tada:
+	\begin{displaymath}\label{eq:areasim}
+	sim(T_1, T_2) = \frac{\sum \limits_{i=1}^n \frac{\min(t_{u_i}^1, t_{u_i}^2)}{\max(t_{u_i}^1, t_{u_i}^2)}}{n}
+	%s^d(T_1, T_2) = average \bigg(\frac{min(\boldsymbol{t}_1, \boldsymbol{t}_2)}{max(\boldsymbol{t}_1, \boldsymbol{t}_2)}\bigg) 
+	\end{displaymath}
+	\indent
+	Kitas būdas:
+	\begin{displaymath}\label{eq:areasim}
+	s^d(T_1, T_2) = 1-\frac{\sum \limits_{i=1}^n \big[\max(t_{u_i}^1, t_{u_i}^2)- \min(t_{u_i}^1, t_{u_i}^2)\big]}{n}
+	%s^d(T_1, T_2) = average \bigg(\frac{min(\boldsymbol{t}_1, \boldsymbol{t}_2)}{max(\boldsymbol{t}_1, \boldsymbol{t}_2)}\bigg) 
+	\end{displaymath}
+	\item Taikyti vieną iš panašumo radimo metodų (Pyrsono, Spearmano koreliacija, kosinuso panašumas) turimiems pasitikėjimo (arba panašumo) duomenims. Verta pastebėti, kad šis metodas palyginus su anksčiau pasiūlytais yra griežtesnis ir grąžina mažesnį panašumą.
+\end{itemize} 
+\subsubsubsection{Pasitikėjimų pagrįstų RS metodai}
+
+\indent
+Kai kalbama apie rekomendacines sistemas su socialinių tinklų duomenimis daugiausia tyrimų [kokių] atlikta nagrinėjant agregavimo ir propagavimo metodus, kurie remiasi prielaida apie pasitikėjimo tranzityvumą. Šio tyrimo kontekste į šiuos metodus galima žiūrėti kaip į tam tikrą duomenų papildymo būdą prieš taikant sričių panašumo metodą. 
+\indent 
+Tyrime bus taikomi keli algoritmai:
+\begin{itemize}
+	\item Trumpiausio kelio algoritmas randa trumpiausią kelią tarp dviejų naudotojų ir randa pasitikėjimą tarp jų vienu iš šių operacijų pasitikėjimo įverčiams, esančiams pasitikėjimo kelyje:
+	\begin{itemize}
+		\item daugyba - SHORTMULTI
+		\item aritmetinis vidurkis - SHORTARI
+		\item geometrinis vidurkis - SHORTGEO
+	\end{itemize}
+	\item TidalTrust - išsamiai aprašytas literatūros apžvalgoje
+\end{itemize}
+\subsubsection{Rezultatai}
+Šiuo eksperimentu siekiama ištirti sričių panašumo metodo efektyvumą. Tačiau be šio galutinio tikslo, taip pat galima paminėti ir tarpinius tikslus - išbandyti duomenų rinkinio generavimo algoritmą ir kitų žinomų metodų, naudojamų pasitikėjimų radimui, efektyvumą.
+\newline
+\indent
+Eksperimentas atliktas naudojant du skirtingus generuotus duomenų rinkinius. Pirmas - duomenų rinkinys, aprašytas ankstesniame skyriuje. Jis pasižymi tuo, kad kategorijos yra gana skirtingos ir sričių panašumas yra mažas. Kitas duomenų rinkinys bus generuojamas naudojant kategorijų matricą, kurioje sritys yra tarpusavyje panašios. 
+\subsubsubsection{Eksperimentas naudojant RS su skirtingomis kategorijomis}
+Ankstesniame skyrelyje sugeneruoto duomenų rinkinio charakteristikos yra tokios:
+\begin{center}
+	\begin{tabular}{||c c||} 
+		Šalto starto naudotojų skaičius & 300 \\
+		Ryžtingų naudotojų skaičius  & 100 \\
+		Vidutinis reitingas &  N(10, 9) \\
+		Reitingų standatinis nuokrypis & N(30,27) \\
+		Vidutinis pasitikėjimo įvertis & 12 \\
+	\end{tabular}
+\end{center}
+\indent
+Šiam duomenų rinkiniui pagal nustatytus vertinimo kriterijus gauname tokius rezulatus:
+\begin{center}
+	\captionof{table}{BF rezultatai taikomi RS duomenims}
+	\begin{tabular}{||c c c c c c ||} 
+		Duomenų rinkinio poaibis & MAE & MAUE & RMSE & RC & UC \\
 		\hline
-		Sričių panašumo strategija taikomas pasitikėjimui rasti & $MAE$ & $MAUE$ & $RMSE$\\ \hline
-		DS1        & 0.923 & 0.954 & 1.188  \\ \hline
-		DS2        & 0.844 & 0.887 & 0.943  \\ \hline
-		DS3        & 0.854 & 0.866 & 0.954  \\ \hline
+		Visi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Šalto starto naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Ryžtingi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+	\end{tabular}
+\end{center}
+%\subsubsubsubsection{Pasitikėjimo propagavimas ir agregavimas}
+\indent
+Šis duomenų rinkinys buvo sugeneruotas parinkus tokius parametrus, kad jame egzistuotų duomenų retumo problema. Tai matome iš nedidelių $RC$ ir $UC$ reikšmių. Egzistuojantis problemos sprendimo būdas - taikyti metodus, vertinančius naudotojų tarpusavio pasitikėjimą. Tam pačiam duomenų rinkiniui išbandyti keturi metodai, aprašyti ankstesniame skyrelyje. 
+\begin{center}
+	\captionof{table}{BF + SHORTMULTI rezultatai taikomi RS duomenims}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Visi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Šalto starto naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Ryžtingi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+	\end{tabular}
+\end{center}
+\begin{center}
+	\captionof{table}{BF + SHORTARI rezultatai taikomi RS duomenims}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Visi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Šalto starto naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Ryžtingi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+	\end{tabular}
+	
+\end{center}
+\begin{center}
+	\captionof{table}{BF + SHORTGEO rezultatai taikomi RS duomenims}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Visi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Šalto starto naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Ryžtingi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+	\end{tabular}
+\end{center}
+%Kazka matome is situ rezultatu
+%\subsubsubsubsection{Sričių panašumas}
+\indent
+Sričių panašumo metodas gali būti taikomas nepriklausomai nuo metodų, prognozuojančių naudotojų tarpusavio pasitikėjimą naudojant propagavimo ir agregaivmo opetarorius. Todėl bus pateiktos kelių šio metodo versijų rezultatai tiek naudojant tik sugeneruotus duomenis, tiek sugeneruotus duomenis papildytus išvestais pasitikėjimais.
+\newline
+\indent
+Sričių panašumą galime vertinti keliais būdais. Šiame eksperimente išbandysime du metodus:
+\begin{itemize}
+	\item kategorijų matricos koreliacijos metodą
+	\item panašumo tarp naudotojų pasitikėjimo įverčių metodą
+\end{itemize}
+Pirmasis metodas panašumą tarp sričių vertina tiesiogiai skaičiuodamas koreliaciją tarp kategorijų charakteristikų iš kategorijų matricos. Tam, kad panašumai būtų teigiami - koreliacijos yra transformuojamos - padidinamos 1 ir dalinamos iš 2. Taigi turimam duomenų rinkiniu sričių panašumo matrica yra tokia:
+
+\begin{center}
+	\captionof{table}{Panašumo tarp kategorijų matrica}
+	\begin{tabular}{||c c c c c c||} 
+		\hline
+		Kategorijos & $X_1$ & $X_2$ & $X_3$ & $X_4$ & $X_5$ \\ [0.5ex] 
+		\hline\hline
+		$X_1$ & 1 & 0.62 & 0.37 & 0.48 & 0.63 \\ 
+		\hline
+		$X_2$ & 0.62 & 1 & 0.08 & 0.31 & 0.43 \\
+		\hline
+		$X_3$ & 0.37 & 0.08 & 1 & 0.53 & 0.45 \\
+		\hline
+		$X_4$ & 0.48 & 0.30 & 0.53 & 1 & 0.26 \\
+		\hline
+		$X_5$ & 0.63 & 0.43 & 0.46 & 0.26 & 1 \\ [1ex] 
 		\hline
 	\end{tabular}
 \end{center}
-Nors [DS2]
+Naudojant tokią panašumo matricą trūkstamai informacijai apie pasitikėjimą užpildyti gaunami tokie rezultatai.
+\begin{center}
+		\captionof{table}{BF + sričių panašumo, gauto naudojant kategorijų matricą, rezultatai taikomi RS duomenims}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Visi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Šalto starto naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Ryžtingi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+	\end{tabular}
+\end{center}
+\indent 
+Kitokie rezultatai gaunami naudojant sričių panašumo metodą kartu su kitais metodais, naudojančiais socialinių tinklų duomenis. Anskčiau buvo parodyta, kad geriausi rezultatai gauti taikant SHORTGEO metodą. Papildžius šį metodą sričių panašumo metodu gaunami tokie rezultatai.
+\begin{center}
+		\captionof{table}{BF + SHORTGEO + sričių panašumo, gauto naudojant kategorijų matricą, rezultatai taikomi RS duomenims}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Visi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Šalto starto naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Ryžtingi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+	\end{tabular}
+\end{center}
+
+
+\subsubsubsection{Eksperimentas naudojant RS su panašiomis kategorijomis}
+\indent 
+Analogiškas eksperimentas buvo atliktas kitokiai RS, kurioje kategorijos yra panašios. Šiame skyriuje naudojamas duomenų rinkinys apibrėžiamas paramtetru rinkiniu [] ir kategorijų matrica [SP2].
+\begin{center}
+	\captionof{table}{RS duomenų rinkinio generavimo parametrai}
+	\begin{tabular}{||c c||} 
+		
+		
+		Elementų skaičius & 300 \\
+		Naudotojų skaičius & 100 \\
+		Naudotojo ryšių skaičiaus pasiskirstymas &  N(10, 9) \\
+		Naudotojo įvertintų elementų skaičiaus pasiskirstymas & N(30,27) \\
+		Vertinamas bendrų elementų skaičius ieškant pasitikėjimo & 12 \\
+		Propagavimo metodas & Vidurkio\\
+		Kategorijų matrica & SP1 \\
+	\end{tabular}
+	
+\end{center}
+\begin{center}
+	\captionof{table}{Kategorijų matrica SP2}
+	\begin{tabular}{||c c c c c c||} 
+		\hline
+		Kategorijos & $X_1$ & $X_2$ & $X_3$ & $X_4$ & $X_5$ \\ [0.5ex] 
+		\hline\hline
+		$x_1$ & 0.55 & 0.2 & 0.2 & 0.2 & 0.3 \\ 
+		\hline
+		$x_2$ & 0.2 & 0.6 & 0.05 & 0.05 & 0.1 \\
+		\hline
+		$x_3$ & 0.05 & 0.05 & 0.35 & 0.1 & 0.05 \\
+		\hline
+		$x_4$ & 0.1 & 0.05 & 0.2 & 0.65 & 0.05 \\
+		\hline
+		$x_5$ & 0.1 & 0.1 & 0.2 & 0 & 0.5 \\ [1ex] 
+		\hline
+	\end{tabular}
+\end{center}
+Ankstesniame skyrelyje sugeneruoto duomenų rinkinio charakteristikos yra tokios:
+\begin{center}
+	\captionof{table}{Sugeneruoto duomenų rinkinio charakteristikos}
+	\begin{tabular}{||c c||} 
+		Šalto starto naudotojų skaičius & 300 \\
+		\hline
+		Ryžtingų naudotojų skaičius  & 100 \\
+		\hline
+		Vidutinis reitingas &  N(10, 9) \\
+		\hline
+		Reitingų standatinis nuokrypis & N(30,27) \\
+		\hline
+		Vidutinis pasitikėjimo įvertis & 12 \\
+	\end{tabular}
+\end{center}
+\indent
+Šiam duomenų rinkiniui pagal nustatytus vertinimo kriterijus gauname tokius rezulatus:
+\begin{center}
+	\captionof{table}{BF rezultatai taikomi RS duomenims}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Visi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Šalto starto naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Ryžtingi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		
+	\end{tabular}
+\end{center}
+\indent
+%\subsubsubsubsection{Pasitikėjimo propagavimas ir agregavimas}
+Šis duomenų rinkinys buvo sugeneruotas parinkus tokius parametrus, kad jame egzistuotų duomenų retumo problema. Tai matome iš nedidelių $RC$ ir $UC$ reikšmių. Egzistuojantis problemos sprendimo būdas - taikyti metodus, vertinančius naudotojų tarpusavio pasitikėjimą. Tam pačiam duomenų rinkiniui išbandyti keturi metodai, aprašyti ankstesniame skyrelyje. 
+\begin{center}
+	\captionof{table}{BF + SHORTMULTI rezultatai taikomi RS duomenims}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Visi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Šalto starto naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Ryžtingi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+	\end{tabular}
+\end{center}
+\begin{center}
+	\captionof{table}{BF + SHORTARI rezultatai taikomi RS duomenims}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Visi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Šalto starto naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Ryžtingi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+	\end{tabular}
+\end{center}
+\begin{center}
+	\captionof{table}{BF + SHORTGEO rezultatai taikomi RS duomenims}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Visi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Šalto starto naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Ryžtingi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+	\end{tabular}
+\end{center}
+%Kazka matome is situ rezultatu
+%\subsubsubsubsection{Sričių panašumas}
+\indent
+Sričių panašumo metodas gali būti taikomas nepriklausomai nuo metodų, prognozuojančių naudotojų tarpusavio pasitikėjimą naudojant propagavimo ir agregaivmo opetarorius. Todėl bus pateiktos kelių šio metodo versijų rezultatai tiek naudojant tik sugeneruotus duomenis, tiek sugeneruotus duomenis papildytus išvestais pasitikėjimais.
+\newline
+\indent
+Sričių panašumą galime vertinti keliais būdais. Šiame eksperimente išbandysime du metodus:
+\begin{itemize}
+	\item kategorijų matricos koreliacijos metodą
+	\item panašumo tarp naudotojų pasitikėjimo įverčių metodą
+\end{itemize}
+Pirmasis metodas panašumą tarp sričių vertina tiesiogiai skaičiuodamas koreliaciją tarp kategorijų charakteristikų iš kategorijų matricos. Tam, kad panašumai būtų teigiami - koreliacijos yra transformuojamos - padidinamos 1 ir dalinamos iš 2. Taigi turimam duomenų rinkiniu sričių panašumo matrica yra tokia:
+
+\begin{center}
+	\captionof{table}{Panašumo tarp kategorijų matrica }
+	\begin{tabular}{||c c c c c c||} 
+		\hline
+		Kategorijos & $X_1$ & $X_2$ & $X_3$ & $X_4$ & $X_5$ \\ [0.5ex] 
+		\hline\hline
+		$X_1$ & 1 & 0.62 & 0.37 & 0.48 & 0.63 \\ 
+		\hline
+		$X_2$ & 0.62 & 1 & 0.08 & 0.31 & 0.43 \\
+		\hline
+		$X_3$ & 0.37 & 0.08 & 1 & 0.53 & 0.45 \\
+		\hline
+		$X_4$ & 0.48 & 0.30 & 0.53 & 1 & 0.26 \\
+		\hline
+		$X_5$ & 0.63 & 0.43 & 0.46 & 0.26 & 1 \\ [1ex] 
+		\hline
+	\end{tabular}
+\end{center}
+Naudojant tokią panašumo matricą trūkstamai informacijai apie pasitikėjimą užpildyti gaunami tokie rezultatai.
+\begin{center}
+	\captionof{table}{BF + sričių panašumo, gauto naudojant kategorijų matricą, rezultatai taikomi RS duomenims}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Visi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Šalto starto naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Ryžtingi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+	\end{tabular}
+\end{center}
+\indent 
+Kitokie rezultatai gaunami naudojant sričių panašumo metodą kartu su kitais metodais, naudojančiais socialinių tinklų duomenis. Anskčiau buvo parodyta, kad geriausi rezultatai gauti taikant SHORTGEO metodą. Papildžius šį metodą sričių panašumo metodu gaunami tokie rezultatai.
+\begin{center}
+	\captionof{table}{BF + SHORTGEO + sričių panašumo, gauto naudojant kategorijų matricą, rezultatai taikomi RS duomenims}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Visi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Šalto starto naudotojai & MAE & MAUE & RMSE & RC & UC \\
+		\hline
+		Ryžtingi naudotojai & MAE & MAUE & RMSE & RC & UC \\
+	\end{tabular}
+\end{center}
 
 
 
+\subsubsubsection{Eksperimento rezultatų taikytų dviem duomenų rinkiniams palyginimas}
+
+\subsection{Pasitikėjimo interpoliavimo metodas}
+\indent
+Pasitikėjimo interpoliavimo metodas nėra tiesiogiai taikomas įprastiems RS duomenims, nes jo taikymui reikia žinoti naudotojo pirmenybes. Aprašytas RS duomenų generavimo metodas suteikia informacijos apie naudotojų pirmenybes, todėl tokiems duomenims šį metodą galime taikyti.
+\newline
+\indent
+Paprastumo dėlei, tarkime, kad RS turi dvi kategorijas, ir egzistuoja dvi charakteristikos, kuriomis pasižymi elementai ir kurioms turi pirmenybes naudotojai. Tokiu atveju kategorijų matrica būtų dyžio $2 \times 2$.
+Tarkime, kad turime naudotoją $u = (y_1, y_2, q_u)$ ir naudotojų, kuriais jis pasitiki bet kurioje srityje aibę $U$. Žinome naudotojo $u$ pasitikėjimo reikšmes kiekvieno naudotojo, kuriuo jis pasitiki bet kurioje kategorijoje, atžvigiu. Taip pat žinome kiekvieno naudotojo pirmenybes. Turėdami tokią informaciją galime prognozuoti naudotojo $u$ pasitikėjimą bet kuriuo naudotoju, nes jis priklauso tik nuo to naudotojo, kuriuo pasitiki, pirmenybių ir srities, kuriai prognozuojamas pasitikėjimas.
+\newline
+\indent
+Metodą galima iliustruoti pavyzdžiu. Turime kategorijų matricą:
+\begin{center}
+	\captionof{table}{Kategorijų matrica}
+	\begin{tabular}{||c c c ||} 
+		\hline
+		Kategorijos & $X_1$ & $X_2$ \\ [0.5ex] 
+		\hline
+		\hline
+		$x_1$ & 0.8 & 0.2 \\
+		\hline
+		$x_2$ & 0.3 & 0.7 \\ [1ex] 
+		\hline
+	\end{tabular}
+\end{center}
+Naudotojas, kuriam vertiname pasitikėjimą toks - $u(0.5, 0.5, q)$. Naudotojai, kuriais pasitikima, ir naudotojo $u$ pasitikėjimais jais apibūdinamas letele:
+\begin{center}
+	\captionof{table}{Naudotojai, kuriais pasitiki $u$}
+	\begin{tabular}{||c c c c c ||} 
+		\hline
+		Naudotojas & $y_1$ & $y_2$ & $t_u^1(v)$ & $t_u^2(v)$ \\ [0.5ex] 
+		\hline
+		\hline
+		$u_1$ & 0 & 1 & 0.1 & 0.9 \\
+		\hline
+		$u_2$ & 0.2 & 0.8 & 0.3 & 0.7  \\
+		\hline
+		$u_3$ & 0.4 & 0.6 & $t_u^1(u_3)$ & 0.6  \\
+		\hline
+		$u_4$ & 0.6 & 0.4 & 0.5 & 0.5  \\
+		\hline
+		$u_5$ & 0.8 & 0.2 & 0.3 & 0.7  \\
+		\hline
+		$u_6$ & 1 & 0 & 0.1 & 0.9  \\ [1ex] 
+		\hline
+	\end{tabular}
+\end{center}
+Norime įvertinti, kiek $u$ pasitiki $u_3$.
+\subsubsection{Rezultatai}
 \subsection{Problemos ir iššūkiai}
+\indent
 Didžiausia problema šio tyrimo srityje yra realių duomenų nebuvimas ir negalėjimas praktiškai įvertinti šių metodų tinkamumo. Nėra žinomo socialinio tinklo, kuriame naudotojai išreikštų pasitikėjimą vienas kitu tolydžioje skalėje ir pasitikėjimai galėtų būtų priskirti skirtingose kategorijose. Artimiausias šiems reikalavimams Epinions.com duomenų rinkinys naudotas šiame tyrime netenkina šių dviejų reikalavimų - tai yra viena priežasčių, kliudžiusių atlikti išsamesnį tyrimą. Apskritai, yra sudėtinga suprojektuoti sistemą, galinčią sugeneruoti tokį duomenų rinkinį - šis uždavinys vertas atskiro tyrimo žmogaus ir kompiuterio sąveikos srityje. Kol kas dažniausiai tyrimuose apie RS naudojami duomenų rinkiniai - MovieLens duomenų rinkinys, naudojamas tyrimuose apie BF ir Epinions.com duomenų rinkinys, kuriame taip pat pateikti ir naudotojų pasitikėjimai vienų kitais unarinėje skalėje.
 \newline
 \indent
@@ -705,6 +995,7 @@ Trečias iššūkis - problema, su kuria susidūrė jau pačios pirmos RS - duom
 \newline
 \indent
 Ketvirta problema - technologinė. Šis tyrimas buvo realizuotas naudojant technologijas, neoptimizuotas darbui su dideliais duomenų kiekiais, dėl to nebuvo pasiektas pageidautinas tikslumas. Algoritmus relizuojantis kodas buvo parašytas .NET aplinkoje C\# ir F\# kalbomis naudojant asinchroniškumą, duomenys saugomi ir kai kurios grafų operacijos (pavyzdžiui, trumpiausio kelio radimas) atliekamos NoSql neo4j grafų duomenų bazėje. Nors ši duomenų bazė ir optimizuota darbui su grafais, rasti vieno naudotojo propaguotus pasitikejimus užtrunka apie dvi valandas (kiekvienam naudotojui reikia atlikti apie 130.000 trumpiausio kelio paieškų). Šiuo metodu norint rasti propaguotus įverčius visai sistemai naudojant įprastą namų kompiuterį prireiktų iki 15-os metų. Taigi, greitaveikos problemos stipriai apsunkino tyrimo eigą. Tinkamai pasirinktos priemonės ir tyrėjo mokėjimas jomis naudotis neabejotinai pagerintų tyrimo kokybę.
+
 
 \section{Išvados}
 Didžioji dauguma tyrimų apie RS, BF ir pasitikėjimu pagrįstas RS buvo atlikta vienmatėje aplinkoje - daroma prielaida, kad RS dalykinė sritis yra vienalytė ir naudotojų tarpusavio panašumas arba pasitikėjimas yra vienalytis. Šiame darbe siūloma RS padalinti pagal pasitikėjimo sritis ir taip pakeisti pasitikėjimo įvertį iš skaliaro į vektorių. Toks aplinkos transformavimas įgalina naudoti du darbe pasiūlytus metodus.

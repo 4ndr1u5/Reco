@@ -6,72 +6,86 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1.}Litratūros apžvalga}{5}{section.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.1.}Bendradarbiavimo filtravimo apibrėžimas}{5}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.1.}Bendradarbiavimo filtravimas}{5}{subsection.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.2.}Šalto starto problema}{7}{subsection.1.2}
+\contentsline {subsubsection}{\numberline {1.1.1.}Bendradarbiavimo filtravimo metodas}{5}{subsubsection.1.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.3.}Naudotojų panašumo apskaičiavimas}{7}{subsection.1.3}
+\contentsline {subsubsection}{\numberline {1.1.2.}Šalto starto problema}{7}{subsubsection.1.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {1.3.1.}Pyrsono koreliacija}{7}{subsubsection.1.3.1}
+\contentsline {subsubsection}{\numberline {1.1.3.}Naudotojų panašumo apskaičiavimas}{7}{subsubsection.1.1.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {1.3.2.}Apribota Pyrsono koreliacija}{8}{subsubsection.1.3.2}
+\contentsline {paragraph}{\numberline {1.1.3.1.}Pyrsono koreliacija}{7}{paragraph.1.1.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {1.3.3.}Spearmano rango koreliacija}{8}{subsubsection.1.3.3}
+\contentsline {paragraph}{\numberline {1.1.3.2.}Apribota Pyrsono koreliacija}{8}{paragraph.1.1.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {1.3.4.}Kosinuso panašumas}{8}{subsubsection.1.3.4}
+\contentsline {paragraph}{\numberline {1.1.3.3.}Spearmano rango koreliacija}{8}{paragraph.1.1.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {1.3.5.}Euristinis PIP panašumo matas}{8}{subsubsection.1.3.5}
+\contentsline {paragraph}{\numberline {1.1.3.4.}Kosinuso panašumas}{8}{paragraph.1.1.3.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {1.3.6.}Panašumas su svoriais}{9}{subsubsection.1.3.6}
+\contentsline {paragraph}{\numberline {1.1.3.5.}Euristinis PIP panašumo matas}{8}{paragraph.1.1.3.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.4.}Socialiniai tinklai ir pasitikėjimu pagrįstos rekomendacinės sistemos}{10}{subsection.1.4}
+\contentsline {paragraph}{\numberline {1.1.3.6.}Panašumas su svoriais}{9}{paragraph.1.1.3.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.5.}Pasitikėjimo apskaičiavimas}{11}{subsection.1.5}
+\contentsline {subsection}{\numberline {1.2.}Socialiniai tinklai ir pasitikėjimu pagrįstos rekomendacinės sistemos}{10}{subsection.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {1.5.1.}TidalTrust}{11}{subsubsection.1.5.1}
+\contentsline {subsubsection}{\numberline {1.2.1.}Socialiniai tinklai ir pasitikėjimo sąvoka}{10}{subsubsection.1.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {1.5.2.}MoleTrust}{12}{subsubsection.1.5.2}
+\contentsline {subsubsection}{\numberline {1.2.2.}Pasitikėjimo apskaičiavimas}{11}{subsubsection.1.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {1.5.3.}Pasitikėjimu pagrįstas svoris}{13}{subsubsection.1.5.3}
+\contentsline {paragraph}{\numberline {1.2.2.1.}TidalTrust}{11}{paragraph.1.2.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.}Tyrimo objektas ir siūlomi metodai}{14}{section.2}
+\contentsline {paragraph}{\numberline {1.2.2.2.}MoleTrust}{12}{paragraph.1.2.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1.}Tyrimo aplinkos modeliavimas}{14}{subsection.2.1}
+\contentsline {paragraph}{\numberline {1.2.2.3.}Pasitikėjimu pagrįstas svoris}{13}{paragraph.1.2.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.}Bendrų kaimynų metodas}{15}{subsection.2.2}
+\contentsline {section}{\numberline {2.}Pasitikėjimu pagrįstos rekomendacinės sistemos modeliavimas ir siūlomi metodai}{14}{section.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.3.}Sričių panašumo metodas}{17}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.1.}RS vertinimas}{15}{subsection.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.4.}Pasitikėjimo apskaičiavimas pasitikėjimo sritims taikant tiesinę regresiją}{19}{subsection.2.4}
+\contentsline {subsubsection}{\numberline {2.1.1.}Vertinimo metrikos}{15}{subsubsection.2.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {2.4.1.}Pasitikėjimo kryptis}{21}{subsubsection.2.4.1}
+\contentsline {subsubsection}{\numberline {2.1.2.}Duomenų rinkinio skaidymas}{16}{subsubsection.2.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.}Tyrimas}{22}{section.3}
+\contentsline {subsection}{\numberline {2.2.}Bendrų kaimynų metodas}{16}{subsection.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1.}Bendrų kaimynų metodas}{22}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {2.2.1.}Epinions.com duomenų rinkinys}{16}{subsubsection.2.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2.}Sričių panašumo metodas}{23}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {2.2.2.}Metodas}{18}{subsubsection.2.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.}Bendrų kaimynų metodas}{24}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {2.2.3.}Rezultatai}{20}{subsubsection.2.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.3.1.}Globalus bendrų kaimynų metodas}{24}{subsubsection.3.3.1}
+\contentsline {subsection}{\numberline {2.3.}Sričių panašumo metodas}{22}{subsection.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.4.}Sričių panašumo metodas}{27}{subsection.3.4}
+\contentsline {subsubsection}{\numberline {2.3.1.}Rekomendacinės sistemos su pasitikėjimu kategorijose modeliavimas}{22}{subsubsection.2.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.4.1.}Duomenų generavimas}{27}{subsubsection.3.4.1}
+\contentsline {paragraph}{\numberline {2.3.1.1.}Kategorijos}{23}{paragraph.2.3.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\numberline {3.4.1.1.}Kategorijos}{27}{paragraph.3.4.1.1}
+\contentsline {paragraph}{\numberline {2.3.1.2.}Naudotojai}{24}{paragraph.2.3.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\numberline {3.4.1.2.}Naudotojai}{28}{paragraph.3.4.1.2}
+\contentsline {paragraph}{\numberline {2.3.1.3.}Elementai}{24}{paragraph.2.3.1.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\numberline {3.4.1.3.}Elementai}{29}{paragraph.3.4.1.3}
+\contentsline {paragraph}{\numberline {2.3.1.4.}Reitingai}{25}{paragraph.2.3.1.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\numberline {3.4.1.4.}Reitingai}{29}{paragraph.3.4.1.4}
+\contentsline {paragraph}{\numberline {2.3.1.5.}Pasitikėjimai}{26}{paragraph.2.3.1.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\numberline {3.4.1.5.}Pasitikėjimai}{30}{paragraph.3.4.1.5}
+\contentsline {paragraph}{\numberline {2.3.1.6.}Sugeneruoto duomenų rinkinio charakteristikos }{26}{paragraph.2.3.1.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.5.}Metodo rezultatai}{31}{subsection.3.5}
+\contentsline {subsubsection}{\numberline {2.3.2.}Metodas}{27}{subsubsection.2.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.6.}Problemos ir iššūkiai}{32}{subsection.3.6}
+\contentsline {paragraph}{\numberline {2.3.2.1.}Pasitikėjimų pagrįstų RS metodai}{28}{paragraph.2.3.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.}Išvados}{34}{section.4}
+\contentsline {subsubsection}{\numberline {2.3.3.}Rezultatai}{29}{subsubsection.2.3.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{\numberline {2.3.3.1.}Eksperimentas naudojant RS su skirtingomis kategorijomis}{29}{paragraph.2.3.3.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{\numberline {2.3.3.2.}Eksperimentas naudojant RS su panašiomis kategorijomis}{31}{paragraph.2.3.3.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{\numberline {2.3.3.3.}Eksperimento rezultatų taikytų dviem duomenų rinkiniams palyginimas}{34}{paragraph.2.3.3.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.4.}Pasitikėjimo interpoliavimo metodas}{34}{subsection.2.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {2.4.1.}Rezultatai}{35}{subsubsection.2.4.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.5.}Problemos ir iššūkiai}{35}{subsection.2.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.}Išvados}{37}{section.3}

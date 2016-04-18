@@ -1,37 +1,44 @@
 \BOOKMARK [1][-]{section*.3}{Įvadas}{}% 1
 \BOOKMARK [1][-]{section.1}{Litratūros apžvalga}{}% 2
-\BOOKMARK [2][-]{subsection.1.1}{Bendradarbiavimo filtravimo apibrėžimas}{section.1}% 3
-\BOOKMARK [2][-]{subsection.1.2}{Šalto starto problema}{section.1}% 4
-\BOOKMARK [2][-]{subsection.1.3}{Naudotojų panašumo apskaičiavimas}{section.1}% 5
-\BOOKMARK [3][-]{subsubsection.1.3.1}{Pyrsono\040koreliacija}{subsection.1.3}% 6
-\BOOKMARK [3][-]{subsubsection.1.3.2}{Apribota\040Pyrsono\040koreliacija}{subsection.1.3}% 7
-\BOOKMARK [3][-]{subsubsection.1.3.3}{Spearmano\040rango\040koreliacija}{subsection.1.3}% 8
-\BOOKMARK [3][-]{subsubsection.1.3.4}{Kosinuso panašumas}{subsection.1.3}% 9
-\BOOKMARK [3][-]{subsubsection.1.3.5}{Euristinis PIP panašumo matas}{subsection.1.3}% 10
-\BOOKMARK [3][-]{subsubsection.1.3.6}{Panašumas su svoriais}{subsection.1.3}% 11
-\BOOKMARK [2][-]{subsection.1.4}{Socialiniai tinklai ir pasitikėjimu pagrįstos rekomendacinės sistemos}{section.1}% 12
-\BOOKMARK [2][-]{subsection.1.5}{Pasitikėjimo apskaičiavimas}{section.1}% 13
-\BOOKMARK [3][-]{subsubsection.1.5.1}{TidalTrust}{subsection.1.5}% 14
-\BOOKMARK [3][-]{subsubsection.1.5.2}{MoleTrust}{subsection.1.5}% 15
-\BOOKMARK [3][-]{subsubsection.1.5.3}{Pasitikėjimu pagrįstas svoris}{subsection.1.5}% 16
-\BOOKMARK [1][-]{section.2}{Tyrimo objektas ir siūlomi metodai}{}% 17
-\BOOKMARK [2][-]{subsection.2.1}{Tyrimo\040aplinkos\040modeliavimas}{section.2}% 18
-\BOOKMARK [2][-]{subsection.2.2}{Bendrų kaimynų metodas}{section.2}% 19
-\BOOKMARK [2][-]{subsection.2.3}{Sričių panašumo metodas}{section.2}% 20
-\BOOKMARK [2][-]{subsection.2.4}{Pasitikėjimo apskaičiavimas pasitikėjimo sritims taikant tiesinę regresiją}{section.2}% 21
-\BOOKMARK [3][-]{subsubsection.2.4.1}{Pasitikėjimo kryptis}{subsection.2.4}% 22
-\BOOKMARK [1][-]{section.3}{Tyrimas}{}% 23
-\BOOKMARK [2][-]{subsection.3.1}{Bendrų kaimynų metodas}{section.3}% 24
-\BOOKMARK [2][-]{subsection.3.2}{Sričių panašumo metodas}{section.3}% 25
-\BOOKMARK [2][-]{subsection.3.3}{Bendrų kaimynų metodas}{section.3}% 26
-\BOOKMARK [3][-]{subsubsection.3.3.1}{Globalus bendrų kaimynų metodas}{subsection.3.3}% 27
-\BOOKMARK [2][-]{subsection.3.4}{Sričių panašumo metodas}{section.3}% 28
-\BOOKMARK [3][-]{subsubsection.3.4.1}{Duomenų generavimas}{subsection.3.4}% 29
-\BOOKMARK [4][-]{paragraph.3.4.1.1}{Kategorijos}{subsubsection.3.4.1}% 30
-\BOOKMARK [4][-]{paragraph.3.4.1.2}{Naudotojai}{subsubsection.3.4.1}% 31
-\BOOKMARK [4][-]{paragraph.3.4.1.3}{Elementai}{subsubsection.3.4.1}% 32
-\BOOKMARK [4][-]{paragraph.3.4.1.4}{Reitingai}{subsubsection.3.4.1}% 33
-\BOOKMARK [4][-]{paragraph.3.4.1.5}{Pasitikėjimai}{subsubsection.3.4.1}% 34
-\BOOKMARK [2][-]{subsection.3.5}{Metodo\040rezultatai}{section.3}% 35
-\BOOKMARK [2][-]{subsection.3.6}{Problemos ir iššūkiai}{section.3}% 36
-\BOOKMARK [1][-]{section.4}{Išvados}{}% 37
+\BOOKMARK [2][-]{subsection.1.1}{Bendradarbiavimo\040filtravimas}{section.1}% 3
+\BOOKMARK [3][-]{subsubsection.1.1.1}{Bendradarbiavimo\040filtravimo\040metodas}{subsection.1.1}% 4
+\BOOKMARK [3][-]{subsubsection.1.1.2}{Šalto starto problema}{subsection.1.1}% 5
+\BOOKMARK [3][-]{subsubsection.1.1.3}{Naudotojų panašumo apskaičiavimas}{subsection.1.1}% 6
+\BOOKMARK [4][-]{paragraph.1.1.3.1}{Pyrsono\040koreliacija}{subsubsection.1.1.3}% 7
+\BOOKMARK [4][-]{paragraph.1.1.3.2}{Apribota\040Pyrsono\040koreliacija}{subsubsection.1.1.3}% 8
+\BOOKMARK [4][-]{paragraph.1.1.3.3}{Spearmano\040rango\040koreliacija}{subsubsection.1.1.3}% 9
+\BOOKMARK [4][-]{paragraph.1.1.3.4}{Kosinuso panašumas}{subsubsection.1.1.3}% 10
+\BOOKMARK [4][-]{paragraph.1.1.3.5}{Euristinis PIP panašumo matas}{subsubsection.1.1.3}% 11
+\BOOKMARK [4][-]{paragraph.1.1.3.6}{Panašumas su svoriais}{subsubsection.1.1.3}% 12
+\BOOKMARK [2][-]{subsection.1.2}{Socialiniai tinklai ir pasitikėjimu pagrįstos rekomendacinės sistemos}{section.1}% 13
+\BOOKMARK [3][-]{subsubsection.1.2.1}{Socialiniai tinklai ir pasitikėjimo sąvoka}{subsection.1.2}% 14
+\BOOKMARK [3][-]{subsubsection.1.2.2}{Pasitikėjimo apskaičiavimas}{subsection.1.2}% 15
+\BOOKMARK [4][-]{paragraph.1.2.2.1}{TidalTrust}{subsubsection.1.2.2}% 16
+\BOOKMARK [4][-]{paragraph.1.2.2.2}{MoleTrust}{subsubsection.1.2.2}% 17
+\BOOKMARK [4][-]{paragraph.1.2.2.3}{Pasitikėjimu pagrįstas svoris}{subsubsection.1.2.2}% 18
+\BOOKMARK [1][-]{section.2}{Pasitikėjimu pagrįstos rekomendacinės sistemos modeliavimas ir siūlomi metodai}{}% 19
+\BOOKMARK [2][-]{subsection.2.1}{RS\040vertinimas}{section.2}% 20
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Vertinimo\040metrikos}{subsection.2.1}% 21
+\BOOKMARK [3][-]{subsubsection.2.1.2}{Duomenų rinkinio skaidymas}{subsection.2.1}% 22
+\BOOKMARK [2][-]{subsection.2.2}{Bendrų kaimynų metodas}{section.2}% 23
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Epinions.com duomenų rinkinys}{subsection.2.2}% 24
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Metodas}{subsection.2.2}% 25
+\BOOKMARK [3][-]{subsubsection.2.2.3}{Rezultatai}{subsection.2.2}% 26
+\BOOKMARK [2][-]{subsection.2.3}{Sričių panašumo metodas}{section.2}% 27
+\BOOKMARK [3][-]{subsubsection.2.3.1}{Rekomendacinės sistemos su pasitikėjimu kategorijose modeliavimas}{subsection.2.3}% 28
+\BOOKMARK [4][-]{paragraph.2.3.1.1}{Kategorijos}{subsubsection.2.3.1}% 29
+\BOOKMARK [4][-]{paragraph.2.3.1.2}{Naudotojai}{subsubsection.2.3.1}% 30
+\BOOKMARK [4][-]{paragraph.2.3.1.3}{Elementai}{subsubsection.2.3.1}% 31
+\BOOKMARK [4][-]{paragraph.2.3.1.4}{Reitingai}{subsubsection.2.3.1}% 32
+\BOOKMARK [4][-]{paragraph.2.3.1.5}{Pasitikėjimai}{subsubsection.2.3.1}% 33
+\BOOKMARK [4][-]{paragraph.2.3.1.6}{Sugeneruoto duomenų rinkinio charakteristikos }{subsubsection.2.3.1}% 34
+\BOOKMARK [3][-]{subsubsection.2.3.2}{Metodas}{subsection.2.3}% 35
+\BOOKMARK [4][-]{paragraph.2.3.2.1}{Pasitikėjimų pagrįstų RS metodai}{subsubsection.2.3.2}% 36
+\BOOKMARK [3][-]{subsubsection.2.3.3}{Rezultatai}{subsection.2.3}% 37
+\BOOKMARK [4][-]{paragraph.2.3.3.1}{Eksperimentas\040naudojant\040RS\040su\040skirtingomis\040kategorijomis}{subsubsection.2.3.3}% 38
+\BOOKMARK [4][-]{paragraph.2.3.3.2}{Eksperimentas naudojant RS su panašiomis kategorijomis}{subsubsection.2.3.3}% 39
+\BOOKMARK [4][-]{paragraph.2.3.3.3}{Eksperimento rezultatų taikytų dviem duomenų rinkiniams palyginimas}{subsubsection.2.3.3}% 40
+\BOOKMARK [2][-]{subsection.2.4}{Pasitikėjimo interpoliavimo metodas}{section.2}% 41
+\BOOKMARK [3][-]{subsubsection.2.4.1}{Rezultatai}{subsection.2.4}% 42
+\BOOKMARK [2][-]{subsection.2.5}{Problemos ir iššūkiai}{section.2}% 43
+\BOOKMARK [1][-]{section.3}{Išvados}{}% 44

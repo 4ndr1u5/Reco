@@ -1,0 +1,26 @@
+\BOOKMARK [1][-]{section.1}{Įvadas}{}% 1
+\BOOKMARK [1][-]{section.2}{Bendradarbiavimo filtravimo \(Collaborative-Filtering\) metodas ir šalto starto problema}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Rekomendacinių sistemų apžvalga ir bendradarbiavimo filtravimo metodas}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Reitingų normalizavimas}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Vartotojų panašumo apskaičiavimas}{section.2}% 5
+\BOOKMARK [3][-]{subsubsection.2.3.1}{Pyrsono\040koreliacija}{subsection.2.3}% 6
+\BOOKMARK [3][-]{subsubsection.2.3.2}{Apribota\040Pyrsono\040koreliacija}{subsection.2.3}% 7
+\BOOKMARK [3][-]{subsubsection.2.3.3}{Spearmano\040rango\040koreliacija}{subsection.2.3}% 8
+\BOOKMARK [3][-]{subsubsection.2.3.4}{Kosinuso panašumas}{subsection.2.3}% 9
+\BOOKMARK [3][-]{subsubsection.2.3.5}{Euristinis PIP panašumo matas}{subsection.2.3}% 10
+\BOOKMARK [3][-]{subsubsection.2.3.6}{Panašumas su svoriais}{subsection.2.3}% 11
+\BOOKMARK [1][-]{section.3}{Pasitikėjimu pagrįstos rekomendacinės sistemos}{}% 12
+\BOOKMARK [2][-]{subsection.3.1}{Pasitikėjimo apžvalga}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.2}{Pasitikėjimo apskaičiavimas}{section.3}% 14
+\BOOKMARK [3][-]{subsubsection.3.2.1}{TidalTrust}{subsection.3.2}% 15
+\BOOKMARK [3][-]{subsubsection.3.2.2}{MoleTrust}{subsection.3.2}% 16
+\BOOKMARK [3][-]{subsubsection.3.2.3}{Pasitikėjimu pagrįstas svoris}{subsection.3.2}% 17
+\BOOKMARK [1][-]{section.4}{RS\040vertinimas}{}% 18
+\BOOKMARK [2][-]{subsection.4.1}{RS\040vertinimo\040metodai}{section.4}% 19
+\BOOKMARK [2][-]{subsection.4.2}{RS\040vertinimo\040aspektai}{section.4}% 20
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Patikimumas}{subsection.4.2}% 21
+\BOOKMARK [3][-]{subsubsection.4.2.2}{Pasitikėjimas}{subsection.4.2}% 22
+\BOOKMARK [3][-]{subsubsection.4.2.3}{Naujoviškumas}{subsection.4.2}% 23
+\BOOKMARK [3][-]{subsubsection.4.2.4}{Įžvalgumas}{subsection.4.2}% 24
+\BOOKMARK [3][-]{subsubsection.4.2.5}{Tvirtumas}{subsection.4.2}% 25
+\BOOKMARK [1][-]{section.5}{Išvados}{}% 26

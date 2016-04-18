@@ -1,0 +1,9 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: untitled-3.aux
+The style file: amsplain.bst
+I couldn't open database file mybibliography.bib
+---line 4 of file untitled-3.aux
+ : \bibdata{mybibliography
+ :                        }
+I'm skipping whatever remains of this command
+I found no database files---while reading file untitled-3.aux
+(There were 2 error messages)

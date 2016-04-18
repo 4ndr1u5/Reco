@@ -20,6 +20,7 @@ namespace Reco
         {
             
             var repo = new Repository();
+            //Tidal(repo);
             var reuseSameGraph = false;
             if (!reuseSameGraph)
             {
@@ -42,7 +43,7 @@ namespace Reco
                 // check domain similarities before propagation
                 var domainSimsBefore = EvaluateDomainSimilarities(repo);
                 //generate graph (step 2)
-                GeneratePropagatedTrust(repo);
+                GeneratePropagatedTrust(repo, false);
                 //generate predictions
                 var usersProds2 = GeneratePredictions(repo, 1);
                 //evaluate
@@ -84,7 +85,28 @@ namespace Reco
             }
             return result;
         }
-        public static void GeneratePropagatedTrust(Repository repo)
+
+        public static void Tidal(Repository repo)
+        {
+            var users = repo.getAllUsers();
+
+            foreach (var u1 in users)
+            {
+                foreach (var u2 in users)
+                {
+                    if (u1 != u2)
+                    {
+                        for (var c = 1; c <= 5; c++)
+                        {
+                            var paths = repo.GetAllPaths(u1.iduser, u2.iduser, c);
+
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void GeneratePropagatedTrust(Repository repo, bool multi)
         {
             var users = repo.getAllUsers();
 
@@ -104,9 +126,21 @@ namespace Reco
 
                                 if (path != null && path.Relationships.Count() > 1)
                                 {
+                                    var list = new List<double>();
                                     foreach (var rel in path.Relationships)
                                     {
-                                        newTrust = Math.Round(newTrust*rel.TrustValue, 4);
+                                        if (multi)
+                                        {
+                                            newTrust = Math.Round(newTrust*rel.TrustValue, 4);
+                                        }
+                                        else
+                                        {
+                                            list.Add(rel.TrustValue);
+                                        }
+                                    }
+                                    if (!multi)
+                                    {
+                                        newTrust = list.Average();
                                     }
                                     repo.SaveTrust(u1.iduser, u2.iduser, c, "ShortestPath", newTrust);
                                 }
@@ -325,7 +359,8 @@ namespace Reco
             var rndCatNumber = new Random();
             foreach (var u in users)
             {
-                var trustCount = (int) Normal.Sample(new Random(u.iduser), 10, 9);
+                var trustCount = (int) Normal.Sample(new Random(u.iduser), 3, 6);
+                trustCount = trustCount < 0 ? 0 : trustCount;
                 var trustees = repo.PickRandomUsers(trustCount, userCount, u.iduser);
                 double trust = 0;
 

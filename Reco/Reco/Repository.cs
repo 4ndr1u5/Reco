@@ -181,6 +181,26 @@ namespace Reco
             var res = pathsQuery.Results;
             return res;
         }
+        public IEnumerable<PathsResult<User>> GetAllPaths(int u1, int u2, int cid)
+        {
+            var pathsQuery =
+                client.Cypher
+                    .Match("p=((u:User)-[t:Trusts*..3]-(v:User)) WHERE(u.iduser = " + u1 +
+                           ") AND(v.iduser =  " + u2 + ") AND all(x IN rels(p) WHERE x.Category =  " + cid + ")")
+                    //.Match("p = shortestPath((u:User)-[t:Trusts*..5]-(v:User))")
+                    //.Where((User u) => u.iduser == u1)
+                    //.AndWhere((User v) => v.iduser == u2)
+                    //all(x IN rels(p) WHERE x.Category =1)
+                    //.AndWhere((Trust t) => t.Category == cid)
+                    .Return(p => new PathsResult<User>
+                    {
+                        Nodes = Return.As<IEnumerable<Node<User>>>("nodes(p)"),
+                        Relationships = Return.As<IEnumerable<Trust>>("rels(p)")
+                    });
+
+            var res = pathsQuery.Results;
+            return res;
+        }
 
         public void SaveTrust(int u1, int u2, int cat, string method, double value)
         {
