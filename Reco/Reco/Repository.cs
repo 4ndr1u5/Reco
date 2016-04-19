@@ -370,18 +370,19 @@ namespace Reco
         //        .ExecuteWithoutResults();
         //}
 
-        public void CreateTrust(int u1id, int u2id, int cid, double trust)
+        public void CreateTrust(int u1id, int u2id, int cid, double trust, string type)
         {
             client.Cypher.Match("(u1:User), (u2:User)")
                 .Where((User u1) => u1.iduser == u1id)
                 .AndWhere((User u2) => u2.iduser == u2id)
-                .Create("(u1)-[t:Trusts{TrustValue:{trust}, Category: {cid}}]->(u2)")
+                .Create("(u1)-[t:Trusts{TrustValue:{trust}, Category: {cid}, Type:{type}}]->(u2)")
                 .WithParam("trust", Math.Round(trust, 4))
                 .WithParam("cid", cid)
+                .WithParam("type", type)
                 .ExecuteWithoutResults();
         }
 
-        public void CreateRating(int uid, int pid, int rating, bool actual)
+        public void CreateRating(int uid, int pid, int rating)
         {
             client.Cypher.Match("(u:User), (p:Product)")
                 .Where((User u) => u.iduser == uid)
@@ -391,16 +392,49 @@ namespace Reco
                 .ExecuteWithoutResults();
         }
 
-        public void CreatePredictedRating(int uid, int pid, double rating, int step)
+        public void CreatePredictedRating(int uid, int pid, double rating, string method)
         {
-            client.Cypher.Match("(u:User)-[r:Rated]->(p:Product)")
+            if (method == "BASE")
+            {
+                client.Cypher.Match("(u:User)-[r:Rated]->(p:Product)")
                 .Where((User u) => u.iduser == uid)
                 .AndWhere((Product p) => p.idproduct == pid)
-                .Set("r.PredictedRating = {rating}, r.Step = {step}")
+                .Set("r.PredictedRatingBase = {rating}")
                 //.Create("(u)-[r:Rated{PredictedRating:{rating}}]->(p)")
                 .WithParam("rating", rating)
-                .WithParam("step", step)
                 .ExecuteWithoutResults();
+            }
+            if (method == "SHORTMULTIPLICATION")
+            {
+                client.Cypher.Match("(u:User)-[r:Rated]->(p:Product)")
+                .Where((User u) => u.iduser == uid)
+                .AndWhere((Product p) => p.idproduct == pid)
+                .Set("r.PredictedRatingBase = {rating}")
+                //.Create("(u)-[r:Rated{PredictedRating:{rating}}]->(p)")
+                .WithParam("rating", rating)
+                .ExecuteWithoutResults();
+            }
+            if (method == "SHORTARITHMETIC")
+            {
+                client.Cypher.Match("(u:User)-[r:Rated]->(p:Product)")
+                .Where((User u) => u.iduser == uid)
+                .AndWhere((Product p) => p.idproduct == pid)
+                .Set("r.PredictedRatingArit = {rating}")
+                //.Create("(u)-[r:Rated{PredictedRating:{rating}}]->(p)")
+                .WithParam("rating", rating)
+                .ExecuteWithoutResults();
+            }
+            if (method == "SHORTHARMONIC")
+            {
+                client.Cypher.Match("(u:User)-[r:Rated]->(p:Product)")
+                .Where((User u) => u.iduser == uid)
+                .AndWhere((Product p) => p.idproduct == pid)
+                .Set("r.PredictedRatingHarm = {rating}")
+                //.Create("(u)-[r:Rated{PredictedRating:{rating}}]->(p)")
+                .WithParam("rating", rating)
+                .ExecuteWithoutResults();
+            }
+
         }
 
         public int GetNumberOfTrusteesWhoHaveRatedThisProduct(int uid, int pid)
@@ -428,6 +462,28 @@ namespace Reco
             return (int) (number.First());
         }
 
+        public int GetRatingsCount()
+        {
+            var number =
+                client.Cypher
+                    .Match("(u:User)-[r:Rated]->(p:Product)")
+                    //.Where((User u) => u.iduser == uid)
+                    .Return(r => r.Count())
+                    .Results;
+
+            return (int)(number.First());
+        }
+
+        public int GetUsersWhoHaveRatedOneOrMoreItemsCount()
+        {
+            var query =
+                client.Cypher
+                    .Match("(u:User)-[r:Rated]->(v:Product)")
+                    .Return(u => u.CountDistinct());
+
+            return (int)(query.Results.First());
+        }
+
         public List<Tuple<Rated, Product>> GetUsersRatings(int uid)
         {
             var ratings = client.Cypher
@@ -439,28 +495,79 @@ namespace Reco
             return ratings.ToList();
         }
 
-        public List<Tuple<double, int>> GetTrusteesWhoHaveRatedThisProduct(int uid, int cid, int pid)
+        public List<Tuple<double, int>> GetTrusteesWhoHaveRatedThisProduct(int uid, int cid, int pid, string[] methods)
         {
-            var query =
+            var result = new List<Tuple<double, int>>();
+            if (methods.Length == 1)
+            {
+                var query =
                 client.Cypher
-                    .Match("(u:User)-[r:Rated]->(p:Product)<-[rt:Rated]-(v:User), (u:User)-[t:Trusts]->(v:User)")
-                    .Where((User u) => u.iduser == uid)
-                    .AndWhere((Product p) => p.idproduct == pid)
-                    .AndWhere((Trust t) => t.Category == cid)
+                    .Match(String.Format("(u:User)-[r:Rated]->(p:Product)<-[rt:Rated]-(v:User), (u:User)-[t:Trusts]->(v:User) " +
+                           "WHERE (u.iduser = {0}) " +
+                           "AND (p.idproduct = {1}) AND (t.Category = {2}) " +
+                           "AND t.Type = \'{3}\'", uid, pid, cid, methods[0]))
+                    //.Where((User u) => u.iduser == uid)
+                    //.AndWhere((Product p) => p.idproduct == pid)
+                    //.AndWhere((Trust t) => t.Category == cid && methods.ToList().Contains(t.Method))
                     .Return((t, rt) => new Tuple<double, int>(t.As<Trust>().TrustValue, rt.As<Rated>().Rating));
-            var result = query.Results;
-            return result.ToList();
+                result = query.Results.ToList();
+            }
+            if (methods.Length == 2)
+            {
+                var query =
+                client.Cypher
+                     .Match(String.Format("(u:User)-[r:Rated]->(p:Product)<-[rt:Rated]-(v:User), (u:User)-[t:Trusts]->(v:User) " +
+                           "WHERE (u.iduser = {0}) " +
+                           "AND (p.idproduct = {1}) AND (t.Category = {2}) " +
+                           "AND (t.Type = \'{3}\') OR (t.Type = \'{4}\')", uid, pid, cid, methods[0], methods[1]))
+                    //.Where((User u) => u.iduser == uid)
+                    //.AndWhere((Product p) => p.idproduct == pid)
+                    //.AndWhere((Trust t) => t.Category == cid && methods.ToList().Contains(t.Method))
+                    .Return((t, rt) => new Tuple<double, int>(t.As<Trust>().TrustValue, rt.As<Rated>().Rating));
+                result = query.Results.ToList();
+            }
+
+            return result;
         }
 
-        public List<Tuple<int, double, int>> GetRatingsForEvaluation(int step)
+        public List<Tuple<int, double, int>> GetAllUsersRatingsForEvaluation(string method)
         {
-            var query =
+            var result = new List<Tuple<int, double, int>>();
+            if (method == "BASE")
+            {
+                var query =
                 client.Cypher
-                    .Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRating)")
-                    //.WithParam("step", step)
-                    .Return((r, u) => new Tuple<int, double, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRating, u.As<User>().iduser));
-            var result = query.Results;
-            return result.ToList();
+                    .Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRatingBase)")
+                    .Return((r, u) => new Tuple<int, double, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingBase, u.As<User>().iduser));
+
+                result = query.Results.ToList();
+            }
+            if (method == "SHORTMULTI")
+            {
+                var query =
+                client.Cypher
+                    .Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRatingMulti)")
+                    .Return((r, u) => new Tuple<int, double, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingMulti, u.As<User>().iduser));
+                result = query.Results.ToList();
+            }
+            if (method == "SHORTARIT")
+            {
+                var query =
+                client.Cypher
+                    .Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRatingArit)")
+                    .Return((r, u) => new Tuple<int, double, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingArit, u.As<User>().iduser));
+                result = query.Results.ToList();
+            }
+            if (method == "SHORTHARM")
+            {
+                var query =
+                client.Cypher
+                    .Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRatingHarm)")
+                    .Return((r, u) => new Tuple<int, double, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingHarm, u.As<User>().iduser));
+                result = query.Results.ToList();
+            }
+
+            return result;
         }
 
         public List<Tuple<double, double>>  GetTrustsForTwoCategories(int c1, int c2)

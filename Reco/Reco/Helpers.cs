@@ -59,51 +59,44 @@ namespace Reco
         {
             return (x + 1.0)/2;
         }
-
-        public static double WeightedAverage(List<Tuple<double, int>>  input)
+        public static double WeightedAverage(List<Tuple<double, int>> input)
         {
             var factors = new List<double>();
             foreach (var i in input)
             {
-                var factor = i.Item1*i.Item2;
+                var factor = i.Item1 * i.Item2;
                 factors.Add(factor);
             }
             return factors.Sum();
         }
-        // MAE - mean average error
-        // MAE = sqrt 1/|T| sum |r*_ui -r_ui|
-        // MAUE - mean average user error
-        // RMSE - root mean squared error
-        // RMSE = sqrt 1/|T| sum (r*_ui -r_ui|)^2
-        public static double CalculateMAE(List<Tuple<int, double, int>> input)
+
+        public static string TranslateMethodsFromEnum(Algorithm alg)
         {
-    
-            var sum = input.Select(x => Modulo(x.Item1, x.Item2)).Sum();
-            var factor = input.Count;
-            return Math.Sqrt(sum/factor);
-        }
-        public static double CalculateMAUE(List<Tuple<int, double, int>> input)
-        {
-            var grouped = input.GroupBy(x => x.Item3).ToList();
-            var list = new List<double>();
-            foreach (var userRatings in grouped)
+            switch (alg)
             {
-                var element = CalculateMAE(userRatings.ToList());
-                list.Add(element);
+                case Algorithm.Base:
+                    return "BASE";
+                case Algorithm.Multiplication:
+                    return "SHORTMULTI";
+                case Algorithm.ArithmeticMean:
+                    return "SHORTARIT";
+                case Algorithm.HArmonicMean:
+                    return "SHORTHARM";
+                default:
+                    return "error";
             }
-            return list.Average();
         }
 
-        public static double CalculateRMSE(List<Tuple<int, double, int>> input)
+        public static string[] GetMethods(string method)
         {
-            // MAE - mean average error
-            // MAE = sqrt 1/|T| sum |r*_ui -r_ui|
-            // MAUE - mean average user error
-            // RMSE - root mean squared error
-            // RMSE = sqrt 1/|T| sum (r*_ui -r_ui|)^2
-            var sum = input.Select(x => Math.Pow((x.Item1 - x.Item2),2)).Sum();
-            var factor = input.Count;
-            return Math.Sqrt(sum / factor);
+            switch (method)
+            {
+                case "BASE": return new string[1] { "BASE" };
+                case "SHORTMULTI": return new string[2] { "BASE", "SHORTMULTI" };
+                case "SHORTARIT": return new string[2] { "BASE", "SHORTARIT" };
+                case "SHORTHARM": return new string[2] { "BASE", "SHORTHARM" };
+                default: return new string[0] {};
+            }
         }
     }
 }

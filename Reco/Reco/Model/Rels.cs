@@ -17,7 +17,11 @@ namespace Reco.Model
             get { return "Rated"; }
         }
         public int Rating { get; set; }
-        public double PredictedRating { get; set; }
+        public double PredictedRatingBase { get; set; }
+        public double PredictedRatingMulti { get; set; }
+        public double PredictedRatingArit { get; set; }
+        public double PredictedRatingHarm { get; set; }
+
         public int Step { get; set; }
     }
 
