@@ -17,10 +17,18 @@ namespace Reco.Model
             get { return "Rated"; }
         }
         public int Rating { get; set; }
-        public double PredictedRatingBase { get; set; }
-        public double PredictedRatingMulti { get; set; }
-        public double PredictedRatingArit { get; set; }
-        public double PredictedRatingHarm { get; set; }
+        public double? PredictedRatingBase { get; set; }
+
+        public double? PredictedRatingBaseDSP { get; set; }
+
+
+        public double? PredictedRatingMulti { get; set; }
+        public double? PredictedRatingMultiDSP { get; set; }
+        public double? PredictedRatingMultiDSPU { get; set; }
+
+
+        public double? PredictedRatingArit { get; set; }
+        public double? PredictedRatingHarm { get; set; }
 
         public int Step { get; set; }
     }

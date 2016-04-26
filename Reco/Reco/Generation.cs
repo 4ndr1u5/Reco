@@ -69,7 +69,8 @@ namespace Reco
             //var rating = quotient * Math.Sqrt(corr) + 0.5 * u.quality * prod.quality;
             var coeff = rndCoef.NextDouble();
 
-            var rating = 5 * (coeff * Math.Sqrt(corr) + (1 - coeff) * u.quality * prod.quality);
+            //var rating = 5 * (coeff * Math.Sqrt(corr) + (1 - coeff) * u.quality * prod.quality);
+            var rating = 5 * (u.quality * Math.Sqrt(corr) + (1 - u.quality) * prod.quality);
             rating = rating > 5 ? 5 : rating;
             rating = rating < 1 ? 1 : rating;
 
@@ -124,8 +125,12 @@ namespace Reco
                             }
                             trust = Correlation.Pearson(userRatings, trusteeRatings);
                             var positiveTrust = Math.Round(Helpers.Positive(trust), 4);
-                            Console.WriteLine("User {0} trusts user {1} by {2}", u.iduser, trustee.iduser, positiveTrust);
-                            repo.CreateTrust(u.iduser, trustee.iduser, category, positiveTrust, "BASE");
+                            if (positiveTrust > 0)
+                            {
+                                Console.WriteLine("User {0} trusts user {1} by {2}", u.iduser, trustee.iduser, positiveTrust);
+                                repo.CreateTrust(u.iduser, trustee.iduser, category, positiveTrust, "BASE");
+                            }
+                            
                         }
                     }
                 }

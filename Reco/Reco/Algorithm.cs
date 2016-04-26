@@ -5,6 +5,13 @@
         Base,
         Multiplication,
         ArithmeticMean,
-        HArmonicMean
+        HArmonicMean,
+        PBase,
+        PMultiplication,
+        PArithmeticMean,
+        PHArmonicMean,
+        PUMultiplication,
+        PUArithmeticMean,
+        PUHArmonicMean
     }
 }

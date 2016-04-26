@@ -11,6 +11,7 @@ namespace Reco
     {
         private class Results
         {
+            public int count { get; set; }
             public double MAE { get; set; }
             public double MAUE { get; set; }
             public double RMSE { get; set; }
@@ -32,30 +33,36 @@ namespace Reco
         {
             var result = new List<Results>();
             // evaluate for diferent types of datasets
+            // rating, predictedRating, userId
             var allUsers = repo.GetAllUsersRatingsForEvaluation(Helpers.TranslateMethodsFromEnum(algorithm));
 
             var coldUsers = FilterColdUsers(allUsers);
             var opinionatedUsers = FilterOpinionatedUsers(allUsers);
 
-            var numberOfUsers = repo.GetUsersWhoHaveRatedOneOrMoreItemsCount();
-            var numberOfRatings = repo.GetRatingsCount();
-
-            var datasets = new List<List<Tuple<int, double, int>>>();
+            var datasets = new List<List<Tuple<int, double?, int>>>();
             datasets.Add(coldUsers);
             datasets.Add(opinionatedUsers);
             datasets.Add(allUsers);
 
             foreach (var ds in datasets)
             {
-                var res = new Results()
+               
+                    var predictedDs = ds.Where(x => x.Item2 != null).Select(x => new Tuple<int, double, int>(x.Item1, (double)x.Item2, x.Item3)).ToList();
+                    var usersCount = ds.GroupBy(x => x.Item3).Count();
+                if (predictedDs.Count > 0)
                 {
-                    MAE = CalculateMAE(ds),
-                    MAUE = CalculateMAUE(ds),
-                    RMSE = CalculateRMSE(ds),
-                    UC = Math.Round((ds.Select(x=>x.Item1).Distinct().Count() / (double) numberOfUsers), 4),
-                    RC = Math.Round(ds.Count() / (double) numberOfRatings, 4)
-                };
-                result.Add(res);
+                    var res = new Results()
+                    {
+                        MAE = CalculateMAE(predictedDs),
+                        MAUE = CalculateMAUE(predictedDs),
+                        RMSE = CalculateRMSE(predictedDs),
+                        UC = Math.Round(predictedDs.GroupBy(x => x.Item3).Count() / (double)usersCount, 4),
+                        RC = Math.Round(predictedDs.Count() / (double)ds.Count(), 4),
+                        count = usersCount
+                    };
+                    result.Add(res);
+                }
+                
             }
 
             //print out results 
@@ -65,7 +72,7 @@ namespace Reco
                 file.WriteLine(description);
                 foreach (var res in result)
                 {
-                    file.WriteLine($"{res.MAE};{res.MAUE};{res.RMSE};{res.RC};{res.UC}");
+                    file.WriteLine($"{res.MAE};{res.MAUE};{res.RMSE};{res.RC};{res.UC};{res.count}");
                 }
             }
         }
@@ -97,7 +104,7 @@ namespace Reco
             return Math.Sqrt(sum / factor);
         }
         //Tuple description - rating, predictedRating, userId
-        private List<Tuple<int, double, int>> FilterColdUsers(List<Tuple<int, double, int>> allUsers)
+        private List<Tuple<int, double?, int>> FilterColdUsers(List<Tuple<int, double?, int>> allUsers)
         {
             var coldUsers = new List<int>();
             var grouped = allUsers.GroupBy(x => x.Item3);
@@ -107,14 +114,14 @@ namespace Reco
             {
                 userId = user.Select(x => x.Item3).Distinct().First();
                 userRatings = user.Select(x => x.Item1).ToList();
-                if (userRatings.Count() <= 3)
+                if (userRatings.Count() <= 15)
                 {
                     coldUsers.Add(userId);
                 }
             }
             return allUsers.Where(x => coldUsers.Contains(x.Item3)).ToList();
         }
-        private List<Tuple<int, double, int>> FilterOpinionatedUsers(List<Tuple<int, double, int>> allUsers)
+        private List<Tuple<int, double?, int>> FilterOpinionatedUsers(List<Tuple<int, double?, int>> allUsers)
         {
             var opinionatedUsers = new List<int>();
             var grouped = allUsers.GroupBy(x => x.Item3);
@@ -124,12 +131,52 @@ namespace Reco
             {
                 userId = user.Select(x => x.Item3).Distinct().First();
                 userRatings = user.Select(x => x.Item1).ToList();
-                if (userRatings.Select(x=>(double) x).StandardDeviation()>1)
+                if (userRatings.Select(x=>(double) x).StandardDeviation()>2)
                 {
                     opinionatedUsers.Add(userId);
                 }
             }
             return allUsers.Where(x => opinionatedUsers.Contains(x.Item3)).ToList();
+        }
+
+        public void EvaluateDataset(string method)
+        {
+            //number of users
+            //number of ratings (distribution)
+            //number of average ratings per user
+            //average user's ratings variance
+            var numberOfUsers = repo.getAllUsers().Count();
+            var numberOfRatings = repo.GetRatingsCount();
+            var numberOfRatings1 = repo.GetRatingsCount(1);
+            var numberOfRatings2 = repo.GetRatingsCount(2);
+            var numberOfRatings3 = repo.GetRatingsCount(3);
+            var numberOfRatings4 = repo.GetRatingsCount(4);
+            var numberOfRatings5 = repo.GetRatingsCount(5);
+            var trust = repo.GetTrustCount();
+            var trust05 = repo.GetTrustCount(0.5, method);
+            var trust08 = repo.GetTrustCount(0.8, method);
+            var lst = new List<double>();
+            var lst1 = Enumerable.Repeat(1d, numberOfRatings1);
+            var lst2 = Enumerable.Repeat(2d, numberOfRatings2);
+            var lst3 = Enumerable.Repeat(3d, numberOfRatings3);
+            var lst4 = Enumerable.Repeat(4d, numberOfRatings4);
+            var lst5 = Enumerable.Repeat(5d, numberOfRatings5);
+            lst.AddRange(lst1);
+            lst.AddRange(lst2);
+            lst.AddRange(lst3);
+            lst.AddRange(lst4);
+            lst.AddRange(lst5);
+
+
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Github stuff\Reco\Reco\doc\Results.txt", true))
+            {
+                file.WriteLine("----------------");
+                file.WriteLine(method);
+                file.WriteLine("users;ratings,1,2,3,4,5,std,trust,trust0.5,trust0.8");
+                file.WriteLine($"{numberOfUsers};{numberOfRatings};{numberOfRatings1};" +
+                               $"{numberOfRatings2};{numberOfRatings3};{numberOfRatings4};" +
+                               $"{numberOfRatings5};{lst.StandardDeviation()};{trust};{trust05};{trust08}");
+            }
         }
     }
 }

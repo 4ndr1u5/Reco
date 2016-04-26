@@ -16,25 +16,11 @@ namespace Reco
 
         
 
-        public void GeneratePropagatedTrust(Algorithm method)
+        public void GeneratePropagatedTrust(Algorithm method, double threshold)
         {
-            var methodNname = "";
-            switch (method)
-            {
-                case Algorithm.Multiplication:
-                    methodNname = "Multiplication";
-                    break;
-                case Algorithm.ArithmeticMean:
-                    methodNname = "ArithmeticMean";
-                    break;
-                case Algorithm.HArmonicMean:
-                    methodNname = "HarmonicMean";
-                    break;
-                default:
-                    methodNname = "Error";
-                    break;
-            }
-
+            Console.BackgroundColor = ConsoleColor.DarkMagenta;
+            var methodNname = Helpers.TranslateMethodsFromEnum(method);
+          
 
             var users = repo.getAllUsers();
 
@@ -65,7 +51,7 @@ namespace Reco
                                     }
                                     if (Algorithm.HArmonicMean == method)
                                     {
-                                        newTrust = Math.Round(newTrust * rel.TrustValue, 4);
+                                        newTrust = newTrust + (1/rel.TrustValue);
                                     }
                                 }
                                 if (Algorithm.ArithmeticMean == method)
@@ -74,10 +60,14 @@ namespace Reco
                                 }
                                 if (Algorithm.HArmonicMean == method)
                                 {
-                                    newTrust = Math.Pow(newTrust, (double) 1/path.Relationships.Count());
+                                    newTrust = path.Relationships.Count()/newTrust;
                                 }
-
-                                repo.SaveTrust(u1.iduser, u2.iduser, c, methodNname, newTrust);
+                                if (newTrust > threshold)
+                                {
+                                    
+                                    Console.WriteLine(String.Format("Save trust user {0} - user {1}, category {2}, value {3}", u1.iduser, u2.iduser, c, newTrust));
+                                    repo.SaveTrust(u1.iduser, u2.iduser, c, methodNname, newTrust);
+                                }
                             }
                         }
 
@@ -86,7 +76,7 @@ namespace Reco
                     {
                         Console.WriteLine("Exception");
                     }
-
+                    Console.BackgroundColor = ConsoleColor.DarkYellow;
                 }
             }
         }

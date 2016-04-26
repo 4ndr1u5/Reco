@@ -166,7 +166,8 @@ namespace Reco
             var pathsQuery =
                 client.Cypher
                     .Match("p = shortestPath((u:User)-[t:Trusts*..3]-(v:User)) WHERE(u.iduser = " + u1 +
-                           ") AND(v.iduser =  " + u2 + ") AND all(x IN rels(p) WHERE x.Category =  " + cid + ")")
+                        ") AND(v.iduser =  " + u2 + ") AND all(x IN rels(p) WHERE x.Category =  " + cid + ")")
+                    //") AND(v.iduser =  " + u2 + ") AND all(x IN rels(p) WHERE x.Category =  " + cid + " and x.Method= 'BASE')")
                     //.Match("p = shortestPath((u:User)-[t:Trusts*..5]-(v:User))")
                     //.Where((User u) => u.iduser == u1)
                     //.AndWhere((User v) => v.iduser == u2)
@@ -273,46 +274,89 @@ namespace Reco
                 double w3 = 0;
                 double w4 = 0;
                 double w5 = 0;
+                //DS2
                 switch (cat)
                 {
                     case 1:
-                        w1 = 0.55;
+                        w1 = 0.6;
                         w2 = 0.2;
-                        w3 = 0.05;
+                        w3 = 0.1;
+                        w4 = 0.1;
+                        w5 = 0;
+                        break;
+                    case 2:
+                        w1 = 0.5;
+                        w2 = 0.1;
+                        w3 = 0.1;
                         w4 = 0.1;
                         w5 = 0.1;
                         break;
-                    case 2:
-                        w1 = 0.2;
-                        w2 = 0.6;
-                        w3 = 0.05;
-                        w4 = 0.05;
-                        w5 = 0.1;
-                        break;
                     case 3:
-                        w1 = 0.2;
-                        w2 = 0.05;
-                        w3 = 0.35;
-                        w4 = 0.2;
+                        w1 = 0.4;
+                        w2 = 0.2;
+                        w3 = 0.1;
+                        w4 = 0.1;
                         w5 = 0.2;
                         break;
                     case 4:
-                        w1 = 0.2;
-                        w2 = 0.05;
+                        w1 = 0.6;
+                        w2 = 0;
                         w3 = 0.1;
-                        w4 = 0.65;
-                        w5 = 0;
+                        w4 = 0.2;
+                        w5 = 0.1;
                         break;
                     case 5:
                         w1 = 0.3;
-                        w2 = 0.1;
-                        w3 = 0.05;
-                        w4 = 0.05;
-                        w5 = 0.5;
+                        w2 = 0.3;
+                        w3 = 0.1;
+                        w4 = 0.1;
+                        w5 = 0.2;
                         break;
                     default:
                         break;
                 }
+
+                //DS1
+                //switch (cat)
+                //{
+                //    case 1:
+                //        w1 = 0.55;
+                //        w2 = 0.2;
+                //        w3 = 0.05;
+                //        w4 = 0.1;
+                //        w5 = 0.1;
+                //        break;
+                //    case 2:
+                //        w1 = 0.2;
+                //        w2 = 0.6;
+                //        w3 = 0.05;
+                //        w4 = 0.05;
+                //        w5 = 0.1;
+                //        break;
+                //    case 3:
+                //        w1 = 0.2;
+                //        w2 = 0.05;
+                //        w3 = 0.35;
+                //        w4 = 0.2;
+                //        w5 = 0.2;
+                //        break;
+                //    case 4:
+                //        w1 = 0.2;
+                //        w2 = 0.05;
+                //        w3 = 0.1;
+                //        w4 = 0.65;
+                //        w5 = 0;
+                //        break;
+                //    case 5:
+                //        w1 = 0.3;
+                //        w2 = 0.1;
+                //        w3 = 0.05;
+                //        w4 = 0.05;
+                //        w5 = 0.5;
+                //        break;
+                //    default:
+                //        break;
+                //}
                 //jeigu produktas is tam tikros kategorijos jis turetu buti tikrai su daugiausia tos kategorijos pozymio
                 //o ne tik truputi ir tai nebutinai
                 var rnd = new Random(i);
@@ -336,7 +380,7 @@ namespace Reco
                 var c5 = Math.Round(n5/sum, 4);
                 var quality = Math.Round(Normal.Sample(new Random(), 0.6, 0.4));
                 quality = quality > 1 ? 1 : quality;
-                quality = quality < 1 ? 1 : quality;
+                quality = quality < 1 ? 0 : quality;
                 client
                     .Cypher
                     .Create(
@@ -370,15 +414,15 @@ namespace Reco
         //        .ExecuteWithoutResults();
         //}
 
-        public void CreateTrust(int u1id, int u2id, int cid, double trust, string type)
+        public void CreateTrust(int u1id, int u2id, int cid, double trust, string method)
         {
             client.Cypher.Match("(u1:User), (u2:User)")
                 .Where((User u1) => u1.iduser == u1id)
                 .AndWhere((User u2) => u2.iduser == u2id)
-                .Create("(u1)-[t:Trusts{TrustValue:{trust}, Category: {cid}, Type:{type}}]->(u2)")
+                .Create("(u1)-[t:Trusts{TrustValue:{trust}, Category: {cid}, Method:{method}}]->(u2)")
                 .WithParam("trust", Math.Round(trust, 4))
                 .WithParam("cid", cid)
-                .WithParam("type", type)
+                .WithParam("method", method)
                 .ExecuteWithoutResults();
         }
 
@@ -404,17 +448,47 @@ namespace Reco
                 .WithParam("rating", rating)
                 .ExecuteWithoutResults();
             }
-            if (method == "SHORTMULTIPLICATION")
+            if (method == "PBASE")
             {
                 client.Cypher.Match("(u:User)-[r:Rated]->(p:Product)")
                 .Where((User u) => u.iduser == uid)
                 .AndWhere((Product p) => p.idproduct == pid)
-                .Set("r.PredictedRatingBase = {rating}")
+                .Set("r.PredictedRatingBaseDSP = {rating}")
                 //.Create("(u)-[r:Rated{PredictedRating:{rating}}]->(p)")
                 .WithParam("rating", rating)
                 .ExecuteWithoutResults();
             }
-            if (method == "SHORTARITHMETIC")
+            if (method == "Multiplication")
+            {
+                client.Cypher.Match("(u:User)-[r:Rated]->(p:Product)")
+                .Where((User u) => u.iduser == uid)
+                .AndWhere((Product p) => p.idproduct == pid)
+                .Set("r.PredictedRatingMulti = {rating}")
+                //.Create("(u)-[r:Rated{PredictedRating:{rating}}]->(p)")
+                .WithParam("rating", rating)
+                .ExecuteWithoutResults();
+            }
+            if (method == "PMultiplication")
+            {
+                client.Cypher.Match("(u:User)-[r:Rated]->(p:Product)")
+                .Where((User u) => u.iduser == uid)
+                .AndWhere((Product p) => p.idproduct == pid)
+                .Set("r.PredictedRatingMultiDSP = {rating}")
+                //.Create("(u)-[r:Rated{PredictedRating:{rating}}]->(p)")
+                .WithParam("rating", rating)
+                .ExecuteWithoutResults();
+            }
+            if (method == "PMultiplicationU")
+            {
+                client.Cypher.Match("(u:User)-[r:Rated]->(p:Product)")
+                .Where((User u) => u.iduser == uid)
+                .AndWhere((Product p) => p.idproduct == pid)
+                .Set("r.PredictedRatingMultiDSPU = {rating}")
+                //.Create("(u)-[r:Rated{PredictedRating:{rating}}]->(p)")
+                .WithParam("rating", rating)
+                .ExecuteWithoutResults();
+            }
+            if (method == "ArithmeticMean")
             {
                 client.Cypher.Match("(u:User)-[r:Rated]->(p:Product)")
                 .Where((User u) => u.iduser == uid)
@@ -424,7 +498,7 @@ namespace Reco
                 .WithParam("rating", rating)
                 .ExecuteWithoutResults();
             }
-            if (method == "SHORTHARMONIC")
+            if (method == "HarmonicMean")
             {
                 client.Cypher.Match("(u:User)-[r:Rated]->(p:Product)")
                 .Where((User u) => u.iduser == uid)
@@ -461,6 +535,17 @@ namespace Reco
 
             return (int) (number.First());
         }
+        public int GetTrustCount(double tr, string method)
+        {
+            var number =
+                client.Cypher
+                    .Match("(u:User)-[r:Trusts]->(v:User)")
+                    .Where((Trust r) => r.TrustValue >tr && r.Method==method)
+                    .Return(r => r.Count())
+                    .Results;
+
+            return (int)(number.First());
+        }
 
         public int GetRatingsCount()
         {
@@ -468,6 +553,17 @@ namespace Reco
                 client.Cypher
                     .Match("(u:User)-[r:Rated]->(p:Product)")
                     //.Where((User u) => u.iduser == uid)
+                    .Return(r => r.Count())
+                    .Results;
+
+            return (int)(number.First());
+        }
+        public int GetRatingsCount(int rat)
+        {
+            var number =
+                client.Cypher
+                    .Match("(u:User)-[r:Rated]->(p:Product)")
+                    .Where((Rated r) => r.Rating == rat)
                     .Return(r => r.Count())
                     .Results;
 
@@ -495,6 +591,17 @@ namespace Reco
             return ratings.ToList();
         }
 
+        public List<Tuple<Trust, User>> GetUsersTrusts(int uid, string method)
+        {
+            var trusts = client.Cypher
+                .Match(String.Format("(u:User)-[t:Trusts]->(v:User) WHERE u.iduser = {0} AND t.Method = \'{1}\'", uid,
+                    method))
+                //.Where((User u, Trust t) => u.iduser == uid && t.Method== method)
+                .Return((t, v) => new Tuple<Trust, User>(t.As<Trust>(), v.As<User>()));
+
+            return trusts.Results.ToList();
+        }
+
         public List<Tuple<double, int>> GetTrusteesWhoHaveRatedThisProduct(int uid, int cid, int pid, string[] methods)
         {
             var result = new List<Tuple<double, int>>();
@@ -505,7 +612,7 @@ namespace Reco
                     .Match(String.Format("(u:User)-[r:Rated]->(p:Product)<-[rt:Rated]-(v:User), (u:User)-[t:Trusts]->(v:User) " +
                            "WHERE (u.iduser = {0}) " +
                            "AND (p.idproduct = {1}) AND (t.Category = {2}) " +
-                           "AND t.Type = \'{3}\'", uid, pid, cid, methods[0]))
+                           "AND t.Method = \'{3}\'", uid, pid, cid, methods[0]))
                     //.Where((User u) => u.iduser == uid)
                     //.AndWhere((Product p) => p.idproduct == pid)
                     //.AndWhere((Trust t) => t.Category == cid && methods.ToList().Contains(t.Method))
@@ -519,7 +626,21 @@ namespace Reco
                      .Match(String.Format("(u:User)-[r:Rated]->(p:Product)<-[rt:Rated]-(v:User), (u:User)-[t:Trusts]->(v:User) " +
                            "WHERE (u.iduser = {0}) " +
                            "AND (p.idproduct = {1}) AND (t.Category = {2}) " +
-                           "AND (t.Type = \'{3}\') OR (t.Type = \'{4}\')", uid, pid, cid, methods[0], methods[1]))
+                           "AND ((t.Method = \'{3}\') OR (t.Method = \'{4}\'))", uid, pid, cid, methods[0], methods[1]))
+                    //.Where((User u) => u.iduser == uid)
+                    //.AndWhere((Product p) => p.idproduct == pid)
+                    //.AndWhere((Trust t) => t.Category == cid && methods.ToList().Contains(t.Method))
+                    .Return((t, rt) => new Tuple<double, int>(t.As<Trust>().TrustValue, rt.As<Rated>().Rating));
+                result = query.Results.ToList();
+            }
+            if (methods.Length == 3)
+            {
+                var query =
+                client.Cypher
+                     .Match(String.Format("(u:User)-[r:Rated]->(p:Product)<-[rt:Rated]-(v:User), (u:User)-[t:Trusts]->(v:User) " +
+                           "WHERE (u.iduser = {0}) " +
+                           "AND (p.idproduct = {1}) AND (t.Category = {2}) " +
+                           "AND ((t.Method = \'{3}\') OR (t.Method = \'{4}\') OR (t.Method = \'{5}\'))", uid, pid, cid, methods[0], methods[1], methods[2]))
                     //.Where((User u) => u.iduser == uid)
                     //.AndWhere((Product p) => p.idproduct == pid)
                     //.AndWhere((Trust t) => t.Category == cid && methods.ToList().Contains(t.Method))
@@ -530,40 +651,68 @@ namespace Reco
             return result;
         }
 
-        public List<Tuple<int, double, int>> GetAllUsersRatingsForEvaluation(string method)
+        public List<Tuple<int, double?, int>> GetAllUsersRatingsForEvaluation(string method)
         {
-            var result = new List<Tuple<int, double, int>>();
+            var result = new List<Tuple<int, double?, int>>();
             if (method == "BASE")
             {
                 var query =
                 client.Cypher
-                    .Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRatingBase)")
-                    .Return((r, u) => new Tuple<int, double, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingBase, u.As<User>().iduser));
+                    //.Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRatingBase)")
+                    .Match("(u:User)-[r:Rated]->(p:Product)")
+                    .Return((r, u) => new Tuple<int, double?, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingBase, u.As<User>().iduser));
 
                 result = query.Results.ToList();
             }
-            if (method == "SHORTMULTI")
+            if (method == "PBASE")
             {
                 var query =
                 client.Cypher
-                    .Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRatingMulti)")
-                    .Return((r, u) => new Tuple<int, double, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingMulti, u.As<User>().iduser));
+                     //.Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRatingBase)")
+                     .Match("(u:User)-[r:Rated]->(p:Product)")
+                    .Return((r, u) => new Tuple<int, double?, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingBaseDSP, u.As<User>().iduser));
+
                 result = query.Results.ToList();
             }
-            if (method == "SHORTARIT")
+
+            if (method == "Multiplication")
             {
                 var query =
                 client.Cypher
-                    .Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRatingArit)")
-                    .Return((r, u) => new Tuple<int, double, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingArit, u.As<User>().iduser));
+                    .Match("(u:User)-[r:Rated]->(p:Product)")
+                    .Return((r, u) => new Tuple<int, double?, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingMulti, u.As<User>().iduser));
                 result = query.Results.ToList();
             }
-            if (method == "SHORTHARM")
+            if (method == "PMultiplication")
             {
                 var query =
                 client.Cypher
-                    .Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRatingHarm)")
-                    .Return((r, u) => new Tuple<int, double, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingHarm, u.As<User>().iduser));
+                    .Match("(u:User)-[r:Rated]->(p:Product)")
+                    .Return((r, u) => new Tuple<int, double?, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingMultiDSP, u.As<User>().iduser));
+                result = query.Results.ToList();
+            }
+            if (method == "PMultiplicationU")
+            {
+                var query =
+                client.Cypher
+                    .Match("(u:User)-[r:Rated]->(p:Product)")
+                    .Return((r, u) => new Tuple<int, double?, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingMultiDSPU, u.As<User>().iduser));
+                result = query.Results.ToList();
+            }
+            if (method == "ArithmeticMean")
+            {
+                var query =
+                client.Cypher
+                    .Match("(u:User)-[r:Rated]->(p:Product)")
+                    .Return((r, u) => new Tuple<int, double?, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingArit, u.As<User>().iduser));
+                result = query.Results.ToList();
+            }
+            if (method == "HarmonicMean")
+            {
+                var query =
+                client.Cypher
+                    .Match("(u:User)-[r:Rated]->(p:Product)")
+                    .Return((r, u) => new Tuple<int, double?, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingHarm, u.As<User>().iduser));
                 result = query.Results.ToList();
             }
 
@@ -579,6 +728,19 @@ namespace Reco
                     .AndWhere((Trust t2) => t2.Category == c2)
                     .Return((t1, t2) => new Tuple<double, double>(t1.As<Trust>().TrustValue, t2.As<Trust>().TrustValue));
         var result = query.Results;
+            return result.ToList();
+        }
+
+        public List<Tuple<double, double>> GetUsersTrustsForTwoCategories(int uid, int c1, int c2)
+        {
+            var query =
+               client.Cypher
+                   .Match("(u:User)-[t1:Trusts]->(v:User), (u:User)-[t2:Trusts]->(v:User)")
+                   .Where((Trust t1) => t1.Category == c1)
+                   .AndWhere((Trust t2) => t2.Category == c2)
+                   .AndWhere((User u) => u.iduser == uid)
+                   .Return((t1, t2) => new Tuple<double, double>(t1.As<Trust>().TrustValue, t2.As<Trust>().TrustValue));
+            var result = query.Results;
             return result.ToList();
         }
     } 

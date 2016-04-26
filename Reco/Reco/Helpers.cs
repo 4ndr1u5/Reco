@@ -77,11 +77,26 @@ namespace Reco
                 case Algorithm.Base:
                     return "BASE";
                 case Algorithm.Multiplication:
-                    return "SHORTMULTI";
+                    return "Multiplication";
                 case Algorithm.ArithmeticMean:
-                    return "SHORTARIT";
+                    return "ArithmeticMean";
                 case Algorithm.HArmonicMean:
-                    return "SHORTHARM";
+                    return "HarmonicMean";
+                case Algorithm.PBase:
+                    return "PBASE";
+                case Algorithm.PMultiplication:
+                    return "PMultiplication";
+                case Algorithm.PArithmeticMean:
+                    return "PArithmeticMean";
+                case Algorithm.PHArmonicMean:
+                    return "PHarmonicMean";
+
+                case Algorithm.PUMultiplication:
+                    return "PMultiplicationU";
+                case Algorithm.PUArithmeticMean:
+                    return "PArithmeticMeanU";
+                case Algorithm.PUHArmonicMean:
+                    return "PHarmonicMeanU";
                 default:
                     return "error";
             }
@@ -92,9 +107,18 @@ namespace Reco
             switch (method)
             {
                 case "BASE": return new string[1] { "BASE" };
-                case "SHORTMULTI": return new string[2] { "BASE", "SHORTMULTI" };
-                case "SHORTARIT": return new string[2] { "BASE", "SHORTARIT" };
-                case "SHORTHARM": return new string[2] { "BASE", "SHORTHARM" };
+                case "Multiplication": return new string[2] { "BASE", "Multiplication" };
+                case "ArithmeticMean": return new string[2] { "BASE", "ArithmeticMean" };
+                case "HarmonicMean": return new string[2] { "BASE", "HarmonicMean" };
+
+                case "PBASE": return new string[2] { "BASE" , "PBASE" };
+                case "PMultiplication": return new string[3] { "BASE", "Multiplication" , "PMultiplication" };
+                case "PArithmeticMean": return new string[3] { "BASE", "ArithmeticMean", "PArithmeticMean" };
+                case "PHarmonicMean": return new string[3] { "BASE", "HarmonicMean", "PHarmonicMean" };
+
+                case "PMultiplicationU": return new string[3] { "BASE", "Multiplication", "PMultiplicationU" };
+                case "PArithmeticMeanU": return new string[3] { "BASE", "ArithmeticMean", "PArithmeticMeanU" };
+                case "PHarmonicMeanU": return new string[3] { "BASE", "HarmonicMean", "PHarmonicMeanU" };
                 default: return new string[0] {};
             }
         }
