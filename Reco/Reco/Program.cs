@@ -28,7 +28,7 @@ namespace Reco
             //generate simple graph and evaluate
             //BASE
             // generator.GenerateGraph();
-            //evaluator.EvaluateDataset("BASE");
+            // evaluator.EvaluateDataset("BASE");
             //predictor.GeneratePredictions("BASE");
             //evaluator.EvaluateResults("Simple dataset", Algorithm.Base);
             //BASE + Domain similarity pearson
@@ -42,9 +42,9 @@ namespace Reco
             // predictor.GeneratePredictions("Multiplication");
             // evaluator.EvaluateResults("Propagation SHORTMULTIPLICATION", Algorithm.Multiplication);
             // //Multiplication + Domain Similarity
-             similator.EvaluateDomainTrust("PMultiplication");
-             predictor.GeneratePredictions("PMultiplication");
-             evaluator.EvaluateResults("PMultiplication dataset domain similarities", Algorithm.PMultiplication);
+            // similator.EvaluateDomainTrust("PMultiplication");
+            // predictor.GeneratePredictions("PMultiplication");
+            // evaluator.EvaluateResults("PMultiplication dataset domain similarities", Algorithm.PMultiplication);
             // //Multiplication + User Level domain similarity
             // similator.EvaluateUserLevelDomainTrust("PMultiplicationU", "Avg");
             // evaluator.EvaluateDataset("PMultiplicationU");
@@ -71,7 +71,54 @@ namespace Reco
 
             //GeneratePredictions(repo, 1);
             //var domainSimsAfter = EvaluateDomainSimilarities(repo);
-         }
+
+
+            //COMMON NEIGHBORS
+            //create model
+            // get all user pairs, evaluate their trust and jaccard quotient
+            // generate linreg prediction model for data
+            // evaluate new trusts for all users with know jaccard quotient
+            var threshold = 0;
+            var users = repo.getAllUsers();
+            var trainingDataTrust = new List<double>();
+            var trainingDataJaccard = new List<double>();
+            var categories = new List<int>() {1,2,3,4,5};
+            foreach (var cat in categories)
+            {
+                foreach (var user1 in users)
+                {
+                    foreach (var user2 in users.Where(x => x.iduser != user1.iduser))
+                    {
+                        var trust = repo.GetTrust(user1.iduser, user2.iduser, cat);
+                        var jaccard = 0d;
+                        if (trust != null)
+                        {
+                            jaccard = repo.GetJaccard(user1.iduser, user2.iduser, cat);
+                            if (jaccard > threshold)
+                            {
+                                trainingDataTrust.Add(trust.TrustValue);
+                                trainingDataJaccard.Add(jaccard);
+                            }
+                        }
+
+                    }
+                }
+                var linreg = MathNet.Numerics.LinearRegression.SimpleRegression.Fit(trainingDataJaccard.ToArray(), trainingDataTrust.ToArray());
+                foreach (var user1 in users)
+                {
+                    foreach (var user2 in users.Where(x => x.iduser != user1.iduser))
+                    {
+
+                        var jaccard = repo.GetJaccard(user1.iduser, user2.iduser, cat);
+                        var predictedTrust = linreg.Item1 * jaccard + linreg.Item2;
+                        repo.CreateTrust(user1.iduser, user2.iduser, 1, predictedTrust, "CN");
+                    }
+                }
+            }
+            
+            predictor.GeneratePredictions("CN");
+            evaluator.EvaluateResults("Common neighbours", Algorithm.CN);
+        }
 
     }
 }

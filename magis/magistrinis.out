@@ -20,23 +20,18 @@
 \BOOKMARK [2][-]{subsection.2.1}{RS\040vertinimas}{section.2}% 20
 \BOOKMARK [3][-]{subsubsection.2.1.1}{Vertinimo\040metrikos}{subsection.2.1}% 21
 \BOOKMARK [3][-]{subsubsection.2.1.2}{Duomenų rinkinio skaidymas}{subsection.2.1}% 22
-\BOOKMARK [2][-]{subsection.2.2}{Bendrų kaimynų metodas}{section.2}% 23
-\BOOKMARK [3][-]{subsubsection.2.2.1}{Epinions.com duomenų rinkinys}{subsection.2.2}% 24
-\BOOKMARK [3][-]{subsubsection.2.2.2}{Metodas}{subsection.2.2}% 25
-\BOOKMARK [3][-]{subsubsection.2.2.3}{Rezultatai}{subsection.2.2}% 26
-\BOOKMARK [2][-]{subsection.2.3}{Sričių panašumo metodas}{section.2}% 27
-\BOOKMARK [3][-]{subsubsection.2.3.1}{Rekomendacinės sistemos su pasitikėjimu kategorijose modeliavimas}{subsection.2.3}% 28
-\BOOKMARK [4][-]{paragraph.2.3.1.1}{Kategorijos}{subsubsection.2.3.1}% 29
-\BOOKMARK [4][-]{paragraph.2.3.1.2}{Naudotojai}{subsubsection.2.3.1}% 30
-\BOOKMARK [4][-]{paragraph.2.3.1.3}{Elementai}{subsubsection.2.3.1}% 31
-\BOOKMARK [4][-]{paragraph.2.3.1.4}{Reitingai}{subsubsection.2.3.1}% 32
-\BOOKMARK [4][-]{paragraph.2.3.1.5}{Pasitikėjimai}{subsubsection.2.3.1}% 33
-\BOOKMARK [4][-]{paragraph.2.3.1.6}{Sugeneruoto duomenų rinkinio charakteristikos }{subsubsection.2.3.1}% 34
-\BOOKMARK [3][-]{subsubsection.2.3.2}{Metodas}{subsection.2.3}% 35
-\BOOKMARK [4][-]{paragraph.2.3.2.1}{Pasitikėjimų pagrįstų RS metodai}{subsubsection.2.3.2}% 36
-\BOOKMARK [3][-]{subsubsection.2.3.3}{Rezultatai}{subsection.2.3}% 37
-\BOOKMARK [4][-]{paragraph.2.3.3.1}{Eksperimentas\040naudojant\040RS\040su\040skirtingomis\040kategorijomis}{subsubsection.2.3.3}% 38
-\BOOKMARK [4][-]{paragraph.2.3.3.2}{Eksperimentas naudojant RS su panašiomis kategorijomis}{subsubsection.2.3.3}% 39
-\BOOKMARK [4][-]{paragraph.2.3.3.3}{Eksperimento rezultatų taikytų dviem duomenų rinkiniams palyginimas}{subsubsection.2.3.3}% 40
-\BOOKMARK [2][-]{subsection.2.4}{Problemos ir iššūkiai}{section.2}% 41
-\BOOKMARK [1][-]{section.3}{Išvados}{}% 42
+\BOOKMARK [2][-]{subsection.2.2}{Sričių panašumo metodas}{section.2}% 23
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Rekomendacinės sistemos su pasitikėjimu kategorijose modeliavimas}{subsection.2.2}% 24
+\BOOKMARK [4][-]{paragraph.2.2.1.1}{Kategorijos}{subsubsection.2.2.1}% 25
+\BOOKMARK [4][-]{paragraph.2.2.1.2}{Naudotojai}{subsubsection.2.2.1}% 26
+\BOOKMARK [4][-]{paragraph.2.2.1.3}{Elementai}{subsubsection.2.2.1}% 27
+\BOOKMARK [4][-]{paragraph.2.2.1.4}{Reitingai}{subsubsection.2.2.1}% 28
+\BOOKMARK [4][-]{paragraph.2.2.1.5}{Pasitikėjimai}{subsubsection.2.2.1}% 29
+\BOOKMARK [4][-]{paragraph.2.2.1.6}{Sugeneruoto duomenų rinkinio charakteristikos }{subsubsection.2.2.1}% 30
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Metodas}{subsection.2.2}% 31
+\BOOKMARK [4][-]{paragraph.2.2.2.1}{Pasitikėjimų pagrįstų RS metodai}{subsubsection.2.2.2}% 32
+\BOOKMARK [3][-]{subsubsection.2.2.3}{Rezultatai}{subsection.2.2}% 33
+\BOOKMARK [4][-]{paragraph.2.2.3.1}{Eksperimentas\040naudojant\040RS\040su\040skirtingomis\040kategorijomis}{subsubsection.2.2.3}% 34
+\BOOKMARK [4][-]{paragraph.2.2.3.2}{Eksperimentas naudojant RS su panašiomis kategorijomis}{subsubsection.2.2.3}% 35
+\BOOKMARK [2][-]{subsection.2.3}{Problemos ir iššūkiai}{section.2}% 36
+\BOOKMARK [1][-]{section.3}{Išvados}{}% 37

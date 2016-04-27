@@ -74,6 +74,8 @@ namespace Reco
         {
             switch (alg)
             {
+                case Algorithm.CN:
+                    return "CN";
                 case Algorithm.Base:
                     return "BASE";
                 case Algorithm.Multiplication:
@@ -106,6 +108,7 @@ namespace Reco
         {
             switch (method)
             {
+                case "CN": return new string[1] { "CN" };
                 case "BASE": return new string[1] { "BASE" };
                 case "Multiplication": return new string[2] { "BASE", "Multiplication" };
                 case "ArithmeticMean": return new string[2] { "BASE", "ArithmeticMean" };

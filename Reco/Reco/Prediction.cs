@@ -25,6 +25,7 @@ namespace Reco
                 {
                     var prod = rat.Item2;
                     //get trustees in that category who have rated this item (trust, rating)
+                   
                     var trustRating = repo.GetTrusteesWhoHaveRatedThisProduct(u.iduser, prod.category, prod.idproduct, Helpers.GetMethods(methodName));
                     if (trustRating.Count > 0)
                     {

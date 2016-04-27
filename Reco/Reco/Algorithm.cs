@@ -2,6 +2,7 @@
 {
     public enum Algorithm
     {
+        CN,
         Base,
         Multiplication,
         ArithmeticMean,

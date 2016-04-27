@@ -14,6 +14,9 @@
 \usepackage{setspace}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{titlesec}
+
+\setcounter{secnumdepth}{5}
 
 \newcommand{\argmax}{\operatornamewithlimits{argmax}}
 % Titulinio aprašas
@@ -181,6 +184,14 @@ w_i^{s,lin} = 1 - \frac{|U_i|}{|R|}
 Šaltinyje \cite{13} parodyta, kad šis metodas geriausiai veikia vartotojams "po šalto starto" (angl. post cold start users), kai reitingų skaičius yra tarp 20 ir 80, kitiems rėžiams rezultatai buvo labai panašūs į tuos, kurie buvo gauti naudojant Pyrsono koreliaciją be svorių.  
 
 \subsection{Socialiniai tinklai ir pasitikėjimu pagrįstos rekomendacinės sistemos}
+
+
+
+
+
+
+
+
 \subsubsection{Socialiniai tinklai ir pasitikėjimo sąvoka}
 % reikia gražiai įpinti šitą gabalą čia.
 Socialinis tinklas - virtuali bendruomenė, kurios nariai bendrauja ir dalinasi tarpusavyje informacija. Žmonės tokiose bendruomenėse būna susiję - arba abipusiu (draugų), arba vienpusiu (pasekėjų) ryšių.
@@ -200,6 +211,7 @@ Nors gali pasirodyti, kad nepasitikėjimas ir pasitikėjimas yra du dalykai prie
 \indent
 Josang \cite{18} kalba apie subjektyvią logiką (angl. subjective logic), kurioje, nepasitikėjimas yra traktuojamas kaip atskiras nuo pasitikėjimo dydis. Šios teorijos branduolys - subjektyvios nuomonės (angl. subejctive opinions), kurios užrašomos taip: $w_{x}^{A} = (b,d,u,a)$, kur $b$, $d$ ir $u$ apibūdina pasitikėjimą, nepasitikėjimą ir neužtikrintumą. Pastebima, kad $b,d,u \in [0,1]$ ir $b+d+u=1$. Parametras $a \in [0,1]$ nurodo, kokį svorį nustatant tikėtiną nuomonės įvertį (angl. opinion's probability expectation value) turi neužtikrintumas - $E(w_x^A)=b+au$. Šis modelis turi tikslius apibrėžimus ir formules, jomis galima manipulioti ir gauti analitiškai pagrindžiamus rezultatus, pavyzdžiui paaiškinti populiarumo bangas. 
 \subsubsection{Pasitikėjimo apskaičiavimas}\label{ssec:trust}
+
 Pasitikėjimo tinkle dauguma naudotojų vienas kito nepažįsta. Nepaisant to, reikia nustatyti sąryšius tarp jų. Tam yra naudojamos pasitikėjimo metrikos, kurios remdamosi naudotojų santykiais nustato, kiek vienas naudotojas pasitiki kitu. Pasitikėjimo metrikos skyla į dvi klases.
 \begin{itemize}
 	\item Lokalios metrikos įvertina pasitikėjimą kiekvienam naudotojui individualiai - dėl to jos gali būti tikslesnės ir reikalauja daugiau skaičiavimo resursų. Toliau bus pristatyti lokalių metrikų pavyzdžiai - TidalTrust, MoleTrust.
@@ -260,8 +272,96 @@ trust(p,i)=\frac{|\{(c_k, i_k) \in CorrectSet(p): i_k = i\}|}{|\{(c_k,i_k) \in R
 \end{equation}
 Šis reiškinys rodo, kokia dalis naudotojo $p$ rekomendacijų būna teisinga. Taip randamas pasitikėjimas vadinamas profilio lygio pasitikėjimu (angl. profile-level trust).
 
+\subsection{RS vertinimas}
+\subsubsection{RS vertinimo metodai}
+Dažniausiai RS vertinimui naudojamas metodas vadinama vidutine absoliučia klaida (angl. Mean Absolute Error, trumpinama MAE) pagrįsta principu "išimk vieną" (angl. leave-one-out). 
+\begin{equation}
+	MAE = \sqrt{\frac{1}{|T|}\sum\limits_{(u,i)\in T} |\hat{r}_{ui} - r_{ui}|}
+\end{equation}
+Šio metodo esmė - iš duomenų rinkinio išimti vieną reitingą ir atlikti jo prognozę. Prognozė tada lyginama su tikru reitingu ir taip randama prognozės klaida. Šis metodas tokį trūkumą, kad kiekvieną klaidą ieško vienodu būdu. Pavyzdys, iliustruojantis, kodėl tai yra negerai toks: tarkime, turime $101$ naudotoją $1$ yra įvertinęs $300$ elementų, o $100$ - po $3$. Tokiu atveju aptariamas duomenų rinkinys turi $600$ reitingų. Testuodami RS "išimk vieną" principu, slėptume iš eilės visus reitingus ir bandytume juos nuspėti. Bėda ta, kad RS kur kas geriau veikia naudotojams, turintiems daug reitingų ir prasčiau naujiems (arba nelinkusiems reitinguoti) naudotojams. MAE atveju vienas daug reitingų suteikęs naudotojas turi tokį patį svorį, kaip likę $300$. Akivaizdu, kad taip iškreipiama realybė - $300$ nepatenkintų naudotojų prieš $1$ patenkintą reiškia, kad sistema nėra tokia gera. Tam, kad išspręsti šią problemą buvo pasiūlytas patobulintas metodas - vidutinė absoliuti naudotojo klaida (angl. MAUE - Mean Average User Error). Jo esmė paprasta - randame MAE kiekvienam naudotojui ir tada randame visų naudotojų MAE vidurkį. Tokiu būdų, kiekvienas naudotojas turi lygų svorį skaičiuojant vidutinę klaidą.
+\newline
+\indent
+Alternatyvus MAE metodas yra vidutinės kvadratinės klaidos šaknis (angl. RMSE- Root Mean Squared Error):
+\begin{equation}
+	RMSE = \sqrt{\frac{1}{|T|}\sum\limits_{(u,i)\in T} (\hat{r}_{ui} - r_{ui})^2}
+\end{equation}
+RMSE palyginus su MAE stipriau baudžia už dideles klaidas. Pavyzdžiui, duomenų aibėje su keturiais paslėptais reitingais RMSE geriau vertintų sistemą, kurios klaida lygi $2$ trims reitingams ir $0$ vienam reitingui, negu sistemą, kuri klysta $3$ vienai reikšmei ir neklysta likusioms trims. MAE geriau vertintų antrą sistemą.
+\newline
+\indent
+Kitas svarbus RS vertinimo matas yra - padengimas (angl. coverage). Herlocker RS vertinimo metodų apžvalgoje pabrėžia, kaip svarbu yra žiūrėti ne tik į tikslumą, bet ir į padengimą bei nurodo į kelis darbus tyrusius šią sritį. Padengimas - sąvoka skirta apibūdinti keliems skirtingiems aspektams:
+\begin{itemize}
+	\item Elementų erdvės padengimas (angl. item space coverage) apibūdina, kokią dalį visų RS esančių elementų RS gali rekomenduoti. Tai dar vadinama katalogo padengimu. Paprasčiausias būdas apskaičiuoti šį rodiklį - rasti procentą elementų, kurie gali būti rekomenduoti. Kitas katalogo padengimo matas - pasiūlymų įvairumas - matuoja kaip nevienodai pasirenkami skirtingi elementai, kai naudojama tam tikra RS. Šį matą galima apskaičiuoti keliais būdais:
+	\begin{itemize}
+		\item jeigu kiekvienas elementas $i$ sudaro $p(i)$ dalį naudotojo pasirinkimų, galime apskaičiuoti Gini indeksą:
+		\begin{equation}
+			G=\frac{1}{n-1} \sum\limits_{j=1}^{n} (2j-n-1)p(i_j)
+		\end{equation}
+		Kai visi elementai pasirenkami vienodai dažnai indekso reikšmė lygi $0$, kai visada pasirenkamas vienas elementas - $1$.
+		\item Shannon'o entropija lygi 0, kai tas pasirenkamas tas pats elementas ir $\log n$ kai visi elementai pasirenkami vienodai dažnai
+		\begin{equation}
+			H= - \sum \limits_{i=1}^n p(i) \log p(i)
+		\end{equation}
+	\end{itemize}
+	\item Naudotojų erdvės padengimas (angl. user space coverage) - terminas, nusakantis, kuriai daliai naudotojų RS gali sugeneruoti rekomendaciją. Kartais RS negali nieko rekomenduoti tam tikram naudotojui dėl mažo pasitikėjimo prognozės tikslumu. Toks padengimas gali būti įvertintas matuojant naudotojo profilio turiningumą, reikalingą, kad jam būtų sugeneruota rekomendacija. BF atveju tai galėtų būti mažiausias reitingų skaičius, kuri naudotojas privalo suteikti tam, kad gautų rekomendaciją.
+\end{itemize}
+Šaltas startas gali būti laikomas padengimo problemos dalimi. Norėdami spręsti šalto starto problemą, galima nustatyti slenkstį, apibrėžiantį, kada elementai yra "šalti". Pavyzdžiui, galima laikyti elementą "šaltu", jeigu jis neturi nė vieno reitingo arba, jeigu elementas sistemoje yra trumpiau nei nustatytą laiko tarpą.
+\newline
+\indent
+Gali būti, kad sistema geriau rekomenduos "šaltus" elementus, "karštų" elementų rekomendacijos kaina. Tai gali būti trokštamas RS bruožas, ypač jeigu yra svarbios naujoviškumo ir įžvalgumo savybės.
+\subsubsection{RS vertinimo aspektai}
+\cite{3} pristatyti kelios RS savybės - prognozės tikslumas, padengimas, pasitikėjimas, patikimumas, naujoviškumas, įžvalgumas, įvairumas, naudingumas, rizika, atsparumas atakoms, privatumas, pritaikomumas, praplečiamumas. Visų jų šioje apžvalgoje dėl gausos pristatyti neįmanoma, todėl toliau bus pristatytos tik įdomiausios šio darbo kontekste - buvo paminėtos anksčiau.
+\subsubsubsection{Patikimumas}
+Patikimumą (angl. confidence) geriausia apibūdinti pavyzdžiu. Jeigu sistema pasiūlo naudotojui du elementus su vienodais prognozuojamais reitingais, tačiau vienos rekomendacijos patikimumas yra mažesnis nei kitos, tai naudotojui gali būti pravartu ją atidžiau patikrinti - perskaityt aprašymą ar pan. 
+\subsubsubsection{Pasitikėjimas}
+Pasitikėjimas (angl. trust) skiriasi nuo patikimumo tuo, kad pasitikėjimas matuoja sistemos pasitikėjimą reitingais, o pasitikėjimas šiuo atveju nurodo į naudotojo santykį su reitingais. Sistema, siekdama padidinti pasitikėjimą gali pasiūlyti kelis elementus, kuriuos naudotojas jau žino ir mėgsta. Kitas būdas, kaip padidinti pasitikėjimą - paaiškinti naudotojui, kodėl jam siūlomas vienas ar kitas elementas.
+\subsubsubsection{Naujoviškumas}
+Naujoviškos rekomendacijos naudotojams siūlo elementus, apie kuriuos jie nežinojo anksčiau. Paprasčiausias būdas padidinti rekomendacijų naujoviškumą - eliminuoti iš galimų elementų aibės jau vertintus ir peržiūrėtus elementus, tačiau šis metodas nepakankamas, jeigu norime iš rekomendacijų pašalinti visus elementus, apie kuriuos naudotojas jau žino.
+\newline
+\indent
+Norint ištirti RS naujoviškumą paprasčiausia tai padaryti "on-line" eksperimentu. Vis dėlto, tai gali būti brangu, todėl buvo sugalvotas ir "off-line" eksperimento metodas. Metodo esmė tokia: nuo pasirinkto laiko taško reitingai yra paslepiami. Rekomenduojant sistema gautų taškų už kiekvieną iš tiesų įvertintą elementą ir baudžiama už kiekvieną elementą, kuris buvo rekomenduotas iki pasirinkto laiko taško.
+\newline
+\indent
+Tarkime, norime įvertinti rekomendacijų naujoviškumą. Darydami prielaidą, kad naudotojai įvertina elementus, po to kai jais pasinaudoja, padaliname reitingus. Kiekvienam testuojamam naudotojui atsitiktinai parenkame laiko tašką, nuo kurio reitingai paslepiami. Tyrimai parodė, kad žmonės labiau linkę įvertinti elementus, kurie jiems arba labai patiko, arba labai nepatiko. Taigi, slepiame reitingus esančius prieš nukirpimo tašką su tikimybe $1-\frac{|r-3|}{2}$, kur $r \in \{1,2,3,4,5\}$ galimų elemento reitingų aibė, o $3$ yra neutralus reitingas. Siekiama, vengti paslėptų elementų prognozavimo, nes naudotojas apie juos jau žino. Tada kiekvienam naudotojui sugeneruojamos $5$ rekomendacijos ir skaičiuojamas jų tikslumas atmetant rekomendacijas elementų, rekomenduotų iki pasirinkto laiko taško. RS su didesniu tikslumu laikomos pranašesnėmis.
+\subsubsubsection{Įžvalgumas}
+Įžvalgumu matuojama, kiek stebinančios yra sėkmingos rekomendacijos. Pavyzdžiui, kalbant apie filmų RS, jeigu naudotojas įvertino daug filmų su tam tikru aktoriumi, pasiūlytas filmas su tuo pačiu aktoriumi gali būti naujoviškas, tačiau vargu ar galėsime šią rekomendaciją vadinti netikėta. Iš kitos pusės, atsitiktinės rekomendacijos gali būti labai stebinančios, tačiau reikia išlaikyti ir tikslumą.
+\newline
+\indent
+Vienas būdų suprojektuoti sistemą, taip, kad jos pasiūlymai būtų įžvalgesni yra toks - nustačius atstumo matą tarp elementų, remiantis jų turiniu, sėkmingą rekomendaciją galime vertinti labiau, jeigu ji yra "toliau" nuo jau anksčiau teigiamai įvertintų elementų. Pavyzdžiui, turime knygų RS ir norime naudotojui rekomenduoti knygas autorių, kurių jis nežino. Tuomet turime sukonstruoti metriką tarp knygos $b$ ir anksčiau perskaitytų knygų aibės $B$. Tarkime $c_{B,w}$ - autoriaus $w$ knygų skaičius aibėje $B$. Tarkime $c_B= \max _w C_{B,w}$ - maksimalus autoriaus $w$ knygų skaičius aibėje $B$. Tada $d(b, B)= \frac{1+c_B - c_{B,w(b)}}{1+c_B}$, kur $w(b)$ - $b$ knygos autorius.
+\newline
+\indent
+Dabar galime atlikti "off-line" eksperimentą, kuriu galime nustatyti, kuris iš galimų algoritmų generuoja įžvalgesnes rekomendacijas. Kiekvieno naudotojo profilį padaliname į dvi dalis - stebimų knygų $B_i^O$ ir paslėptų knygų $B_i^h$. Naudodami $B_i^O$ duomenis, užklausiame RS $5$ rekomendacijų. Už kiekvieną paslėptą knygą $b \in B_i^h$, kuri pasirodė tarp rekomendacijų, RS gauna $d(b, B_i^O)$ taškų. Tokiu būdų RS yra "apdovanojama" už sėkmingas mažiau žinomų autorių knygų rekomendacijas.
 
-\section{Pasitikėjimu pagrįstos rekomendacinės sistemos modeliavimas ir siūlomi metodai}
+
+\subsubsubsection{Tvirtumas}
+Tvirtumas (angl. robustness) reiškia sistemos atsparumą atakoms. Atakos rengiamos norint iškreipti reitingus tam tikrų elementų naudai arba nenaudai (pavyzdžiui, kai norima pakenkti konkurentams). Tai galima padaryti sukuriant netikrų profilių, kurie suteiktų elementams fiktyvius reitingus. Kadangi sukurti visiškai atsparią atakoms RS yra neįmanoma, tinkamiausias būdas įvertinti sistemos tvirtumą yra rasti, kiek informacijos reikia tam, kad iškreipti reitingus. 
+\newline
+\indent
+Tarkime $U_T$ ir $I_T$ - naudotojų ir elementų rinkinių aibė testiniuose duomenyse. Kiekvienai naudotojo-elemento porai $(u,i)$ prognozės pokytis matuojamas taip $\delta_{u,i} = p\prime_{u,i} - p_{u,i}$ , kur $p$ ir $p\prime$ yra prognozės prieš ir po atakos atitinkamai. Tarkime, kad pokytis yra didelis, tačiau elementas vis tiek nepatenka į rekomenduojamų elementų sąrašą. Čia gali padėti kita metrika - pataikymo santykis (angl. hit ratio). Tarkime $R_u$ - geriausių $N$ rekomendacijų naudotojui $u$ aibė. Jeigu elementas pasirodo  $R_u$, $H_{ui}$ įgyja reikšmę $1$, priešingu atveju $0$. Pataikymo santykis elementui $i$ - $HitRatio_i = \sum \limits_{u \in U_T} H_{ui} \setminus |U_T|$. Vidutinis pataikymo santykis tada yra pataikymo santykių kiekvienam elementui suma padalinta iš elementų skaičiaus.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Pasitikėjimu pagrįstos rekomendacinės sistemos modeliavimas ir siūlomas metodas}
 \indent
 Šio darbo tyrimo objektas - naujos tinklinių programų kartos atstovė - socialinė RS. Ji generuoja prognozes (rekomendacijas) apie naudotojams galinčius patikti elementus iš tam tikros, paprastai labai didelės aibės, remdamosi tarpusavio naudotojų santykiu. Sihna ir Swearingen \cite{19} palygino RS ir draugų suteiktas rekomendacijas ir parodė, kad žmonės labiau pasitiki rekomendacijomis gautomis iš pažįstamų žmonių nei iš sistemos, veikiančios juodos dėžės (angl. black box) principu. Žinant, kad socialiniai tinklai vis populiarėja, o besinaudojančiųjų skaičius viršija milijardą, nesunku suprasti, kodėl RS kartu su socialiniais tinklais yra populiarus tyrimų objektas.
 \newline
@@ -447,10 +547,11 @@ Tam, kad galėtume ištirti metodo efektyvumą skirtingiems naudotojų tipams. I
 	\item Naudotojo tarpusavio pasitikėjimai kategorijose (tolydi reikšmė tarp 0 ir 1)
 	\item Naudotojų reitingai, priskirti elementams
 \end{itemize}
-Toliau bus aprašyti kiekvieno iš elementų generavimo algoritmai.
+\indent
+Toliau bus aprašyti kiekvieno iš elementų generavimo algoritmai. Remiantis jais sudaromi du duomenų rinkiniai, su kuriais bus atliekami eksperimentai. Pirmą duomenų rinkinį vadinsime DS1, jame kategorijos skirtingos. Kitas rinkinys - DS2 sugeneruotas taip, kad jo kategorijos būtų panašios. Lygindami rezultatus, gautus taikant metodus abiem duomenų rinkiniams, galėsime įvertinti kaip veikia sričių panašumo metodai skirtingiems duomenų rinkiniams.
 \subsubsubsection{Kategorijos}
 \indent
-Kategorijų modeliavimas - pirmas algoritmo žingsnis. Juo siekiama apibrėžti ne tik kategorijas, kurioms gali priklausyti elementai bet ir kiekvieno elemento bruožus bei kiekvieno naudotojo pirmenybes. Šio generuojamo duomenų rinkinio duomenys gali būti vertinami kaip filmų rekomendacinės sistemos duomenys. Apibrėžiame pavyzdžiui tokias kategorijas:
+Kategorijų modeliavimas - pirmas algoritmo žingsnis. Juo siekiama apibrėžti ne tik kategorijas, kurioms gali priklausyti elementai bet ir kiekvieno elemento bruožus bei kiekvieno naudotojo pirmenybes. Duomenų rinkinio DS1 duomenys gali būti vertinami kaip filmų rekomendacinės sistemos duomenys. Apibrėžiame pavyzdžiui tokias kategorijas:
 \begin{itemize}
 	\item $X_1$ - drama
 	\item $X_2$ - komedija
@@ -486,15 +587,32 @@ Toliau apibrėžiame, kiek kiekviena iš šių kategorijų yra susijusi su kitom
 Akivaizdu, kad šie teiginiai yra subjektyvūs. Didesnio objektyvumo galima pasiekti, pavyzdžiui, sudarant kategorijų matricą remiantis apklausų duomenimis.
 \newline
 \indent
-Atkreipkite dėmesį - tai tik pavyzdys, tyrimo eigoje bus atlikta eksperimentų su RS, kurios bus apibrėžtos kitomis kategorijų matricomis. 
-\newline
+Analogiškai sudarome ir DS2 duomenų rinkinio kategorijų matricą, kurioje kategorijos yra tarpusavyje panašios. Tuo galėtų pasižymėti, pavyzdžiui, elektronikos prekių RS su kategorijomis - nešiojami kompiuteriai, planšetiniai kompiuteriai, išmanieji telefonai ir panašiai.
+\begin{center}
+	\captionof{table}{Kategorijų matrica SP2}
+	\begin{tabular}{||c c c c c c||} 
+		\hline
+		Kategorijos & $X_1$ & $X_2$ & $X_3$ & $X_4$ & $X_5$ \\ [0.5ex] 
+		\hline\hline
+		$x_1$ & 0.6 & 0.5 & 0.4 & 0.6 & 0.3 \\ 
+		\hline
+		$x_2$ & 0.2 & 0.1 & 0.2 & 0 & 0.3 \\
+		\hline
+		$x_3$ & 0.1 & 0.1 & 0.1 & 0.1 & 0.1 \\
+		\hline
+		$x_4$ & 0.1 & 0.1 & 0.1 & 0.2 & 0.1 \\
+		\hline
+		$x_5$ & 0 & 0.1 & 0.2 & 0.1 & 0.2 \\ [1ex] 
+		\hline
+	\end{tabular}\label{SP2}
+\end{center}
 \indent
-Ši matrica bus naudojama generuojant elementus. Nuo to, kokie yra elementai priklauso tai, kaip juos vertina naudotojai, o nuo to priklauso ir tai, kaip jie vertina vienas kito patikimumą. Taigi, ši matrica - RS duomenų generavimo pagrindas.
+Kategorijų matrica bus naudojama generuojant elementus. Nuo to, kokie yra elementai priklauso tai, kaip juos vertina naudotojai, o nuo to priklauso ir tai, kaip jie vertina vienas kito patikimumą. Taigi, ši matrica - RS duomenų generavimo pagrindas.
 
 \subsubsubsection{Naudotojai}
 \indent
 Naudotojas apibrėžiamas kaip vektorius $(y_1, y_2, y_3, y_4, y_5, q)$, kur $\sum\limits_{i=1}^{5} y_i = 1$ ir $q\in[0,1]$. $y_1, y_2, y_3, y_4, y_5$ reiškia naudotojo pirmenybes - kiek svarbus jam yra tam tikras bruožas elemente.
-$q$ - kokybės parametras rodo, kiek naudotojas yra jautrus elemento kokybei. Kokybės parametro motyvacija tokia - net jei žmogui apskritai nepatinka siaubo filmai, labai tikėtina, kad egzistuoja bent vienas kurį jis vertintų labai gerai (dėl to, kad tas filmas yra aukštos kokybės ir patinka daugumai žmonių). 
+$q$ - kokybės parametras rodo, kiek naudotojas yra jautrus elemento kokybei. Motyvacija kokybės parametro naudojimui tokia - net jei naudotojui apskritai nepatinka tam tikrai kategorijai priklausantys elementai, bet jis yra jautrus kokybei ir elementas turi aukštą kokybės koeficientą, tikėtina, kad naudotojas gerai vertins tą elementą.
 \newline
 \indent 
 Praktiškai algoritmas realizuojamas taip:
@@ -504,7 +622,7 @@ Praktiškai algoritmas realizuojamas taip:
 	\item kiekvienam bruožui priskiriame reikšmę lygią pirmame žingsnyje sugeneruotai reikšmei padalintai iš visų reikšmių sumos
 	\item kokybės parametrui priskiriame atsitiktinę reikšmę tarp 0 ir 1
 \end{itemize}
-Taip užtikriname, kad naudotojai yra tikrai atsitiktiniai ir įvairūs pirmenybių prasme - naudotojui gali patikti tiek siaubo filmai, tiek komedijos, nors tarp šių kategorijų panašumo nėra.
+Taip užtikriname, kad naudotojai yra tikrai atsitiktiniai ir įvairūs pirmenybių prasme - naudotojui gali patikti elementai iš įvairių, tarpusavyje nepanašių kategorijų.
 \subsubsubsection{Elementai}
 \indent
 Elementas apibrėžiamas vektoriumi $(c, z_1, z_2, z_3, z_4, z_5, q)$. Čia $c$ nurodo, kuriai kategorijai priklauso elementas, parametrai $z_1, z_2, z_3, z_4, z_5$ rodo, kiek elementas pasižymi kiekvienu bruožu, o $q$ - kokybės parametras. Generuojant elementus negalime taikyti tokio paties metodo, kaip naudotojo atveju, nes elementas priklauso tik vienai kategorijai, o tai reiškia, kad bruožų reikšmės negali būti visiškai atsitiktinės. Jas generuojame pasinaudodami normaliuoju skirstiniu su vidurkiu lygiu reikšmei gautai iš kategorijų matricos, aprašytos skyrelyje apie kategorijas ir parinktu standartiniu nuokrypiu (tokiu, kad duomenys būtų panašūs į realius - parinkus per didelį rezultatai gaunasi labai triukšmingi, šiame tyrime standartinį nuokrypį prilyginame konstantai lygiai 0.3). Vidurkis parenkamas taip: pažiūrėję į $c$ reikšmę atfiltruojame kategorijų matricoje kategoriją (stulpelį). Tada turime vidurkių, naudojamų generuojant $z_1, z_2, z_3, z_4, z_5$, vektorių. Kokybės parametras, kaip ir naudotojo atveju, parenkamas atsitiktinai pagal normalųjį skirstinį su vidurkiu $0.6$ ir standartiniu nuokrypiu lygiu $0.4$. Jei sugeneruota reikšmė didesnė už 1 arba mažesnė už 0, ji priskiriama 1 arba 0 atitinkamai.
@@ -513,7 +631,7 @@ Elementas apibrėžiamas vektoriumi $(c, z_1, z_2, z_3, z_4, z_5, q)$. Čia $c$ 
 Naudotojo reitingai elementams generuojami naudojant jo pirmenybes ir reiklumo kokybei parametrą bei atitinkamus produkto parametrus. Siekiama, kad jų pasiskirstymas būtų kuo artimesnis tikrovei, tai reiškia - nebūtų pasiskirstę galimų reikšmių kraštuose arba pernelyg vienodi. Sugeneruotų duomenų charakteristikos bus pateiktos kitame skyrelyje. 
 \newline
 \indent
-Kiekvienam naudotojui parenkamas atsitiktinis įvertintų elementų skaičius naudojant atsitiktinį dydį pasiskirsčiusį pagal normalųjį skirstinį su vidurkiu 30 ir standartiniu nuokrypiu lygiu 27. Parinktas didelis nuokrypis užtikrina, kad duomenys bus artimesni tikriems - Epinions.com duomenų rinkinyje vieno naudotojo įvertintų elementų skaičius svyruoja nuo 0 iki 655. Kiekvienam atsitiktinai parinktam elementui generuojamas reitingas tokiu būdu:
+Kiekvienam naudotojui parenkamas atsitiktinis įvertintų elementų skaičius naudojant atsitiktinį dydį pasiskirsčiusį pagal normalųjį skirstinį su vidurkiu 30 ir standartiniu nuokrypiu lygiu 27. Parinktas didelis nuokrypis užtikrina, kad duomenys bus artimesni tikriems - Epinions.com duomenų rinkinyje vieno naudotojo įvertintų elementų skaičius svyruoja nuo 0 iki 655. Kiekvienam atsitiktinai parinktam elementui generuojamas reitingas taikant tokią formulę:
 \begin{equation}
 r_u(p) = 5 \times ((1-q_u) \sqrt{pos(corr(X_u,Y_p))} + q_u q_p)
 \end{equation}
@@ -527,7 +645,7 @@ r_u(p) = 5 \times ((1-q_u) \sqrt{pos(corr(X_u,Y_p))} + q_u q_p)
 	\item $pos(x)$ - $f[-1,1] -> [0,1]$
 \end{itemize}
 \indent
-Idealiais atvejais, kai naudotojo reiklumas kokybei ir elemento kokybė lygi 1 arba naudotojo reiklumas kokybei lygus 0, tačiau elemento charakteristikos tobulai atitinka naudotojo pirmenybes, reitingas lygus 5. Tyrimo eigoje pastebėta, kad koreliacijos funkcijos įtaka pernelyg maža, todėl ji padidinama naudojant pasirinktą iškilią funkciją (šiuo atveju šaknis suteikia pageidaujamą efektą).
+Kraštutiniais atvejais, kai naudotojo reiklumas kokybei ir elemento kokybė lygi 1 arba naudotojo reiklumas kokybei lygus 0, tačiau elemento charakteristikos tobulai atitinka naudotojo pirmenybes, reitingas maksimalus (šiame tyrime lygus 5). Tyrimo eigoje pastebėta, kad koreliacijos funkcijos įtaka pernelyg maža, todėl ji padidinama naudojant pasirinktą iškilią funkciją (šiuo atveju šaknis suteikia pageidaujamą efektą).
 \subsubsubsection{Pasitikėjimai}
 \indent
 Pasitikėjimo reikšmės - svarbiausios prognozuojant reitingus, parodančios kokį svorį suteikti patikėtinio nuomonei apie elementą. Šiame tyrime naudotojai vieni kitais pasitiki kategorijos lygmenyje. Buvo išbandyti du pasitikėjimo reikšmių generavimo būdai.
@@ -553,33 +671,51 @@ Kitas būdas geresnis - jis, nors ir netiesiogiai, atsižvelgia į kategorijų m
 	\item rastas panašumas transformuojamas taip, kad priklausytų intervalui tarp 0 ir 1, o tada prilyginamas pasitikėjimui
 \end{itemize}
 Taikant tokį metodą atsižvelgiama į visas kategorijų charakteristikas. Tai labai svarbu tolimesniam tyrimui, ypač panašumo tarp sričių įvertinimui, kuris nagrinėjamas tolimesniuose skyriuose.
-\subsubsubsection{Sugeneruoto duomenų rinkinio charakteristikos }
+\subsubsubsection{Sugeneruotų duomenų rinkinių charakteristikos }
 \indent
-Norint iliustruoti metodų veikimą skirtingoms RS, praverčia duomenų rinkiniai su skirtingomis charakteristikomis. Pavyzdžiui, norėdami parodyti propagavimo metodų efektyvumą kitame skyriuje, pravers duomenų rinkinys su mažai duomenų apie pasitikėjimą (tai yra naudotojai turės mažai patikėtinių). Tam, kad būtų aišku, koks duomenų rinkinys naudotas konkrečiu atvejus, bus pateikta rinkinį apibūdinanti generavimo parametrų lentelė. 
-%parametrai - useriu skaicius, ju pasitikejimo rysiu skaiciaus skirstinys, ju ivertintu produktu skaiciaus skirstiny, produktu skaicius, kiek bendru elementu iverinama norint rasti pasitikejima, koks propagavimo metodas naudojamas, kokia sriciu panasumo matrica naudojama%
-\begin{center}
-	\begin{tabular}{||c c||} 
-		Elementų skaičius & 300 \\
-		Naudotojų skaičius & 100 \\
-		Naudotojo ryšių skaičiaus pasiskirstymas &  N(10, 9) \\
-		Naudotojo įvertintų elementų skaičiaus pasiskirstymas & N(30,27) \\
-		Vertinamas bendrų elementų skaičius ieškant pasitikėjimo & 12 \\
-		Kategorijų matrica & SP1 \ref{SP1} \\
-	\end{tabular}
-	
-\end{center}
-\subsubsection{Metodas}
-\indent
-Šalto starto sąvoka nėra vienareikšmiškai apibrėžiama - negalime iš anksto žinoti, kiek ir kokių reikia duomenų, kad situacija tenkintų apibrėžimą ir taikomas metodas veiktų kaip tikimąsi. Aplinkoje, apie kurią dabar rašoma, naudotojas gali būti šalto starto padėtyje, kai kalbame apie vieną sritį, tačiau kitoje srityje padėtis gali būti priešinga. Kitaip tariant, jeigu norime sužinoti, koks yra $t_u^2(v)$, ir žinome, kad naudotojo $u$ pasitikėjimo naudotoju $v$ srityje $T_1$ lygis yra $0.8$, o sričių $T_1$ ir $T_2$ panašumas $sim(T_1, T_2) = 0.9$, nieko nežinodami apie naudotojų santykį $T_2$ klausimu, galime įvertinti jų tarpusavio pasitikėjimą tiesiog padauginę žinomos srities pasitikėjimo įvertį iš sričių tarpusavio panašumo įverčio.
-\newline
-\indent
-Ši idėja yra pritaikoma ne tik šalto starto atveju, kai kalbama apie naudotoją, bet ir naujos srities šalto starto atveju. Socialinius tinklus pagal pasitikėjimo sričių daugialypiškumą galima išskirti į du tipus:
+Šalto starto sąvoka nėra vienareikšmiškai apibrėžiama - negalime iš anksto žinoti, kiek ir kokių reikia duomenų, kad situacija tenkintų apibrėžimą ir taikomas metodas veiktų kaip tikimąsi. Aplinkoje, apie kurią dabar rašoma, naudotojas gali būti šalto starto padėtyje, kai kalbame apie vieną sritį, tačiau kitoje srityje padėtis gali būti priešinga. Šio metodo tikslas - išnaudoti tokias situacijas. Beje, ši idėja yra pritaikoma ne tik šalto starto atveju, kai kalbama apie naudotoją, bet ir naujos srities šalto starto atveju. Socialinius tinklus pagal pasitikėjimo sričių daugialypiškumą galima išskirti į du tipus:
 \begin{itemize}
 	\item daugiaprofilinius - juose galimos įvairios pasitikėjimo sritys - tokios, kurias galima surikiuoti pagal panašumą ir tarp pirmos bei paskutinės nėra jokio panašumo.
 	\item specializuotos - juose pasitikėjimo sritys yra gana artimos. Tokio tinklo pavyzdys galėtų būti kino mėgėjų socialinis tinklas, o sritys - įvairūs žanrai.
 \end{itemize}
 
-Siūlomas metodas geriau veikia antrojo tipo atveju, kai sritys yra tarpusavyje panašios. Kai sritys pernelyg skirtingos, o panašumas mažas - panaudoti informaciją apie panašumą yra sudėtinga.
+Tyrime bus aiškinamasi, kiek metodas yra efektyvus taikant skirtingiems socialinių tinklų tipams. Tam, kad būtų aišku, koks duomenų rinkinys naudotas konkrečiu atvejus, gali būti pateikta generavimo parametrus nusakanti lentelė. Šiuo atveju abu duomenų rinkiniai generuojami naudojant vienodus parametrus, skiriasi tik kategorijų matrica.
+%parametrai - useriu skaicius, ju pasitikejimo rysiu skaiciaus skirstinys, ju ivertintu produktu skaiciaus skirstiny, produktu skaicius, kiek bendru elementu iverinama norint rasti pasitikejima, koks propagavimo metodas naudojamas, kokia sriciu panasumo matrica naudojama%
+\begin{center}
+	\begin{tabular}{||c c||} 
+		Elementų skaičius & 300 \\
+		Naudotojų skaičius & 100 \\
+		Naudotojo ryšių skaičiaus pasiskirstymas &  N(10, 9) visose kategorijose \\
+		Naudotojo įvertintų elementų skaičiaus pasiskirstymas & N(30,27) visose kategorijose\\
+		Vertinamas bendrų elementų skaičius ieškant pasitikėjimo & 12 \\
+		Kategorijų matrica & SP1 \ref{SP1} \\
+	\end{tabular}
+	
+\end{center}
+\subsubsection{Metodai}
+%\indent
+%Šalto starto sąvoka nėra vienareikšmiškai apibrėžiama - negalime iš anksto žinoti, kiek ir kokių reikia duomenų, kad situacija tenkintų apibrėžimą ir taikomas metodas veiktų kaip tikimąsi. Aplinkoje, apie kurią dabar rašoma, naudotojas gali būti šalto starto padėtyje, kai kalbame apie vieną sritį, tačiau kitoje srityje padėtis gali būti priešinga. Šio metodo tikslas - išnaudoti tokias situacijas. Beje, ši idėja yra pritaikoma ne tik šalto starto atveju, kai kalbama apie naudotoją, bet ir naujos srities šalto starto atveju. Socialinius tinklus pagal pasitikėjimo sričių daugialypiškumą galima išskirti į du tipus:
+%\begin{itemize}
+%	\item daugiaprofilinius - juose galimos įvairios pasitikėjimo sritys - tokios, kurias galima surikiuoti pagal panašumą ir tarp pirmos bei paskutinės nėra jokio panašumo.
+%	\item specializuotos - juose pasitikėjimo sritys yra gana artimos. Tokio tinklo pavyzdys galėtų būti kino mėgėjų socialinis tinklas, o sritys - įvairūs žanrai.
+%\end{itemize}
+%
+%Tyrime bus aiškinamasi, kiek metodas yra efektyvus taikant skirtingiems socialinių tinklų tipams.
+\subsubsubsection{Pasitikėjimo propagavimo RS metodai}
+
+\indent
+Kai kalbama apie rekomendacines sistemas su socialinių tinklų duomenimis daugiausia tyrimų [kokių] atlikta nagrinėjant agregavimo ir propagavimo metodus, kurie remiasi prielaida apie pasitikėjimo tranzityvumą. Šiuose tyrimuose aiškinamasi, kokios yra pasitikėjimo grafo savybės ir kaip galima išskaičiuoti pasitikėjimus tarp naudotojų. Šiame tyrime minėtų metodų taikymas - tik dalis eksperimento. Dėl šios priežasties nuspręsta atlikti bandymus su paprasčiausiais metodais, priklausančiais trumpiausio kelio metodų šeimai. Esmė paprasta - randamas trumpiausias pasitikėjimo kelias, o tada taikomas propagavimo operatorius. Eksperimento metu išbandyti keli metodai:
+\begin{itemize}
+	\item SHORTMULTI - daugybos operatorius
+	\item SHORTARI - aritmetinis vidurkis
+\end{itemize}
+\indent 
+Golbeck disertacijoje parodyta, kad trumpesni keliai suteikia tikslesnę informaciją apie galimą naudotojų tarpusavio pasitikėjimą. Taip pat šioje disertacijoje kalbama apie pasitikėjimo mažėjimą (angl. trust decay) ir tai, kad metodai kreipiantys dėmesį į šį reiškinį grąžina tikslesnes prognozes. Čia tiramas SHORTMULTI metodas atsižvelgia į pasitikėjimo mažėjimo reiškinį, o SHORTARI - ne.
+\subsubsection{Rezultatai}
+Šiuo eksperimentu siekiama ištirti sričių panašumo metodo efektyvumą. Tačiau be šio galutinio tikslo, taip pat galima paminėti ir tarpinius tikslus - išbandyti duomenų rinkinio generavimo algoritmą ir kitų žinomų metodų, naudojamų pasitikėjimų radimui, efektyvumą.
+\newline
+\indent
+Eksperimentas atliktas naudojant du skirtingus generuotus duomenų rinkinius. Pirmas - duomenų rinkinys, aprašytas ankstesniame skyriuje \ref{DS1Gen}. Jis pasižymi tuo, kad kategorijos yra gana skirtingos ir sričių panašumas yra mažas. Kitas duomenų rinkinys bus generuojamas naudojant kategorijų matricą, kurioje sritys yra tarpusavyje panašios. 
 \begin{figure}[ht!]
 	\centering
 	\includegraphics[width=60mm]{multiarea.jpg}
@@ -673,25 +809,26 @@ Tarkime, kad žinome panašumą tarp sričių. Belieka atsakyti į klausimą - k
 \end{algorithm}
 \indent Kitas būdas, remiantis kuriuo galime rasti panašumą tarp sričių - ieškoti panašumo tarp sričių charakteristikų iš kategorijų matricos. Tai realizuojama tiesiog taikant bet kurią panašumo metriką kategorijų charakteristikų vektoriams. Nors metodą sunku pritaikyti realiems RS duomenims, nes kategorijų matrica nėra žinoma, jis įdomus teoriniu požiūriu. Tiesa, šis būdas veikia tik vertinant sričių panašumą visoje sistemoje.
 
-\subsubsubsection{Pasitikėjimų pagrįstų RS metodai}
-
-\indent
-Kai kalbama apie rekomendacines sistemas su socialinių tinklų duomenimis daugiausia tyrimų [kokių] atlikta nagrinėjant agregavimo ir propagavimo metodus, kurie remiasi prielaida apie pasitikėjimo tranzityvumą. Šio tyrimo kontekste į šiuos metodus galima žiūrėti kaip į tam tikrą duomenų papildymo būdą prieš taikant sričių panašumo metodą. 
-\newline
-\indent 
-Tyrime bus išbandyti keli trumpiausio kelio šeimos algoritmai. Trumpiausio kelio algoritmas randa trumpiausią kelią tarp dviejų naudotojų ir randa pasitikėjimą tarp jų vienu iš šių operacijų pasitikėjimo įverčiams, esantiems pasitikėjimo kelyje:
-
-	\begin{itemize}
-		\item daugyba - SHORTMULTI
-		\item aritmetinis vidurkis - SHORTARI
-		\item harmoninis vidurkis - SHORTHARM
-	\end{itemize}
-\subsubsection{Rezultatai}
-Šiuo eksperimentu siekiama ištirti sričių panašumo metodo efektyvumą. Tačiau be šio galutinio tikslo, taip pat galima paminėti ir tarpinius tikslus - išbandyti duomenų rinkinio generavimo algoritmą ir kitų žinomų metodų, naudojamų pasitikėjimų radimui, efektyvumą.
-\newline
-\indent
-Eksperimentas atliktas naudojant du skirtingus generuotus duomenų rinkinius. Pirmas - duomenų rinkinys, aprašytas ankstesniame skyriuje \ref{DS1Gen}. Jis pasižymi tuo, kad kategorijos yra gana skirtingos ir sričių panašumas yra mažas. Kitas duomenų rinkinys bus generuojamas naudojant kategorijų matricą, kurioje sritys yra tarpusavyje panašios. 
+%\subsubsubsection{Pasitikėjimų pagrįstų RS metodai}
+%
+%\indent
+%Kai kalbama apie rekomendacines sistemas su socialinių tinklų duomenimis daugiausia tyrimų [kokių] atlikta nagrinėjant agregavimo ir propagavimo metodus, kurie remiasi prielaida apie pasitikėjimo tranzityvumą. Šio tyrimo kontekste į šiuos metodus galima žiūrėti kaip į tam tikrą duomenų papildymo būdą prieš taikant sričių panašumo metodą. 
+%\newline
+%\indent 
+%Tyrime bus išbandyti keli trumpiausio kelio šeimos algoritmai. Trumpiausio kelio algoritmas randa trumpiausią kelią tarp dviejų naudotojų ir randa pasitikėjimą tarp jų vienu iš šių operacijų pasitikėjimo įverčiams, esantiems pasitikėjimo kelyje:
+%
+%	\begin{itemize}
+%		\item daugyba - SHORTMULTI
+%		\item aritmetinis vidurkis - SHORTARI
+%		\item harmoninis vidurkis - SHORTHARM
+%	\end{itemize}
+%\subsubsection{Rezultatai}
+%Šiuo eksperimentu siekiama ištirti sričių panašumo metodo efektyvumą. Tačiau be šio galutinio tikslo, taip pat galima paminėti ir tarpinius tikslus - išbandyti duomenų rinkinio generavimo algoritmą ir kitų žinomų metodų, naudojamų pasitikėjimų radimui, efektyvumą.
+%\newline
+%\indent
+%Eksperimentas atliktas naudojant du skirtingus generuotus duomenų rinkinius. Pirmas - duomenų rinkinys, aprašytas ankstesniame skyriuje \ref{DS1Gen}. Jis pasižymi tuo, kad kategorijos yra gana skirtingos ir sričių panašumas yra mažas. Kitas duomenų rinkinys bus generuojamas naudojant kategorijų matricą, kurioje sritys yra tarpusavyje panašios. 
 \subsubsubsection{Eksperimentas naudojant RS su skirtingomis kategorijomis}
+
 Ankstesniame skyrelyje sugeneruoto duomenų rinkinio charakteristikos yra tokios:
 \begin{center}
 	\begin{tabular}{||c c||} 

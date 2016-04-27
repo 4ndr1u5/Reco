@@ -145,6 +145,19 @@ namespace Reco
             return products.ToList();
         }
 
+        public Trust GetTrust(int uid1, int uid2, int cat)
+        {
+            var trust = client.Cypher
+                .Match("(u:User)-[r:Trusts]->(v:User)")
+                .Where((User u) => u.iduser == uid1)
+                .AndWhere((User v) => v.iduser == uid2)
+                .AndWhere((Trust r) => r.Category == cat)
+                .Return((r) => r.As<Trust>())
+                .Results;
+
+            return trust.FirstOrDefault();
+        }
+
         //public IEnumerable<Category> getAllCategories()
         //{
         //    var cats = client.Cypher
@@ -438,6 +451,16 @@ namespace Reco
 
         public void CreatePredictedRating(int uid, int pid, double rating, string method)
         {
+            if (method == "CN")
+            {
+                client.Cypher.Match("(u:User)-[r:Rated]->(p:Product)")
+                .Where((User u) => u.iduser == uid)
+                .AndWhere((Product p) => p.idproduct == pid)
+                .Set("r.PredictedRatingCN = {rating}")
+                //.Create("(u)-[r:Rated{PredictedRating:{rating}}]->(p)")
+                .WithParam("rating", rating)
+                .ExecuteWithoutResults();
+            }
             if (method == "BASE")
             {
                 client.Cypher.Match("(u:User)-[r:Rated]->(p:Product)")
@@ -654,6 +677,16 @@ namespace Reco
         public List<Tuple<int, double?, int>> GetAllUsersRatingsForEvaluation(string method)
         {
             var result = new List<Tuple<int, double?, int>>();
+            if (method == "CN")
+            {
+                var query =
+                client.Cypher
+                    //.Match("(u:User)-[r:Rated]->(p:Product) where has(r.PredictedRatingBase)")
+                    .Match("(u:User)-[r:Rated]->(p:Product)")
+                    .Return((r, u) => new Tuple<int, double?, int>(r.As<Rated>().Rating, r.As<Rated>().PredictedRatingCN, u.As<User>().iduser));
+
+                result = query.Results.ToList();
+            }
             if (method == "BASE")
             {
                 var query =
@@ -742,6 +775,30 @@ namespace Reco
                    .Return((t1, t2) => new Tuple<double, double>(t1.As<Trust>().TrustValue, t2.As<Trust>().TrustValue));
             var result = query.Results;
             return result.ToList();
+        }
+
+        public double GetJaccard(int uid1, int uid2, int cat)
+        {
+            var trust1Query =
+              client.Cypher
+                  .Match("(u:User)-[t1:Trusts]->(v:User)")
+                  .Where((User u) => u.iduser == uid1)
+                  .AndWhere((Trust t1) => t1.Category == cat)
+                  .Return((v) => v.As<User>().iduser);
+            var trusts1 = trust1Query.Results.ToList();
+            var trust2Query =
+              client.Cypher
+                  .Match("(u:User)-[t2:Trusts]->(v:User)")
+                  .Where((User u) => u.iduser == uid2)
+                  .AndWhere((Trust t2) => t2.Category == cat)
+                  .Return((v) => v.As<User>().iduser);
+            var trusts2 = trust2Query.Results.ToList();
+            var all = new List<int>();
+            all.AddRange(trusts1);
+            all.AddRange(trusts2);
+            var denominator = all.Distinct().Count();
+            var numerator = trusts1.Intersect(trusts2).Count();
+            return (double)numerator / (double)denominator;
         }
     } 
 
