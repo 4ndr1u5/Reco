@@ -145,13 +145,13 @@ namespace Reco
             return products.ToList();
         }
 
-        public Trust GetTrust(int uid1, int uid2, int cat)
+        public Trust GetTrust(int uid1, int uid2)
         {
             var trust = client.Cypher
                 .Match("(u:User)-[r:Trusts]->(v:User)")
                 .Where((User u) => u.iduser == uid1)
                 .AndWhere((User v) => v.iduser == uid2)
-                .AndWhere((Trust r) => r.Category == cat)
+                //.AndWhere((Trust r) => r.Category == cat)
                 .Return((r) => r.As<Trust>())
                 .Results;
 
@@ -777,20 +777,20 @@ namespace Reco
             return result.ToList();
         }
 
-        public double GetJaccard(int uid1, int uid2, int cat)
+        public double GetJaccard(int uid1, int uid2)
         {
             var trust1Query =
               client.Cypher
                   .Match("(u:User)-[t1:Trusts]->(v:User)")
                   .Where((User u) => u.iduser == uid1)
-                  .AndWhere((Trust t1) => t1.Category == cat)
+                  //.AndWhere((Trust t1) => t1.Category == cat)
                   .Return((v) => v.As<User>().iduser);
             var trusts1 = trust1Query.Results.ToList();
             var trust2Query =
               client.Cypher
                   .Match("(u:User)-[t2:Trusts]->(v:User)")
                   .Where((User u) => u.iduser == uid2)
-                  .AndWhere((Trust t2) => t2.Category == cat)
+                  //.AndWhere((Trust t2) => t2.Category == cat)
                   .Return((v) => v.As<User>().iduser);
             var trusts2 = trust2Query.Results.ToList();
             var all = new List<int>();

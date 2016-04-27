@@ -38,8 +38,13 @@
 \BOOKMARK [4][-]{paragraph.2.2.1.6}{Sugeneruotų duomenų rinkinių charakteristikos }{subsubsection.2.2.1}% 38
 \BOOKMARK [3][-]{subsubsection.2.2.2}{Metodai}{subsection.2.2}% 39
 \BOOKMARK [4][-]{paragraph.2.2.2.1}{Pasitikėjimo propagavimo RS metodai}{subsubsection.2.2.2}% 40
-\BOOKMARK [3][-]{subsubsection.2.2.3}{Rezultatai}{subsection.2.2}% 41
-\BOOKMARK [4][-]{paragraph.2.2.3.1}{Eksperimentas\040naudojant\040RS\040su\040skirtingomis\040kategorijomis}{subsubsection.2.2.3}% 42
-\BOOKMARK [4][-]{paragraph.2.2.3.2}{Eksperimentas naudojant RS su panašiomis kategorijomis}{subsubsection.2.2.3}% 43
-\BOOKMARK [2][-]{subsection.2.3}{Problemos ir iššūkiai}{section.2}% 44
-\BOOKMARK [1][-]{section.3}{Išvados}{}% 45
+\BOOKMARK [4][-]{paragraph.2.2.2.2}{Sričių panašumo metodas}{subsubsection.2.2.2}% 41
+\BOOKMARK [3][-]{subsubsection.2.2.3}{Rezultatai}{subsection.2.2}% 42
+\BOOKMARK [4][-]{paragraph.2.2.3.1}{Bendradarbiavimo\040filtravimo\040rezultatai}{subsubsection.2.2.3}% 43
+\BOOKMARK [4][-]{paragraph.2.2.3.2}{Architektūra 1: Sričių panašumo metodas}{subsubsection.2.2.3}% 44
+\BOOKMARK [4][-]{paragraph.2.2.3.3}{Architektūra 2: Propagavimo metodas}{subsubsection.2.2.3}% 45
+\BOOKMARK [4][-]{paragraph.2.2.3.4}{Architektūra 3: Sričių panašumo ir propagavimo metodas}{subsubsection.2.2.3}% 46
+\BOOKMARK [4][-]{paragraph.2.2.3.5}{Architektūra 4: Propagavimo ir sričių panašumo metodas}{subsubsection.2.2.3}% 47
+\BOOKMARK [3][-]{subsubsection.2.2.4}{Rezultatų palyginimas}{subsection.2.2}% 48
+\BOOKMARK [2][-]{subsection.2.3}{Problemos ir iššūkiai}{section.2}% 49
+\BOOKMARK [1][-]{section.3}{Išvados}{}% 50

@@ -359,7 +359,7 @@ Tarkime $U_T$ ir $I_T$ - naudotojų ir elementų rinkinių aibė testiniuose duo
 
 
 
-
+\newpage
 
 \section{Pasitikėjimu pagrįstos rekomendacinės sistemos modeliavimas ir siūlomas metodas}
 \indent
@@ -690,7 +690,25 @@ Tyrime bus aiškinamasi, kiek metodas yra efektyvus taikant skirtingiems sociali
 		Vertinamas bendrų elementų skaičius ieškant pasitikėjimo & 12 \\
 		Kategorijų matrica & SP1 \ref{SP1} \\
 	\end{tabular}
-	
+	\indent
+Duomenų rinkinių charakteristikos yra tokios:
+	\begin{center}
+		\begin{tabular}{||c c c ||} 
+			Charakteristika & DS1 & DS2 \\
+			Naudotojų, įvertinusių bent vieną elementą, skaičius & 87 & 87 \\
+			Šalto starto naudotojų skaičius & 18 & 17 \\
+			Ryžtingų naudotojų skaičius  & 6& 6  \\
+			Reitingų standartinis nuokrypis & 1.5& 1.47 \\
+		\end{tabular}
+	\end{center}
+	Reitingų pasiskirstymas:
+	\begin{center}
+		\begin{tabular}{||c c c c c c||} 
+			Duomenų rinkinys &1 & 2 & 3 & 4 & 5 \\
+			DS1 & 612 & 345 & 370 & 730 & 839 \\
+			DS2 & 532 & 339 & 373 & 786 & 849 \\
+		\end{tabular}
+	\end{center}
 \end{center}
 \subsubsection{Metodai}
 %\indent
@@ -711,17 +729,15 @@ Kai kalbama apie rekomendacines sistemas su socialinių tinklų duomenimis daugi
 \end{itemize}
 \indent 
 Golbeck disertacijoje parodyta, kad trumpesni keliai suteikia tikslesnę informaciją apie galimą naudotojų tarpusavio pasitikėjimą. Taip pat šioje disertacijoje kalbama apie pasitikėjimo mažėjimą (angl. trust decay) ir tai, kad metodai kreipiantys dėmesį į šį reiškinį grąžina tikslesnes prognozes. Čia tiramas SHORTMULTI metodas atsižvelgia į pasitikėjimo mažėjimo reiškinį, o SHORTARI - ne.
-\subsubsection{Rezultatai}
-Šiuo eksperimentu siekiama ištirti sričių panašumo metodo efektyvumą. Tačiau be šio galutinio tikslo, taip pat galima paminėti ir tarpinius tikslus - išbandyti duomenų rinkinio generavimo algoritmą ir kitų žinomų metodų, naudojamų pasitikėjimų radimui, efektyvumą.
-\newline
-\indent
-Eksperimentas atliktas naudojant du skirtingus generuotus duomenų rinkinius. Pirmas - duomenų rinkinys, aprašytas ankstesniame skyriuje \ref{DS1Gen}. Jis pasižymi tuo, kad kategorijos yra gana skirtingos ir sričių panašumas yra mažas. Kitas duomenų rinkinys bus generuojamas naudojant kategorijų matricą, kurioje sritys yra tarpusavyje panašios. 
+\subsubsubsection{Sričių panašumo metodas}
 \begin{figure}[ht!]
 	\centering
 	\includegraphics[width=60mm]{multiarea.jpg}
 	\caption{Ryšių grafo fragmentas} \label{multiarea}
 \end{figure}
-Tarkime, kad turime situaciją pavaizduotą grafe \ref{multiarea}, kuriame pateikti naudotojų tarpusavio pasitikėjimai ${t_1, t_2}$, ir norime žinoti, kiek $u_1$ pasitiki $u_3$ srityje $T_2$. Tiesioginio kelio nėra, nes abiejuose galimuose keliuose - $u_1 - u_2 - v$ ir $u_1 - u_4 - v$ yra trūkstamų duomenų - pirmu atveju nežinome $t_{u_1}^2(u_2)$, antru - $t_{u_4}^2(u_3)$, tačiau matome, kad egzistuoja kelias $u_1 - u_2 - u_3$, pagal kurį galime įvertinti $t_{u_1}^1(u_3)$
+
+\indent
+Iš pradžių panagrinėkime paprastą pavyzdį. Tarkime, kad turime situaciją pavaizduotą grafe \ref{multiarea}, kuriame pateikti naudotojų tarpusavio pasitikėjimai ${t_1, t_2}$, ir norime žinoti, kiek $u_1$ pasitiki $u_3$ srityje $T_2$. Tiesioginio kelio nėra, nes abiejuose galimuose keliuose - $u_1 - u_2 - v$ ir $u_1 - u_4 - v$ yra trūkstamų duomenų - pirmu atveju nežinome $t_{u_1}^2(u_2)$, antru - $t_{u_4}^2(u_3)$, tačiau matome, kad egzistuoja kelias $u_1 - u_2 - u_3$, pagal kurį galime įvertinti $t_{u_1}^{T_1}(u_3)$
 \begin{displaymath}
 t_{u_1}^1(u_3)=t_{u_1}^1(u_2) \times t_{u_2}^1(u_3) = 0.7 \times 0.9 = 0.63
 \end{displaymath}
@@ -730,11 +746,19 @@ t_{u_1}^1(u_3)=t_{u_1}^1(u_2) \times t_{u_2}^1(u_3) = 0.7 \times 0.9 = 0.63
 t_{u_1}^2(u_3)=t_{u_1}^1(u_3) \times sim(T_1, T_2) = 0.63 \times 0.9 = 0.6048
 \end{displaymath}
 \indent 
-Toliau bus pasiūlytas algoritmas susidedantis iš dviejų etapų. Pirmas etapas skirtas panašumui tarp sričių radimui. Panašumas tarp sričių gali būti randamas globaliai - visai sistemai, arba kiekvienam naudotojui atskirai (jei tik naudotojas turi pakankamai duomenų). Šis metodas pavadintas TDS (angl. trust-based domain similarity). Antro etapo esmė - įvertinti dviejų naudotojų tarpusavio pasitikėjimą srityse, kuriose jo nėra. Čia pasiūlyti du metodai - $MAXDS$ ir $AVGDS$.
+Iš tiesų, šis pavyzdys nėra labai paprastas - jis susideda iš dviejų žingsnių. Pirmo žingsnio metu įvertinamas naudotojų $u_1$ ir $u_3$ tarpusavio pasitikėjimas srityje $T_1$ taikant propagavimo (daugybos) operatorių, aptartą ankstesniame skyrelyje, o po to pritaikytas sričių panašumo metodas. Aptarkime šį metodą formaliau.
 \newline
-\indent Norėdami įvertinti panašumą tarp sričių turime turėti naudotojų porų ir jų tarpusavio pasitikėjimo pagal sritis sąrašą. Tada panašumą tarp sričių galime įvertinti taikydami vieną iš panašumo radimo metodų (Pyrsono, Spearmano koreliacija, kosinuso panašumas) turimiems pasitikėjimo (arba panašumo) duomenims. 
+\indent
+Siūlomas metodas susideda iš dviejų etapų. Pirmas etapas skirtas panašumo tarp sričių radimui. Panašumas tarp sričių gali būti randamas globaliai - visai sistemai, arba kiekvienam naudotojui atskirai (jei tik naudotojas turi pakankamai duomenų). Tiriami metodai
+\begin{itemize}
+	\item $GTDS$ (angl. trust-based domain similarity) esmė - turint naudotojų porų, kurios turi tarpusavio pasitikėjimą dviejose kategorijose (kurių panašumo ieškome) sąrašą, ieškoti Pyrsono koreliacijos tarp pasitikėjimų abiejose kategorijose.
+	\item $UTDS$ (angl. user-level trust-based domain similarity) randamas panašiai, kaip ir $GTDS$. Skirtumas toks, kad koreliacijos ieškome ne tarp visų naudotojų esančių sistemoje, o tik tarp tų, kuriais pasitiki naudotojas, kuriam norime įvertinti jo asmeninį kategorijų panašumo suvokimą.
+	\item $CMDS$ (angl. category matrix domain similarity) panašumą tarp kategorijų randa, ieškant koreliacijos tarp sričių charakteristikų kategorijų matricoje. Šis metodas įdomus teorine prasme - realiose RS kategorijų matrica nežinoma.
+\end{itemize}
+\indent
+
 \begin{algorithm}
-	\caption{TDS metodas panašumo tarp sričių radimui}\label{catsimalg}
+	\caption{$GTDS$ metodas panašumo tarp sričių radimui}\label{catsimalg}
 	\begin{algorithmic}[1]
 		\Procedure{GetCategorySimilarity}{}
 		\State float[] trusts1;
@@ -751,10 +775,10 @@ Toliau bus pasiūlytas algoritmas susidedantis iš dviejų etapų. Pirmas etapas
 \end{algorithm}
 
 \indent 
-Tarkime, kad žinome panašumą tarp sričių. Belieka atsakyti į klausimą - kaip ši informacija gali padėti įvertinti pasitikėjimą tarp naudotojų. Tyrime bus išbandyti du metodai:
+Kai panašumas tarp sričių jau žinomas, lieka atsakyti į klausimą - kaip ši informacija gali padėti įvertinti pasitikėjimą tarp naudotojų. Tyrime bus išbandyti du metodai:
 \begin{itemize}
-	\item MAXDS metodas \ref{MAXDSalg}. Tarkime, kad turime naudotojų porą su žinomais pasitikėjimais dviejose srityse ir nežinomais trijose. Norėdami įvertinti nežinomus pasitikėjimus, parenkame tą žinomą pasitikėjimo reikšmę, kuri yra didžiausia ir naudodami ją kaip pagrindą, nežinomas randame sudauginę ją su atitinkamos kategorijos panašumu. Šio metodo trūkumas tas, kad atsižvelgiama ne į visą žinomą informaciją. 
-	\item AVGDS metodu \ref{AVGDSalg} siekiama panaudoti visą žinomą informaciją. Nežinomos pasitikėjimo reikšmės randamos ieškant randant žinomų pasitikėjimų sudaugintų su sričių panašumu vidurkį su svoriais. Svoriai šioje formulėje - tie patys vidurkiai.
+	\item $MAXDS$ metodas \ref{MAXDSalg}. Tarkime, kad turime naudotojų porą su žinomais pasitikėjimais $n$ sričių ir nežinomais $m$. Norėdami įvertinti nežinomus pasitikėjimus, parenkame tą žinomą pasitikėjimo reikšmę, kuri yra didžiausia ir naudodami ją kaip pagrindą, nežinomas randame sudauginę ją su atitinkamos kategorijos panašumu. Šio metodo trūkumas tas, kad atsižvelgiama ne į visą žinomą informaciją. 
+	\item $AVGDS$ metodu \ref{AVGDSalg} siekiama panaudoti visą žinomą informaciją. Nežinomos pasitikėjimo reikšmės randamos ieškant randant žinomų pasitikėjimų sudaugintų su sričių panašumu vidurkį su svoriais. Svoriai šioje formulėje - tie patys sričių panašumai.
 	\begin{equation}
 	t_u^{T_i}(v) = \frac{\sum\limits_{j \in T } t_u^{T_j}(v) \times sim(T_i, T_j)^2}{\sum\limits_{j \in T} sim(T_i, T_j)}
 	\end{equation}
@@ -807,158 +831,82 @@ Tarkime, kad žinome panašumą tarp sričių. Belieka atsakyti į klausimą - k
 		\EndProcedure
 	\end{algorithmic}
 \end{algorithm}
-\indent Kitas būdas, remiantis kuriuo galime rasti panašumą tarp sričių - ieškoti panašumo tarp sričių charakteristikų iš kategorijų matricos. Tai realizuojama tiesiog taikant bet kurią panašumo metriką kategorijų charakteristikų vektoriams. Nors metodą sunku pritaikyti realiems RS duomenims, nes kategorijų matrica nėra žinoma, jis įdomus teoriniu požiūriu. Tiesa, šis būdas veikia tik vertinant sričių panašumą visoje sistemoje.
-
-%\subsubsubsection{Pasitikėjimų pagrįstų RS metodai}
-%
-%\indent
-%Kai kalbama apie rekomendacines sistemas su socialinių tinklų duomenimis daugiausia tyrimų [kokių] atlikta nagrinėjant agregavimo ir propagavimo metodus, kurie remiasi prielaida apie pasitikėjimo tranzityvumą. Šio tyrimo kontekste į šiuos metodus galima žiūrėti kaip į tam tikrą duomenų papildymo būdą prieš taikant sričių panašumo metodą. 
-%\newline
-%\indent 
-%Tyrime bus išbandyti keli trumpiausio kelio šeimos algoritmai. Trumpiausio kelio algoritmas randa trumpiausią kelią tarp dviejų naudotojų ir randa pasitikėjimą tarp jų vienu iš šių operacijų pasitikėjimo įverčiams, esantiems pasitikėjimo kelyje:
-%
-%	\begin{itemize}
-%		\item daugyba - SHORTMULTI
-%		\item aritmetinis vidurkis - SHORTARI
-%		\item harmoninis vidurkis - SHORTHARM
-%	\end{itemize}
-%\subsubsection{Rezultatai}
-%Šiuo eksperimentu siekiama ištirti sričių panašumo metodo efektyvumą. Tačiau be šio galutinio tikslo, taip pat galima paminėti ir tarpinius tikslus - išbandyti duomenų rinkinio generavimo algoritmą ir kitų žinomų metodų, naudojamų pasitikėjimų radimui, efektyvumą.
-%\newline
-%\indent
-%Eksperimentas atliktas naudojant du skirtingus generuotus duomenų rinkinius. Pirmas - duomenų rinkinys, aprašytas ankstesniame skyriuje \ref{DS1Gen}. Jis pasižymi tuo, kad kategorijos yra gana skirtingos ir sričių panašumas yra mažas. Kitas duomenų rinkinys bus generuojamas naudojant kategorijų matricą, kurioje sritys yra tarpusavyje panašios. 
-\subsubsubsection{Eksperimentas naudojant RS su skirtingomis kategorijomis}
-
-Ankstesniame skyrelyje sugeneruoto duomenų rinkinio charakteristikos yra tokios:
-\begin{center}
-	\begin{tabular}{||c c||} 
-		Naudotojų, įvertinusių bent vieną elementą, skaičius & 87 \\
-		Šalto starto naudotojų skaičius & 18 \\
-		Ryžtingų naudotojų skaičius  & 6 \\
-		Reitingų standartinis nuokrypis & 1.5 \\
-	\end{tabular}
-\end{center}
-Reitingų pasiskirstymas:
-\begin{center}
-	\begin{tabular}{||c c c c c||} 
-		1 & 2 & 3 & 4 & 5 \\
-		612 & 345 & 370 & 730 & 839 \\
-	\end{tabular}
-\end{center}
 \indent
-Šiam duomenų rinkiniui pagal nustatytus vertinimo kriterijus gauname tokius rezultatus:
-\begin{center}
-	\captionof{table}{BF rezultatai taikomi RS duomenims}
-	\begin{tabular}{||c c c c c c c ||} 
-		Duomenų rinkinio poaibis & Naudotojų skaičius & $MAE$ & $MAUE$ & $RMSE$ & $RC$ & $UC$ \\
-		\hline
-		Visi naudotojai & 87 & 1.04 & 0.98 & 1.5 & 0.22 & 0.65 \\
-		\hline
-		Šalto starto naudotojai & 19 & - & - & - & 0 & 0 \\
-		\hline
-		Ryžtingi naudotojai & 6 & 1.17 & 1.17 & 1.84 & 0.06 & 0.17 \\
-	\end{tabular}
-\end{center}
-%\subsubsubsubsection{Pasitikėjimo propagavimas ir agregavimas}
-
-\indent
-Tokiems duomenims galime taikyti globalaus sričių panašumo metodą. Išbandyti AVGDS \ref{AVGDSalg} (sričių panašumo vidurkio) ir MAXDS \ref{MAXDSalg} (sričių panašumo maksimumo) metodai.
-\begin{center}
-	\captionof{table}{BF + AVGDS rezultatai taikomi RS duomenims}
-	\begin{tabular}{||c c c c c c c ||} 
-		Duomenų rinkinio poaibis & Naudotojų skaičius & $MAE$ & $MAUE$ & $RMSE$ & $RC$ & $UC$ \\
-		\hline
-		Visi naudotojai & 87 & 1.04 & 0.98 & 1.49 & 0.33 & 0.69 \\
-		\hline
-		Šalto starto naudotojai & 19 & - & - & - & 0 & 0 \\
-		\hline
-		Ryžtingi naudotojai & 6 & 0.96 & 0.67 & 1.43 & 0.11 & 0.5 \\
-	\end{tabular}
-\end{center}
-
-\begin{center}
-	\captionof{table}{BF + MAXDS rezultatai taikomi RS duomenims}
-	\begin{tabular}{||c c c c c c c ||} 
-		Duomenų rinkinio poaibis & Naudotojų skaičius & $MAE$ & $MAUE$ & $RMSE$ & $RC$ & $UC$ \\
-		\hline
-		Visi naudotojai & 87 & 1.03 & 0.95 & 1.46 & 0.33 & 0.69 \\
-		\hline
-		Šalto starto naudotojai & 19 & - & - & - & 0 & 0 \\
-		\hline
-		Ryžtingi naudotojai & 6 & 1.03 & 0.69 & 1.59 & 0.11 & 0.5 \\
-	\end{tabular}
-\end{center}
-\indent
-Iš rezultatų matosi, kad tiek tikslumas, tiek padengimas pagerėjo visų naudotojų imčiai. Didelis tikslumo padidėjimas ryžtingų naudotojų atveju iš dalies gali būti paaiškintas atsitiktinumu dėl mažos imties, tačiau atlikus daugiau eksperimentų pastebėta, kad tikslumas beveik visada nežymiai keičiasi į gerąja pusę, o reitingų padengimas didėja vidutiniškai apie 50\% kiekvienai imčiai.  \ref{BASEDS} pav. matosi, kaip atrodo ryšių grafas po sričių panašumo metodo pritaikymo.
+Visi aptarti metodai gali būti kombinuojami įvairiais būdais. Eksperimento metu išbandytos keturios architektūros, pavaizduotos pav. 2-5
 \begin{figure}[ht!]
 	\centering
-	\includegraphics[width=80mm]{BASEDS.jpg}
-	\caption{Ryšių grafo fragmentas pritaikius sričių panašumo metodą} \label{BASEDS}
+	\includegraphics[width=80mm]{architectures/DS.jpg}
+	\caption{AR1: Sričių panašumo metodas} 
 \end{figure}
-\newline
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=80mm]{architectures/Prop.jpg}
+	\caption{AR2: Propagavimo metodas}
+\end{figure}
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=80mm]{architectures/DS Prop.jpg}
+	\caption{AR3: Sričių panašumo ir propagavimo metodas}
+\end{figure}
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=80mm]{architectures/Prop DS.jpg}
+	\caption{AR4: Propagavimo ir sričių panašumo metodas}
+\end{figure}
+\subsubsection{Rezultatai}
+Šiuo eksperimentu siekiama ištirti sričių panašumo metodo efektyvumą. Tačiau be šio galutinio tikslo, taip pat galima paminėti ir tarpinius tikslus - išbandyti duomenų rinkinio generavimo algoritmą ir kitų žinomų metodų, naudojamų pasitikėjimų radimui, efektyvumą. Tolimesni skyriai sugrupuoti pagal tai, kokia architektūra tiriama.
+\subsubsubsection{Bendradarbiavimo filtravimo rezultatai}
 \indent
-Nepastebėta reikšmingo skirtumo tarp rezultatų, gautų taikant $MAXDS$ ir $AVGDS$ metodus, dėl to toliau  bus taikomas tik $AVGDS$ metodas (nes jis atsižvelgia į daugiau informacijos).
-\indent  Sričių panašumo metodas nekuria naujų ryšių tarp naudotojų, kurie nieko vienas apie kitą nežino - tą daro kiti metodai, taikantys propagavimo ir agregavimo operatorius. Tačiau šiuos du metodų tipus galima kombinuoti ir taikyti kartu. 
-\newline
-\indent
-Šis duomenų rinkinys buvo sugeneruotas parinkus tokius parametrus, kad jame egzistuotų duomenų retumo problema. Tai matome iš nedidelių $RC$ ir $UC$ reikšmių. Egzistuojantis problemos sprendimo būdas - taikyti metodus, vertinančius naudotojų tarpusavio pasitikėjimą. Tam pačiam duomenų rinkiniui išbandyti trys trumpiausio kelio metodai, aprašyti ankstesniame skyrelyje (SHORTMULTI, SHORTARI, SHORTGEO). Siekiant vertinti tik svarbias pasitikėjimo reikšmes, nustatome slenkstį lygų $0.9$, nuo kurio saugosime rastus pasitikėjimus.
+Čia pateikiami rezultatai, gauti taikant paprastą bendradarbiavimo filtravimo algoritmą. Gauti tikslumo rezultatai labai panašūs į gaunamus taikant šį metodą realiems RS duomenų rinkiniams - MovieLens ir Epinions.com [papildyti - kokie tie rezultatai]. Nei vienam iš 19 naudotojų, kurie buvo identifikuoti, kaip šalto starto naudotojai, nepavyko prognozuoti nei vieno reitingo. Tai tik dar kartą parodo, kokia aktuali yra šalto starto problema.
 \begin{center}
-	\captionof{table}{BF + SHORTMULTI rezultatai taikomi RS duomenims}
-	\begin{tabular}{||c c c c c c||} 
+	\captionof{table}{BF rezultatai taikomi RS duomenims DS1}
+	\begin{tabular}{||c c c c c c ||} 
 		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & $RC$ & $UC$ \\
 		\hline
-		Visi naudotojai & 1.05 & 0.99 & 1.62 & 0.51 & 0.87 \\
+		Visi naudotojai & 1.04 & 0.98 & 1.5 & 0.22 & 0.65 \\
 		\hline
-		Šalto starto naudotojai & 1 & 0.83 & 1.55 & 0.23 & 0.55 \\
+		Šalto starto naudotojai & - & - & - & 0 & 0 \\
 		\hline
-		Ryžtingi naudotojai & 1.06 & 1.03 & 1.75 & 0.55 & 1 \\
+		Ryžtingi naudotojai & 1.17 & 1.17 & 1.84 & 0.06 & 0.17 \\
+	\end{tabular}
+\end{center}
+\begin{center}
+	\captionof{table}{BF rezultatai taikomi RS duomenims DS2}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & RC & UC \\
+		\hline
+		Visi naudotojai & 1.04 & 0.91 & 1.51 & 0.21 & 0.63 \\
+		\hline
+		Šalto starto naudotojai & - & - & - & 0 & 0 \\
+		\hline
+		Ryžtingi naudotojai & 1.41 & 1.41 & 2.40 & 0.09 & 0.17 \\
+		
 	\end{tabular}
 \end{center}
 
+\subsubsubsection{Architektūra 1: Sričių panašumo metodas}
+Sugeneruotiems duomenims išbandyti $AVGDS$ \ref{AVGDSalg} (sričių panašumo vidurkio) ir $MAXDS$ \ref{MAXDSalg} (sričių panašumo maksimumo) metodai su slenksčiu lygiu 0.3. Panašumui tarp sričių nustatyti taikomas $GTDS$ metodas. Gauti tokie sričių panašumai pavaizduoti lentelėje \ref{DS1panasumai}
 \begin{center}
-	\captionof{table}{BF + SHORTARI rezultatai taikomi RS duomenims}
+	\captionof{table}{Panašumo tarp kategorijų matrica gauta taikant $GDTS$ metodą}
 	\begin{tabular}{||c c c c c c||} 
-		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & $RC$ & $UC$ \\
 		\hline
-		Visi naudotojai & 1.15 & 1.09 & 1.88 & 0.65 & 0.92 \\
+		Kategorijos & $X_1$ & $X_2$ & $X_3$ & $X_4$ & $X_5$ \\ [0.5ex] 
+		\hline\hline
+		$X_1$ & 1 & 0.73 & 0.84 & 0.24 & 0.61 \\ 
 		\hline
-		Šalto starto naudotojai & 1.10 & 1.04 & 1.81 & 0.35 & 0.67 \\
+		$X_2$ & 0.73 & 1 & 0.78 & 0.21 & 0.4 \\
 		\hline
-		Ryžtingi naudotojai & 1.27 & 1.31 & 2.33 & 0.65 & 1 \\
-	\end{tabular}
-	
+		$X_3$ & 0.84 & 0.78 & 1 & 0.36 & 0.56 \\
+		\hline
+		$X_4$ & 0.24 & 0.22 & 0.36 & 1 & 0.44 \\
+		\hline
+		$X_5$ & 0.61 & 0.4 & 0.56 & 0.44 & 1 \\
+		\hline
+	\end{tabular}\label{DS1panasumai}
 \end{center}
 
-Naudojant geometrinį vidurkį išvesti pasitikėjimo įverčiai neviršija 0.9, dėl to parenkame kitokį slenkstį - $0.6$. 
 \begin{center}
-	\captionof{table}{BF + SHORTGEO rezultatai taikomi RS duomenims}
-	\begin{tabular}{||c c c c c c||} 
-		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & $RC$ & $UC$ \\
-		\hline
-		Visi naudotojai & 1.16 & 1.14 & 1.84 & 0.8 & 0.98 \\
-		\hline
-		Šalto starto naudotojai & 1.16 & 1.1 & 1.88 & 0.52 & 0.89 \\
-		\hline
-		Ryžtingi naudotojai & 1.27 & 1.30 & 2.27 & 0.78 & 1 \\
-	\end{tabular}
-\end{center}
-\indent
-Atlikus eksperimentus paaiškėjo, kad geriausiai turimiems duomenims veikia SHORTMULTI metodas. Tai paaiškinama tuo, kad jis atsižvelgia į pasitikėjimo mažėjimą (angl. trust decay) esant ilgesniems pasitikėjimo keliams. SHORTARI ir SHORTGEO labiau padidina padengimą, tačiau tikslumas sumažėja pernelyg smarkiai, kad šie metodai būtų vertingi praktikoje.
-%Kazka matome is situ rezultatu
-%\subsubsubsubsection{Sričių panašumas}
-\newline
-\indent
-Kaip minėta anksčiau, sričių panašumo metodas gali būti taikomas nepriklausomai nuo metodų, prognozuojančių naudotojų tarpusavio pasitikėjimą naudojant propagavimo ir agregavimo operatorius. Jau parodyta, kaip globalus sričių panašumas veikia su baziniais RS duomenimis. Dabar bus siekiama ištirti, kaip veikia sričių panašumo ir agregavimo bei propagavimo metodų kombinacijos. Jau parodyta, kad geriausiai iš tiriamų agregavimo ir propagavimo metodų veikia SHORTMULTI metodas, todėl toliau bus tiriamos trys kombinacijos:
-\begin{itemize}
-	\item  SHORTMULTI + AVGDS naudojant sričių panašumus gautus taikant TDS metodą visiems naudotojams. Sričių panašumo reikšmės pateiktos \ref{DS1panasumai} lentelėje.
-	\item  SHORTMULTI + AVGDS sričių panašumus randamas kiekvienam naudotojui ir jo pasitikėjimai išskaičiuojant naudojant jo asmeninį sričių panašumo suvokimą.
-	\item  SHORTMULTI + AVGDS naudojant sričių panašumus gautus skaičiuojant panašumą tarp sričių charakteristikų apibrėžtų kategorijų matricoje. Sričių panašumo reikšmės pateiktos \ref{DS1koreliacijos} lentelėje.
-	
-\end{itemize}
-
-
-\begin{center}
-	\captionof{table}{Sričių panašumo matrica taikant TDS metodą}
+	\captionof{table}{Sričių panašumo matrica taikant $CMDS$ metodą}
 	\begin{tabular}{||c c c c c c||} 
 		\hline
 		Kategorijos & $X_1$ & $X_2$ & $X_3$ & $X_4$ & $X_5$ \\ [0.5ex] 
@@ -971,91 +919,119 @@ Kaip minėta anksčiau, sričių panašumo metodas gali būti taikomas nepriklau
 		\hline
 		$X_4$ & 0.48 & 0.30 & 0.53 & 1 & 0.26 \\
 		\hline
-		$X_5$ & 0.63 & 0.43 & 0.46 & 0.26 & 1 \\ [1ex] 
-		\hline
-	\end{tabular}\label{DS1panasumai}
-\end{center}
-\begin{center}
-	\captionof{table}{Panašumo tarp kategorijų matrica}
-	\begin{tabular}{||c c c c c c||} 
-		\hline
-		Kategorijos & $X_1$ & $X_2$ & $X_3$ & $X_4$ & $X_5$ \\ [0.5ex] 
-		\hline\hline
-		$X_1$ & 1 & 0.77 & 0.8 & 0.32 & 0.56 \\ 
-		\hline
-		$X_2$ & 0.78 & 1 & 0.77 & 0.24 & 0.43 \\
-		\hline
-		$X_3$ & 0.88 & 0.77 & 1 & 0.35 & 0.56 \\
-		\hline
-		$X_4$ & 0.32 & 0.24 & 0.35 & 1 & 0.47 \\
-		\hline
-		$X_5$ & 0.56 & 0.43 & 0.6 & 0.47 & 1 \\ [1ex] 
+		$X_5$ & 0.63 & 0.43 & 0.46 & 0.26 & 1 \\
 		\hline
 	\end{tabular}\label{DS1koreliacijos}
 \end{center}
-\indent
-Naudojant \ref{DS1panasumai} panašumo matricą trūkstamai informacijai apie pasitikėjimą užpildyti ir naudojant pasitikėjimo slenkstį 0.6 gaunami tokie rezultatai.
 \begin{center}
-		\captionof{table}{BF + AVGDS (su sričių panašumais, gautais naudojant kategorijų matricą) rezultatai taikomi RS duomenims}
-	\begin{tabular}{||c c c c c c||} 
-		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & RC & UC \\
+	\captionof{table}{$AVGDS$ rezultatai taikomi duomenų rinkiniui DS1}
+	\begin{tabular}{||c c c c c c ||} 
+		Duomenų rinkinio poaibis &  $MAE$ & $MAUE$ & $RMSE$ & $RC$ & $UC$ \\
 		\hline
-		Visi naudotojai & 1.17 & 1.12 & 1.95 & 0.61 & 0.89 \\
+		Visi naudotojai & 1.04 & 0.98 & 1.49 & 0.33 & 0.69 \\
 		\hline
-		Šalto starto naudotojai & 1.08 & 1.06 & 1.69 & 0.35 & 0.61 \\
+		Šalto starto naudotojai  & - & - & - & 0 & 0 \\
 		\hline
-		Ryžtingi naudotojai & 1.16 & 1.13 & 2 & 0.76 & 1 \\
+		Ryžtingi naudotojai  & 0.96 & 0.67 & 1.43 & 0.11 & 0.5 \\
 	\end{tabular}
 \end{center}
-\indent 
-Naudojant \ref{DS1koreliacijos} panašumo matricą trūkstamai informacijai apie pasitikėjimą užpildyti kartu su pasitikėjimo slenksčiu lygiu 0.6 gaunami tokie rezultatai.
+
 \begin{center}
-	\captionof{table}{SHORTMULTI +  AVGDS (su sričių panašumais, gautais naudojant TDS), su slenksčiu 0.6, rezultatai taikomi RS duomenims}
-	\begin{tabular}{||c c c c c c||} 
-		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & RC & UC \\
+	\captionof{table}{$MAXDS$ rezultatai taikomi duomenų rinkiniui DS1}
+	\begin{tabular}{||c c c c c c ||} 
+		Duomenų rinkinio poaibis  & $MAE$ & $MAUE$ & $RMSE$ & $RC$ & $UC$ \\
 		\hline
-		Visi naudotojai & 1.07 & 0.96 & 1.56 & 0.55 & 0.87 \\
+		Visi naudotojai & 1.03 & 0.95 & 1.46 & 0.33 & 0.69 \\
 		\hline
-		Šalto starto naudotojai & 1.02 & 1.05 & 1.79 & 0.3 & 0.56 \\
+		Šalto starto naudotojai & - & - & - & 0 & 0 \\
 		\hline
-		Ryžtingi naudotojai & 1.09 & 1.02 & 1.67 & 0.54 & UC \\
-	\end{tabular}
-\end{center}
-\begin{center}
-	\captionof{table}{SHORTMULTI + AVGDS (su sričių panašumais, gautais naudojant TDS), su slenksčiu 0.3, rezultatai taikomi RS duomenims}
-	\begin{tabular}{||c c c c c c||} 
-		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & RC & UC \\
-		\hline
-		Visi naudotojai & 1.12 & 1.12 & 1.8 & 0.76 & 0.88 \\
-		\hline
-		Šalto starto naudotojai & 1.07 & 1.12 & 1.72 & 0.57 & 0.61 \\
-		\hline
-		Ryžtingi naudotojai & 1.13 & 1.12 & 1.95 & 0.9 & 1 \\
-	\end{tabular}
-\end{center}
-Pastebime, kad turint tokias panašumo reikšmes slenksčio reikšmė lygi 0.6 yra labai didelė - iš tiesų taikydami šį metodą papildomos informacijos galime gauti tik apie $X_1$ ir $X_2$ bei $X_1$ ir $X_5$ kategorijų panašumus (nes tik jų sandauga su žinomu pasitikėjimu, mažesniu už 1, gali viršyti 0.6). Metodas taip pat buvo išbandytas su slenksčiu lygiu 0.3. Nors padengimas ir padidėjo, tačiau tikslumas sumažėjo atitinkamai. 
-\newline
-\indent 
-Paskutinis metodas, kuris bus išbandytas su šiuo duomenų rinkiniu - sričių panašumo naudotojo lygmenyje. Kiekvienam naudotojui rasime jo asmeninę sričių panašumo matricą.
-\begin{center}
-	\captionof{table}{SHORTMULTI + AVGDS (sričių panašumai gauti taikant TDS naudotojo lygmenyje), su slenksčiu 0.6, rezultatai taikomi RS duomenims}
-	\begin{tabular}{||c c c c c c||} 
-		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & RC & UC \\
-		\hline
-		Visi naudotojai & 1.15 & 1.05 & 1.91 & 0.59 & 0.87 \\
-		\hline
-		Šalto starto naudotojai & 1.10 & 0.86 & 1.88 & 0.24 & 0.56 \\
-		\hline
-		Ryžtingi naudotojai & 1.14 & 1.12 & 1.95 & 0.9 & 1 \\
+		Ryžtingi naudotojai & 1.03 & 0.69 & 1.59 & 0.11 & 0.5 \\
 	\end{tabular}
 \end{center}
 \indent
-Šio metodo rezultatai ne tokie geri, kaip būtų galima tikėtis - šalto starto naudotojams tiek padengimas, tiek tikslumas gaunamas geresnis taikant globalų sričių panašumą. Tai galima paaiškinti tuo, kad ieškant naudotojo asmeninio sričių panašumo atsižvelgiama į per mažai duomenų ir dėl to vertinimas būna labiau atsitiktinis. 
+Iš rezultatų matosi, kad tiek tikslumas, tiek padengimas pagerėjo visų naudotojų imčiai. Didelis tikslumo padidėjimas ryžtingų naudotojų atveju iš dalies gali būti paaiškintas atsitiktinumu dėl mažos imties, tačiau atlikus daugiau eksperimentų pastebėta, kad tikslumas beveik visada nežymiai keičiasi į gerąja pusę, o reitingų padengimas didėja vidutiniškai apie 50\% kiekvienai imčiai.  \ref{beforeDS} pav. ir \ref{afterDS} pav. matosi, kaip atrodo ryšių grafas prieš ir po sričių panašumo metodo pritaikymo.
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=80mm]{img/beforeDS.jpg}
+	\caption{Ryšių grafo fragmentas prieš pritaikant sričių panašumo metodą} \label{beforeDS}
+\end{figure}
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=80mm]{img/afterDS.jpg}
+	\caption{Ryšių grafo fragmentas pritaikius sričių panašumo metodą} \label{afterDS}
+\end{figure}
 \newline
+\indent
+Pritaikius analogišką metodą duomenų rinkiniui DS2 gauta...
+
+\indent
+Taip pat $AVGDS$ metodas buvo išbandytas naudojant panašumus, gautus taikant $CMDS$ metodą. Šie panašumai pavaizduoti lentelėje \ref{DS1koreliacijos}.
+
 \indent 
-Paskutinė metodų kombinacija - AVGDS + SHORTMULTI, pasirodo, veikia geriausiai.
+Taikant $AVGDS$ kartu su tokiais panašumais tikslumo prasme gauti prastesni rezultatai. 
 \begin{center}
-	\captionof{table}{AVGDS + SHORTMULTI (sričių panašumai gauti taikant TDS naudotojo lygmenyje), su slenksčiu 0.6, rezultatai taikomi RS duomenims}
+	\captionof{table}{$AVGDS$ rezultatai taikomi duomenų rinkiniui DS1 ir naudojant panašumus, išskaičiuotus iš kategorijų matricos}
+	\begin{tabular}{||c c c c c c ||} 
+		Duomenų rinkinio poaibis  & $MAE$ & $MAUE$ & $RMSE$ & $RC$ & $UC$ \\
+		\hline
+		Visi naudotojai & 1.12 & 1.1 & 1.69 & 0.37 & 0.69 \\
+		\hline
+		Šalto starto naudotojai & - & - & - & 0 & 0 \\
+		\hline
+		Ryžtingi naudotojai & 1.16 & 1.19 & 1.86 & 0.13 & 0.33 \\
+	\end{tabular}
+\end{center}
+\indent
+Trečio sričių panašumo metodas $UTDS$ įprastiems RS duomenims taikyti negalime, nes joks naudotojas neturi pakankamai duomenų, kad būtų galima jam įvertinti jo asmeninį sričių panašumą. Šį metodą taikysime kitame skyrelyje duomenims, kuriems pritaikytas propagavimo metodas.
+\newline
+\indent
+Nepastebėta reikšmingo skirtumo tarp rezultatų, gautų taikant $MAXDS$ ir $AVGDS$ metodus, dėl to toliau  bus taikomas tik $AVGDS$ metodas (nes jis atsižvelgia į daugiau informacijos). Taip pat, įvertinus tai, kad iš sričių panašumo metodų geriausiai veikia $GTDS$ metodas, tolimesniame tyrime taikysime tik jį.
+\newline
+\indent
+
+
+\subsubsubsection{Architektūra 2: Propagavimo metodas}
+\indent
+Abu duomenų rinkiniai buvo sugeneruoti parinkus tokius parametrus, kad juose egzistuotų duomenų retumo problema. Beje, RS su kategorijomis, ji dar opesnė. Anksčiau minėta, kad šalto starto naudotojai šiame tyrime yra tie, kurie turi mažiau kaip 15 reitingų. Vertinant įprastas RS šalto starto naudotojais vadinami tie, kurie turi 5 ar mažiau reitingų [kas kur taip vadina]. Tačiau tiriama RS turi 5 kategorijas, taigi vienoje kategorijoje, šalto starto naudotojas turi vidutiniškai ne daugiau kaip 3 reitingus. Tai atsispindi mažose $RC$ ir $UC$ reikšmėse. Egzistuojantis problemos sprendimo būdas - taikyti metodus, vertinančius naudotojų tarpusavio pasitikėjimą. Tam pačiam duomenų rinkiniui išbandyti du trumpiausio kelio metodai, aprašyti ankstesniame skyrelyje ($SHORTMULTI$, $SHORTARI$). Siekiant vertinti tik svarbias pasitikėjimo reikšmes, nustatome slenkstį lygų $0.9$, už kurį tam, kad būtų išsaugoti, pasitikėjimai turi būti didesni.
+\begin{center}
+	\captionof{table}{$SHORTMULTI$ rezultatai taikomi RS duomenims DS1}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & $RC$ & $UC$ \\
+		\hline
+		Visi naudotojai & 1.05 & 0.99 & 1.62 & 0.51 & 0.87 \\
+		\hline
+		Šalto starto naudotojai & 1 & 0.83 & 1.55 & 0.23 & 0.55 \\
+		\hline
+		Ryžtingi naudotojai & 1.06 & 1.03 & 1.75 & 0.55 & 1 \\
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\captionof{table}{$SHORTARI$ rezultatai taikomi RS duomenims DS1}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & $RC$ & $UC$ \\
+		\hline
+		Visi naudotojai & 1.15 & 1.09 & 1.88 & 0.65 & 0.92 \\
+		\hline
+		Šalto starto naudotojai & 1.10 & 1.04 & 1.81 & 0.35 & 0.67 \\
+		\hline
+		Ryžtingi naudotojai & 1.27 & 1.31 & 2.33 & 0.65 & 1 \\
+	\end{tabular}
+	
+\end{center}
+
+\indent
+Atlikus eksperimentus paaiškėjo, kad geriausiai turimiems duomenims veikia $SHORTMULTI$ metodas. Tai paaiškinama tuo, kad jis atsižvelgia į pasitikėjimo mažėjimą (angl. trust decay) esant ilgesniems pasitikėjimo keliams ir patvirtina tai, ką Golbeck įrodė savo tyrime [nuoroda]. $SHORTARI$ labiau padidina padengimą, tačiau tikslumas sumažėja pernelyg smarkiai, kad šie metodai būtų vertingi praktikoje.
+%Kazka matome is situ rezultatu
+%\subsubsubsubsection{Sričių panašumas}
+\newline
+\indent
+Kaip minėta anksčiau, sričių panašumo metodas gali būti taikomas nepriklausomai nuo metodų, prognozuojančių naudotojų tarpusavio pasitikėjimą naudojant propagavimo ir agregavimo operatorius. Jau parodyta, kaip globalus sričių panašumas veikia su baziniais RS duomenimis. Dabar bus siekiama ištirti, kaip veikia sričių panašumo ir agregavimo bei propagavimo metodų kombinacijos. Jau parodyta, kad geriausiai iš tiriamų agregavimo ir propagavimo metodų veikia $SHORTMULTI$ metodas, todėl toliau iš propagavimų metodų naudosime tik jį.
+\subsubsubsection{Architektūra 3: Sričių panašumo ir propagavimo metodas}
+\indent
+Šiame skyrelyje aprašytas eksperimentas, kai pirma taikomas sričių panašumo, o po to propagavimo metodas. Lyginant su ankstesniais eksperimentais gauti ženkliai geresni rezultatai abiems duomenų rinkiniams tiek tikslumo, tiek padengimo prasme.
+\begin{center}
+	\captionof{table}{$AVGDS$ + $SHORTMULTI$ (sričių panašumai gauti taikant $GTDS$), su slenksčiu 0.6, rezultatai taikomi RS duomenims DS1}
 	\begin{tabular}{||c c c c c c||} 
 		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & RC & UC \\
 		\hline
@@ -1066,114 +1042,11 @@ Paskutinė metodų kombinacija - AVGDS + SHORTMULTI, pasirodo, veikia geriausiai
 		Ryžtingi naudotojai & 1.03 & 0.98 & 1.75 & 0.47 & 1 \\
 	\end{tabular}
 \end{center} 
-Tokius rezultatus galima paaiškinti tuo, kad sričių panašumo metodas, taikomas po SHORTMULTI metodo, randa iškreiptus panašumo tarp sričių įverčius. Kita vertus, pirma taikant  sričių panašumo metodą, papildome duomenis "teisingesniais" duomenimis, kuriems po to taikomas SHORTMULTI, generuoja geriausius šiame eksperimente pasiektus rezultatus. 
-\newline
-\indent 
-Sunku vertinti gautus rezultatus vienareikšmiškai, nes jie susideda iš kelių dydžių. Vis dėlto, vertinant rezultatus, gautus taikant sričių panašumo metodą, reikia pasakyti, kad geriausi rezultatai gauti naudojant sričių panašumus išskaičiuotus iš kategorijų matricos. Viena vertus, tai reiškia, kad kiti metodai, kuriuos galima būtų pritaikyti realiems duomenims - (tiek globalus, tiek naudotojo lygmens), neveikia taip gerai kaip galėtų. Iš kitos pusės, tai įrodo, kad parinkus tinkamas panašumo reikšmes galima išgauti gerų rezultatų siekiant išspręsti duomenų retumo problemą.
-\subsubsubsection{Eksperimentas naudojant RS su panašiomis kategorijomis}
-\indent 
-Analogiškas eksperimentas buvo atliktas kitokiai RS, kurioje kategorijos yra panašios. Šiame skyriuje naudojamas duomenų rinkinys apibrėžiamas parametrų rinkiniu \ref{SP2param}.
-\begin{center}
-	\captionof{table}{RS duomenų rinkinio generavimo parametrai}
-	\begin{tabular}{||c c||} 
-		Elementų skaičius & 300 \\
-		Naudotojų skaičius & 100 \\
-		Naudotojo ryšių skaičiaus pasiskirstymas &  N(10, 9) \\
-		Naudotojo įvertintų elementų skaičiaus pasiskirstymas & N(30,27) \\
-		Vertinamas bendrų elementų skaičius ieškant pasitikėjimo & 12 \\
-		Kategorijų matrica & SP2 \ref{DS2} \\
-	\end{tabular}\label{SP2param}
-	
-\end{center}
-\begin{center}
-	\captionof{table}{Kategorijų matrica SP2}
-	\begin{tabular}{||c c c c c c||} 
-		\hline
-		Kategorijos & $X_1$ & $X_2$ & $X_3$ & $X_4$ & $X_5$ \\ [0.5ex] 
-		\hline\hline
-		$x_1$ & 0.6 & 0.5 & 0.4 & 0.6 & 0.3 \\ 
-		\hline
-		$x_2$ & 0.2 & 0.1 & 0.2 & 0 & 0.3 \\
-		\hline
-		$x_3$ & 0.1 & 0.1 & 0.1 & 0.1 & 0.1 \\
-		\hline
-		$x_4$ & 0.1 & 0.1 & 0.1 & 0.2 & 0.1 \\
-		\hline
-		$x_5$ & 0 & 0.1 & 0.2 & 0.1 & 0.2 \\ [1ex] 
-		\hline
-	\end{tabular}\label{DS2}
-\end{center}
-Sugeneruoto duomenų rinkinio \ref{DS2} charakteristikos yra tokios:
-\begin{center}
-	\begin{tabular}{||c c||} 
-		Naudotojų, įvertinusių bent vieną elementą, skaičius & 87 \\
-		Šalto starto naudotojų skaičius & 18 \\
-		Ryžtingų naudotojų skaičius  & 6 \\
-		Reitingų standartinis nuokrypis & 1.47 \\
-	\end{tabular}
-\end{center}
-Reitingų pasiskirstymas:
-\begin{center}
-	\begin{tabular}{||c c c c c||} 
-		1 & 2 & 3 & 4 & 5 \\
-		532 & 339 & 373 & 786 & 849 \\
-	\end{tabular}
-\end{center}
 \indent
-Šiam duomenų rinkiniui pagal nustatytus vertinimo kriterijus gauname tokius rezultatus:
+
+
 \begin{center}
-	\captionof{table}{BF rezultatai taikomi RS duomenims}
-	\begin{tabular}{||c c c c c c||} 
-		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & RC & UC \\
-		\hline
-		Visi naudotojai & 1.04 & 0.91 & 1.51 & 0.21 & 0.63 \\
-		\hline
-		Šalto starto naudotojai & - & - & - & 0 & 0 \\
-		\hline
-		Ryžtingi naudotojai & 1.41 & 1.41 & 2.40 & 0.09 & 0.17 \\
-		
-	\end{tabular}
-\end{center}
-\indent
-Pritaikę AVGDS (naudojant sričių panašumus, gautus taikant TDS) su slenksčiu 0.3 baziniams duomenims gauname tokią sričių panašumo matricą:
-\begin{center}
-	\captionof{table}{Panašumo tarp kategorijų matrica }
-	\begin{tabular}{||c c c c c c||} 
-		\hline
-		Kategorijos & $X_1$ & $X_2$ & $X_3$ & $X_4$ & $X_5$ \\ [0.5ex] 
-		\hline\hline
-		$X_1$ & 1 & 0.58 & 0.76 & 0.24 & 0.76 \\ 
-		\hline
-		$X_2$ & 0.58 & 1 & 0.66 & 0.23 & 0.30 \\
-		\hline
-		$X_3$ & 0.76 & 0.66 & 1 & 0.20 & 0.60 \\
-		\hline
-		$X_4$ & 0.24 & 0.23 & 0.20 & 1 & 0.10 \\
-		\hline
-		$X_5$ & 0.76 & 0.30 & 0.60 & 0.10 & 1 \\ [1ex] 
-		\hline
-	\end{tabular}
-\end{center}
-Gauti rezultatai:
-\begin{center}
-	\captionof{table}{BF rezultatai taikomi RS duomenims}
-	\begin{tabular}{||c c c c c c||} 
-		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & RC & UC \\
-		\hline
-		Visi naudotojai & 1.07 & 1 & 1.57 & 0.34 & 0.69 \\
-		\hline
-		Šalto starto naudotojai & - & - & - & 0 & 0 \\
-		\hline
-		Ryžtingi naudotojai & 1.30 & 1.30 & 2.23 & 0.14 & 0.17 \\
-		
-	\end{tabular}
-\end{center}
-Vėl matome, kad padengimui padidėjus, tikslumas šiek tiek sumažėja. Metodas prie 743 sistemoje esančių originalių pasitikėjimų, pridėjo dar 590 esamiems vartotojams.
-\newline
-\indent
-Iš ankstesnio skyrelio jau aišku, kad iš tiriamų propagavimo ir agregavimo metodų geriausiai veikia SHORTMULTI metodas. Šiam duomenų rinkiniui šio metodo rezultatai panašūs. Kur kas įdomesni rezultatai gaunami taikant SHORTMULTI metodą duomenų rinkiniu, kuriam jau buvo pritaikytas sričių panašumo metodas
-\begin{center}
-	\captionof{table}{AVGDS + SHORTMULTI rezultatai taikomi RS duomenims}
+	\captionof{table}{$AVGDS$ + $SHORTMULTI$ rezultatai taikomi RS duomenims DS2}
 	\begin{tabular}{||c c c c c c||} 
 		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & RC & UC \\
 		\hline
@@ -1184,13 +1057,17 @@ Iš ankstesnio skyrelio jau aišku, kad iš tiriamų propagavimo ir agregavimo m
 		Ryžtingi naudotojai & 0.96 & 0.4 & 1.61 & 0.38 & 0.67 \\
 	\end{tabular}
 \end{center}
-Matome, kad SHORTMULTI metodas taikomas po to, kai buvo pritaikytas sričių panašumo metodas duoda daug geresnį tikslumą ir ne prastesnį padengimą nei kitais atvejais. Dar labiau jį galima padidinti vėl pritaikius sričių panašumo metodą. Verta paminėti, kad duomenims kuriems jau buvo pritaikytas AVGDS + SHORTMULTI metodas sričių panašumų matrica, randama taikant TDS gaunama jau stipriai iškreipta - panašumai tarp sričių tapo artimesni 0. Gaunamas kiek prastesnis tikslumas, tačiau reitingų padengimas dar labiau padidėjo.
+\indent 
+Matome, kad $SHORTMULTI$ metodas taikomas po to, kai buvo pritaikytas sričių panašumo metodas duoda daug geresnį tikslumą ir ne prastesnį padengimą nei kitais atvejais. Dar labiau jį galima padidinti vėl pritaikius sričių panašumo metodą. 
+\newline
+\indent
+Pasitikėjimo duomenims kuriems pritaikytas $AVGDS$ + $SHORTMULTI$ metodas sričių panašumų matrica, randama taikant $GTDS$ gaunama jau stipriai iškreipta - panašumai tarp sričių tapo artimesni 0. Vis dėlto, tai netrukdo naujai gautiems pasitikėjimams dar kartą pritaikyti sričių panašumo metodo. Taikant $AVGDS$ + $SHORTMULTI$ + $AVGDS$ gaunamas kiek prastesnis tikslumas, tačiau reitingų padengimas dar labiau padidėjo (šalto starto naudotojams nepasikeitė)
 \begin{center}
-	\captionof{table}{AVGDS + SHORTMULTI + AVGDS rezultatai taikomi RS duomenims}
+	\captionof{table}{$AVGDS$ + $SHORTMULTI$ + $AVGDS$ rezultatai taikomi RS duomenims DS2}
 	\begin{tabular}{||c c c c c c||} 
 		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & RC & UC \\
 		\hline
-		Visi naudotojai & 1.02 & 0.97 & 1.40 & 1.51 & 0.85 \\
+		Visi naudotojai & 1.02 & 0.97 & 1.40 & 0.51 & 0.85 \\
 		\hline
 		Šalto starto naudotojai & 1 & 0.89 & 1.54 & 0.24 & 0.55 \\
 		\hline
@@ -1198,11 +1075,78 @@ Matome, kad SHORTMULTI metodas taikomas po to, kai buvo pritaikytas sričių pan
 	\end{tabular}
 \end{center}
 \indent
-Lyginant metodų veikimą RS su panašiomis ir skirtingomis kategorijomis tikėtasi, kad išbandyti metodai tikslumo prasme veiks geriau RS su panašiomis kategorijomis. Šis spėjimas pasitvirtino - kalbant apie geriausią metodų kombinaciją - AVGDS + SHORTMULTI - RS su panašiomis sritimis buvo fiksuojamas didesnis tikslumas. Tačiau verta paminėti, kad skirtumas nėra toks didelis ($MAE$ rezultatas visiems naudotojams - 1.01 ir 0.97).
+Lyginant metodų veikimą RS su panašiomis ir skirtingomis kategorijomis tikėtasi, kad išbandyti metodai tikslumo prasme veiks geriau RS su panašiomis kategorijomis. Šis spėjimas pasitvirtino - kalbant apie geriausią metodų kombinaciją - $AVGDS$ + $SHORTMULTI$ - duomenų rinkiniui su panašiomis sritimis DS2 buvo fiksuojamas didesnis tikslumas. Tačiau verta paminėti, kad skirtumas nėra labai didelis ($MAE$ rezultatas visiems naudotojams - 1.01 ir 0.97).
+
+
+
+
+
+
+
+\subsubsubsection{Architektūra 4: Propagavimo ir sričių panašumo metodas}
+\indent
+Buvo atlikti du eksperimentai naudojant \ref{DS1koreliacijos} panašumo matricą trūkstamai informacijai apie pasitikėjimą užpildyti kartu su pasitikėjimo slenksčiu lygiu 0.6 ir 0.3. Pastebime, kad turint tokias panašumo reikšmes slenksčio reikšmė lygi 0.6 yra labai didelė - iš tiesų taikydami šį metodą papildomos informacijos galime gauti tik apie $X_1$ ir $X_2$ bei $X_1$ ir $X_5$ kategorijų panašumus (nes tik jų sandauga su žinomu pasitikėjimu, mažesniu už 1, gali viršyti 0.6).
+\newline
+\indent 
+Kategorijų panašumo matrica, gauta taikant $GTDS$ po to kai buvo įvertinti pasitikėjimai taikant $SHORTMULTI$:
+\begin{center}
+	\captionof{table}{Panašumo tarp kategorijų matrica gauta taikant $GDTS$ metodą}
+	\begin{tabular}{||c c c c c c||} 
+		\hline
+		Kategorijos & $X_1$ & $X_2$ & $X_3$ & $X_4$ & $X_5$ \\ [0.5ex] 
+		\hline\hline
+		$X_1$ & 1 & 0.77 & 0.8 & 0.32 & 0.56 \\ 
+		\hline
+		$X_2$ & 0.78 & 1 & 0.77 & 0.24 & 0.43 \\
+		\hline
+		$X_3$ & 0.8 & 0.77 & 1 & 0.35 & 0.56 \\
+		\hline
+		$X_4$ & 0.32 & 0.24 & 0.35 & 1 & 0.47 \\
+		\hline
+		$X_5$ & 0.56 & 0.43 & 0.56 & 0.47 & 1 \\
+		\hline
+	\end{tabular}\label{DS1panasumai}
+\end{center}
+
+ Gauti tokie rezultatai rodo, kad sumažinus slenkstį padengimas padidėja, tačiau tikslumas sumažėja atitinkamai. Taigi, norint sužinoti, koks slenksčio parametras geriausias, reikia išsiaiškinti, kiek tikslumo galima paaukoti dėl didesnio padengimo.
+\begin{center}
+	\captionof{table}{$SHORTMULTI$ +  $AVGDS$ (su sričių panašumais, gautais naudojant $GTDS$), su slenksčiu 0.6, rezultatai taikomi RS duomenims DS1}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & RC & UC \\
+		\hline
+		Visi naudotojai & 1.07 & 0.96 & 1.56 & 0.55 & 0.61 \\
+		\hline
+		Šalto starto naudotojai & 1.02 & 1.05 & 1.79 & 0.3 & 0.56 \\
+		\hline
+		Ryžtingi naudotojai & 1.09 & 1.02 & 1.67 & 0.75 & 1 \\
+	\end{tabular}
+\end{center}
+\begin{center}
+	\captionof{table}{$SHORTMULTI$ + $AVGDS$ (su sričių panašumais, gautais naudojant $GTDS$), su slenksčiu 0.3, rezultatai taikomi RS duomenims DS2}
+	\begin{tabular}{||c c c c c c||} 
+		Duomenų rinkinio poaibis & $MAE$ & $MAUE$ & $RMSE$ & RC & UC \\
+		\hline
+		Visi naudotojai & 1.12 & 1.12 & 1.8 & 0.76 & 0.88 \\
+		\hline
+		Šalto starto naudotojai & 1.07 & 1.12 & 1.72 & 0.57 & 0.61 \\
+		\hline
+		Ryžtingi naudotojai & 1.13 & 1.12 & 1.95 & 0.9 & 1 \\
+	\end{tabular}
+\end{center}
+\indent
+Šis metodų kombinacija veikia prasčiau nei ankstesnė tikslumo, tačiau geriau padengimo prasme.
+\subsubsection{Rezultatų palyginimas}
+\indent
+Iš visų atliktų bandymų geriausi rezultatai padengimo ir prasčiausi tikslumo prasme pasiekti taikant tik propagavimo metodą $SHORTARI$. Iš tiesų, taikant aritmetinį vidurkį pasitikėjimo propagavimui, jei tik naudotojų grafas jungus, galima pasiekti 100 proc. padengimą, tačiau jis neturės prasmės, jeigu tikslumas bus mažas.
 \newline
 \indent
-Nors šiame tyrime nebuvo nagrinėjama metodų greitaveika - sričių panašumo metodas yra labai lengvai realizuojamas ir resursų reiklumo prasme gana lengvas. To negalima pasakyti apie propagavimo ir agregavimo metodus - net pats paprasčiausias trumpiausio kelio metodas 300 naudotojų trunka apie 5 minutes algoritmą vykdant paprastu namų kompiuteriu.
-
+Sričių panašumo metodas, taikomas prieš bendradarbiavimo filtravimą padidina padengimą nepablogindamas tikslumo. Deja, tokiu būdu taikomas, jis tik padidina reitingų padengimą naudotojams, kuriems ir taip galime atlikti prognozę. Kitaip sakant didėja reitingų padengimas, o naudotojų padengimas didėja nestipriai.
+\newline
+\indent
+Geriausi rezultatai gauti taikant sričių panašumo metodą kartu su propagavimo metodu. Tai galima paaiškinti tuo, kad propagavimo metodas (šiuo atveju $SHORTMULTI$) gali įvertinti naudotojų pasitikėjimus kiekvienoje kategorijoje remdamasis daugiau duomenų. 
+\newline 
+\indent
+Įdomu tai, kad šie du metodai taikomi atvirkščia tvarka prognozes atlieka su ženkliai mažesniu tikslumu. Tai galima paaiškinti tuo, kad propagavimo metodas taikomas pirmas gali sugeneruoti daug mažiau pasitikėjimo kelių. Tuo tarp sričių panašumo metodas taikomas antras, kai jau daug anksčiau nežinomų pasitikėjimų jau yra įvertinti ir jam nedaug lieka, ką įvertinti.
 \subsection{Problemos ir iššūkiai}
 \indent
 Didžiausia problema šio tyrimo srityje yra realių duomenų nebuvimas ir negalėjimas praktiškai įvertinti šių metodų tinkamumo. Nėra žinomo socialinio tinklo, kuriame naudotojai išreikštų pasitikėjimą vienas kitu tolydžioje skalėje ir pasitikėjimai galėtų būtų priskirti skirtingose kategorijose. Artimiausias šiems reikalavimams Epinions.com duomenų rinkinys naudotas šiame tyrime netenkina šių dviejų reikalavimų - tai yra viena priežasčių, kliudžiusių atlikti išsamesnį tyrimą su realiais duomenimis. Dėl šios priežasties, nemaža tyrimo dalis skirta duomenų rinkinio generavimui.
@@ -1213,7 +1157,7 @@ Kita problema susijusi su RS vertinimu. Negalima vienareikšmiškai apibrėžti,
 \indent
 Trečia problema - technologinė. Darbas su dideliais grafais reikalauja technologijų optimizuotų tokiems duomenims. Dėl šios priežasties tyrimas buvo atliktas su nedidelės apimties imtimi. Algoritmus realizuojantis kodas buvo parašytas .NET aplinkoje C\# ir F\# kalbomis, duomenys saugomi ir kai kurios grafų operacijos (pavyzdžiui, trumpiausio kelio radimas) atliekamos NoSql neo4j grafų duomenų bazėje. Tinkamų technologijų parinkimas ir architektūros sudarymas šiame tyrime nagrinėtiems uždaviniams spręsti - potenciali tolimesnė šio tyrimo dalis.
 
-
+\newpage
 \section{Išvados}
 Didžioji dauguma tyrimų apie RS, BF ir pasitikėjimu pagrįstas RS buvo atlikta vienmatėje aplinkoje - daroma prielaida, kad RS dalykinė sritis yra vienalytė ir naudotojų tarpusavio panašumas arba pasitikėjimas yra vienalytis. Šiame darbe siūloma RS padalinti pagal pasitikėjimo sritis ir taip pakeisti pasitikėjimo įvertį iš skaliaro į vektorių. Toks aplinkos transformavimas įgalina naudoti du darbe pasiūlytus metodus.
 \newline
@@ -1231,7 +1175,7 @@ Atlikus tyrimą paaiškėjo, kad pasitikėjimo prognozės tiksliausios, kai yra 
 \newline
 \indent
 Pasiūlyti metodai sprendžią ne tik aptartą šalto starto problemą, bet ir kitą kertinę bėdą, su kurią susiduria visos RS - duomenų retumo ir nepakankamumo. Jų taikymas leidžia panaudoti turimus duomenis situacijose, kai įprasti tradiciniai metodai negali veikti.
-
+\newpage
 \begin{thebibliography}{9}
 \bibitem{1} 
 Pasquale Lops, Marco de Gemmis, Giovanni Semarero

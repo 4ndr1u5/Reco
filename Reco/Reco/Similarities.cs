@@ -143,34 +143,34 @@ namespace Reco
         public void EvaluateDomainTrust(string method)
         {
             var sims = new List<Tuple<int, int, double>>();
-            //if (method.Substring(0,1) == "P")
-            //{
-            //    sims = EvaluateDomainSimilaritiesPearson();
-            //}
+            if (method.Substring(0,1) == "P")
+            {
+                sims = EvaluateDomainSimilaritiesPearson();
+            }
             //else if (method.Substring(0, 1) == "C")
             //{
             //    sims = EvaluateDomainSimilaritiesCosine();
             //}
-            sims.Add(new Tuple<int, int, double>(1, 2, 0.62));
-            sims.Add(new Tuple<int, int, double>(1, 3, 0.37));
-            sims.Add(new Tuple<int, int, double>(1, 4, 0.48));
-            sims.Add(new Tuple<int, int, double>(1, 5, 0.63));
-            sims.Add(new Tuple<int, int, double>(2, 1, 0.62));
-            sims.Add(new Tuple<int, int, double>(2, 3, 0.08));
-            sims.Add(new Tuple<int, int, double>(2, 4, 0.31));
-            sims.Add(new Tuple<int, int, double>(2, 5, 0.43));
-            sims.Add(new Tuple<int, int, double>(3, 1, 0.37));
-            sims.Add(new Tuple<int, int, double>(3, 2, 0.08));
-            sims.Add(new Tuple<int, int, double>(3, 4, 0.53));
-            sims.Add(new Tuple<int, int, double>(3, 5, 0.45));
-            sims.Add(new Tuple<int, int, double>(4, 1, 0.48));
-            sims.Add(new Tuple<int, int, double>(4, 2, 0.30));
-            sims.Add(new Tuple<int, int, double>(4, 3, 0.53));
-            sims.Add(new Tuple<int, int, double>(4, 5, 0.26));
-            sims.Add(new Tuple<int, int, double>(5, 1, 0.63));
-            sims.Add(new Tuple<int, int, double>(5, 2, 0.43));
-            sims.Add(new Tuple<int, int, double>(5, 3, 0.46));
-            sims.Add(new Tuple<int, int, double>(5, 4, 0.26));
+            // sims.Add(new Tuple<int, int, double>(1, 2, 0.62));
+            // sims.Add(new Tuple<int, int, double>(1, 3, 0.37));
+            // sims.Add(new Tuple<int, int, double>(1, 4, 0.48));
+            // sims.Add(new Tuple<int, int, double>(1, 5, 0.63));
+            // sims.Add(new Tuple<int, int, double>(2, 1, 0.62));
+            // sims.Add(new Tuple<int, int, double>(2, 3, 0.08));
+            // sims.Add(new Tuple<int, int, double>(2, 4, 0.31));
+            // sims.Add(new Tuple<int, int, double>(2, 5, 0.43));
+            // sims.Add(new Tuple<int, int, double>(3, 1, 0.37));
+            // sims.Add(new Tuple<int, int, double>(3, 2, 0.08));
+            // sims.Add(new Tuple<int, int, double>(3, 4, 0.53));
+            // sims.Add(new Tuple<int, int, double>(3, 5, 0.45));
+            // sims.Add(new Tuple<int, int, double>(4, 1, 0.48));
+            // sims.Add(new Tuple<int, int, double>(4, 2, 0.30));
+            // sims.Add(new Tuple<int, int, double>(4, 3, 0.53));
+            // sims.Add(new Tuple<int, int, double>(4, 5, 0.26));
+            // sims.Add(new Tuple<int, int, double>(5, 1, 0.63));
+            // sims.Add(new Tuple<int, int, double>(5, 2, 0.43));
+            // sims.Add(new Tuple<int, int, double>(5, 3, 0.46));
+            // sims.Add(new Tuple<int, int, double>(5, 4, 0.26));
             var submethod = GetSubMethod(method);
             var users = repo.getAllUsers();
             foreach (var user in users)
